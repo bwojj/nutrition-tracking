@@ -1,10 +1,23 @@
 .calories{
     width: 45%; 
-    height: 300px;
+    height: 400px;
     border: none;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: 0px 0px 20px -4px black;
     border-radius: 10px;
+}
+.calorie-number-ratio{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 48%;
+}
+.calorie-number{
+    font-size: 4.5rem; 
+}
+.calorie-ratio{
+    font-size: 1.5rem;
 }
