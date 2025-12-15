@@ -1,0 +1,17 @@
+.macro-container{
+    width: 32%; 
+    height: 200px;
+    border: none; 
+
+    position: relative;
+}
+.macro-percentage{
+    position: absolute;
+    top: 30%;
+    left: 40%;
+    font-size: 2rem;
+}
+.progress-circle{
+    transform: rotate(-180deg);
+    transform-origin: 37% 50%;
+} 
