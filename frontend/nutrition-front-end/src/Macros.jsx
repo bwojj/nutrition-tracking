@@ -1,14 +1,30 @@
 import './assets/Macro.css'
-import { useEffect, useState } from 'react';
+import {useEffect, useState } from 'react';
 
 function Macro(props){
 
     const circumfrence = 2 * Math.PI * 60; 
+    let progress = 0;
+    const targetProgress = (Number(props.amount) / Number(props.goal)) * 100;
 
-    const progress = (Number(props.amount) / Number(props.goal)) * 100;
-
-    const [offset, setOffset] = useState(Number(circumfrence - (circumfrence * progress) / 100));
-    console.log(offset);
+    const [offset, setOffset] = useState(circumfrence);
+    const [percentage, setPercentage] = useState(0); 
+    
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (progress >= targetProgress){
+                return (
+                    clearInterval(intervalId)
+                );
+            }
+            else{
+                progress += 2; 
+                setOffset((circumfrence - (circumfrence * progress) / 100));
+                setPercentage(progress); 
+            };
+            }, 60);
+        }, []);
+    
 
 
     return(
@@ -19,15 +35,17 @@ function Macro(props){
                 style={{
                     strokeDasharray: circumfrence,
                     strokeDashoffset: offset, 
+                    strokeLinecap: 'round',
                     transform: 'rotate(-180deg)',
                     transformOrigin: '37% 50%',
+                    transition: "stroke-dash-offset 0.5s ease",
                 }}/>
             </svg>
             <div className="macro-name-amount">
                 <span className="macro-name">{props.name}</span>
-                <span className="macro-amount">{props.amount}</span>
+                <span className="macro-amount">{props.amount}g</span>
             </div>
-            <span className="macro-percentage">0%</span>
+            <span className="macro-percentage">{percentage}%</span>
         </div>
     );
 }
