@@ -18,6 +18,7 @@ function Macro(props){
                 );
             }
             else{
+                // eslint-disable-next-line react-hooks/exhaustive-deps
                 progress += 2; 
                 setOffset((circumfrence - (circumfrence * progress) / 100));
                 setPercentage(progress); 

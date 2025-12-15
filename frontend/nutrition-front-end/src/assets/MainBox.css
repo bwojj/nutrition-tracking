@@ -6,4 +6,6 @@
     border-radius: 10px;
     padding: 50px;
     box-shadow: 0px 0px 20px -4px black;
+    display: flex;
+    gap: 35px;
 }
