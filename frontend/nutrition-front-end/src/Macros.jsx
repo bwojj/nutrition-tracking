@@ -2,8 +2,10 @@ import './assets/Macro.css'
 import {useEffect, useState } from 'react';
 
 function Macro(props){
+    const radius = window.innerWidth >= 1378 ? 60 : 45; 
+    
 
-    const circumfrence = 2 * Math.PI * 60; 
+    const circumfrence = 2 * Math.PI * radius; 
     let progress = 0;
     const targetProgress = (Number(props.amount) / Number(props.goal)) * 100;
 
@@ -30,15 +32,15 @@ function Macro(props){
 
     return(
         <div className="macro-container">
-            <svg>
-                <circle className="circle" r="60" cx="37%" cy="50%" fill="none" stroke="#c6c8bb" strokeWidth={20}/>
-                <circle className="progress-circle" r="60" cx="37%" cy="50%" fill="none" stroke={props.color} strokeWidth={20}
+            <svg className="macro-circles">
+                <circle className="circle" r={radius} cx="50%" cy="50%" fill="none" stroke="#c6c8bb" strokeWidth={20}/>
+                <circle className="progress-circle" r={radius} cx="50%" cy="50%" fill="none" stroke={props.color} strokeWidth={20}
                 style={{
                     strokeDasharray: circumfrence,
                     strokeDashoffset: offset, 
                     strokeLinecap: 'round',
                     transform: 'rotate(-180deg)',
-                    transformOrigin: '37% 50%',
+                    transformOrigin: '50% 50%',
                     transition: "stroke-dash-offset 0.5s ease",
                 }}/>
             </svg>

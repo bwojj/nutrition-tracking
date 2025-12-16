@@ -8,6 +8,7 @@
     align-items: center;
     box-shadow: 0px 0px 20px -4px black;
     border-radius: 10px;
+    position: relative;
 }
 .calorie-number-ratio{
     display: flex; 
@@ -28,32 +29,44 @@
     align-items: center;
     width: 100%;
     margin-top: -50px;
-    margin-right: 25px;
 }
 .macro-name-amount{
     display: flex; 
     flex-direction: column;
     align-items: center;
 }
+.calorie-progress{
+    width: 100%;
+}
 
-@media(max-width: 650px){
+@media(max-width: 970px){
     .calories{
         width: 90%;
         position: relative;
-        left: -9%;
+        left: 1%;
+        height: 450px;
     }
     .calorie-progress{
         width: 80%;
-        margin-top: -50px;
+        margin-top: -75px;
         stroke-linecap: round;
     }
     .calorie-number-ratio{
-        top: 30%;
+        top: 36%;
     }
     .calorie-number{
         font-size: 2.5rem; 
     }
     .calorie-ratio{
         font-size: 1rem;
+    }
+    .macros{
+        margin-top: -90px; 
+        gap: 10px;
+    }
+    .macro-name-amount{
+        position: relative;
+        left: 4%;
+        margin-top: -10px;
     }
 }

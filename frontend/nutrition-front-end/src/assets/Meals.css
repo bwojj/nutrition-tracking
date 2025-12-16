@@ -5,3 +5,10 @@
     border-radius: 10px; 
     box-shadow: 0px 0px 20px -4px black;
 }
+@media(max-width: 970px){
+    .meals{
+        width: 90%;
+        position: relative; 
+        left: 1%;
+    }
+}

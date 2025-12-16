@@ -8,6 +8,7 @@
     border-radius: 10px;
     padding: 50px;
     gap: 35px;
+    padding-bottom: 50px;
 }
 .top-main{
     display: flex;
@@ -18,7 +19,7 @@
     gap: 35px;
 }
 
-@media(max-width: 600px){
+@media(max-width: 970px){
     .top-main, .bottom-main{
         flex-direction: column;
     }

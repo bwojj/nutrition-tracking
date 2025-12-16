@@ -3,7 +3,7 @@ import Macro from './Macros';
 import { useEffect, useState } from 'react';
 
 function Calories() {
-  const r = 190;
+  const r = window.innerWidth >= 1378 ? 190 : 130;
   const cx = 200;
   const cy = 210;
 

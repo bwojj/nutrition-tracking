@@ -6,11 +6,23 @@
 }
 .macro-percentage{
     position: absolute;
-    top: 30%;
-    left: 40%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
     font-size: 2rem;
+}
+.macro-name-amount{
+    position: relative;
+    left: 3%;
+}
+.macro-circles{
+    width: 100%;
 }
 .progress-circle{
     transform: rotate(-180deg);
     transform-origin: 37% 50%;
 } 
+.macro-circles{
+    position: relative; 
+}
+

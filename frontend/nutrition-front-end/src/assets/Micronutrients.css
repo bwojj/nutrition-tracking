@@ -28,3 +28,11 @@
 .micro-title{
     margin-bottom: 40px;
 }
+
+@media(max-width: 970px){
+    .micronutrient-box{
+        width: 90%;
+        position: relative;
+        left: 1%;
+    }
+}
