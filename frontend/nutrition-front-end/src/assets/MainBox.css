@@ -1,11 +1,25 @@
 .main{
-    width: 80%; 
-    height: 700px;
-    margin: 80px auto;
+    display: flex;
+    flex-direction: column;
+    width: 95%; 
+    height: 900px;
+    margin: 5px auto;
     border: none;
     border-radius: 10px;
     padding: 50px;
-    box-shadow: 0px 0px 20px -4px black;
+    gap: 35px;
+}
+.top-main{
     display: flex;
     gap: 35px;
+}
+.bottom-main{
+    display: flex;
+    gap: 35px;
+}
+
+@media(max-width: 600px){
+    .top-main, .bottom-main{
+        flex-direction: column;
+    }
 }

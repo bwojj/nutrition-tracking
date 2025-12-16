@@ -41,7 +41,7 @@ function Calories() {
         <div className="calories">
             <h1 className="calorie-title">Total Calories</h1>
 
-            <svg width="500" height="325" viewBox="0 0 400 300">
+            <svg width="500" height="325" viewBox="0 0 400 300" className="calorie-progress">
                 <path
                 d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`}
                 fill="none"

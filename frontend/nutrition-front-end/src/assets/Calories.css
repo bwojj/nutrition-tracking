@@ -14,7 +14,7 @@
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 48%;
+    top: 40%;
 }
 .calorie-number{
     font-size: 4.5rem; 
@@ -26,12 +26,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
     width: 100%;
     margin-top: -50px;
+    margin-right: 25px;
 }
 .macro-name-amount{
     display: flex; 
     flex-direction: column;
     align-items: center;
+}
+
+@media(max-width: 650px){
+    .calories{
+        width: 90%;
+        position: relative;
+        left: -9%;
+    }
+    .calorie-progress{
+        width: 80%;
+        margin-top: -50px;
+        stroke-linecap: round;
+    }
+    .calorie-number-ratio{
+        top: 30%;
+    }
+    .calorie-number{
+        font-size: 2.5rem; 
+    }
+    .calorie-ratio{
+        font-size: 1rem;
+    }
 }
