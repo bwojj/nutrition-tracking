@@ -2,7 +2,19 @@ import './assets/Macro.css'
 import {useEffect, useState } from 'react';
 
 function Macro(props){
-    const radius = window.innerWidth >= 1378 ? 60 : 45; 
+
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+
+        window.addEventListener('resize', handleResize); 
+
+        return () => window.removeEventListener('resize', handleResize); 
+    }, []);
+    
+    const radius = windowWidth >= 1471 ? 60 : (windowWidth <= 400 ? 35 : 40); 
+    console.log(windowWidth);
     
 
     const circumfrence = 2 * Math.PI * radius; 

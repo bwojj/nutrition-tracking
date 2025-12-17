@@ -39,11 +39,9 @@
     width: 100%;
 }
 
-@media(max-width: 970px){
+@media(max-width: 1150px){
     .calories{
         width: 90%;
-        position: relative;
-        left: 1%;
         height: 450px;
     }
     .calorie-progress{
@@ -52,7 +50,7 @@
         stroke-linecap: round;
     }
     .calorie-number-ratio{
-        top: 36%;
+        top: 45%;
     }
     .calorie-number{
         font-size: 2.5rem; 
@@ -68,5 +66,19 @@
         position: relative;
         left: 4%;
         margin-top: -10px;
+    }
+}
+@media(max-width: 1441px){
+    .calorie-number{
+        font-size: 2.5rem;
+        margin-top: -50px;
+    }
+    .calorie-progress{
+        margin-top: -80px;
+    }
+}
+@media(max-width: 530px){
+    .calories{
+        width: 100%;
     }
 }

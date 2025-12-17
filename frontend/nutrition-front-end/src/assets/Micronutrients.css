@@ -29,10 +29,14 @@
     margin-bottom: 40px;
 }
 
-@media(max-width: 970px){
+@media(max-width: 1150px){
     .micronutrient-box{
         width: 90%;
-        position: relative;
-        left: 1%;
     }
 }
+@media(max-width: 530px){
+    .micronutrient-box{
+        width: 100%;
+    }
+}
+

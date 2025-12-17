@@ -32,11 +32,9 @@
     font-size: 1.2rem;
 }
 
-@media(max-width: 970px){
+@media(max-width: 1150px){
     .progress-container{
         width: 88%; 
-        position: relative; 
-        left: 1%;
     }
     .tracking-title{
         font-size: 12px;
@@ -50,5 +48,10 @@
     }
     .tracking-icons{
         gap: 12px;
+    }
+}
+@media(max-width: 530px){
+    .progress-container{
+        width: 95%;
     }
 }
