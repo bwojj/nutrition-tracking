@@ -16,7 +16,10 @@ function Meal(props){
                 borderTopRightRadius: props.rounded ? '10px' : '0px',
                 borderTopLeftRadius: props.rounded ? '10px' : '0px',
             }}>
-                <h1 className="meal-title">{props.mealName}</h1>
+                <div className="name-button">
+                    <h1 className="meal-title">{props.mealName}</h1>
+                    <button className="add-food-button">+</button>
+                </div>
                 <div className="food-totals">
                     <span className="total-value">{dummyMeals[0].calories}Cals</span>
                     <span className="total-value">{dummyMeals[0].protein}P</span> 
