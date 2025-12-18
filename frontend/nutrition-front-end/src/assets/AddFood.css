@@ -1,7 +1,30 @@
+.full-screen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.inner-modal-overlay {
+    position: absolute; /* Relative to the .add-food-container */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dimming color */
+    z-index: 20; /* Sit above Modal #1 content but below Modal #2 */
+    border-radius: 10px; /* Match the corner radius of Modal #1 */
+}
 .add-food-container{
+    background-color: rgba(0, 0, 0, 0.7); 
     position: absolute;
-    transform: translate(81%, 0%);
     width: 40%;
+    transform: translate(52px, 0%);
     height: 500px;
     padding-bottom: 15px;
     display: flex;
@@ -25,6 +48,7 @@
 .food-items-inner{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-radius: 10px;
     width: 90%;
     padding: 25px 0px;
@@ -44,6 +68,14 @@
     gap: 10px; 
     margin-right: 15px;
 }
+.data-top{
+    display: flex;
+    gap: 10px;
+}
+.data-bottom{
+    display: flex;
+    gap: 10px;
+}
 .food-data{
     font-size: 1.2rem;
 }
@@ -54,4 +86,87 @@
     padding-left: 10px;
     font-size: 22px;
     margin-bottom: 10px;
+}
+.add-food-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.add-food-title{
+    flex: 1;
+    text-align: center;
+}
+.x-wrapper{ 
+    text-align: right;
+    flex: 1;
+    display: flex; 
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+}
+.x{
+    width: 60px;
+    height: 80px;
+    font-size: 4rem; 
+    cursor: pointer;
+    transform: scale(1.5);
+    
+}
+.x:hover{
+    color:red; 
+    transition: color 0.5s ease;
+}
+
+@media (max-width: 1150px){
+    .add-food-container{
+        width: 75%;
+        transform: translate(0%, 0%);
+    }
+}
+@media (max-width: 700px){
+    .data{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media (max-width: 600px){
+    .food-name{
+        font-size: 0.75rem;
+    }
+    .food-data{
+        font-size: 0.75rem;
+    }
+    .data{
+        gap: 5px;
+    }
+}
+@media (max-width: 450px){
+    .food-name{
+        font-size: 0.75rem;
+    }
+    .food-data{
+        font-size: 0.6rem;
+    }
+    .add-food-container{
+        width: 90%;
+    }
+    .add-food-title{
+        font-size: 0.75rem;
+    }
+}
+@media (max-width: 1260px){
+    .add-food-title{
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 960px){
+    .add-food-title{
+        font-size: 1.25rem;
+    }
+}
+@media (max-width: 800px){
+    .add-food-title{
+        font-size: 1.25rem;
+    }
 }

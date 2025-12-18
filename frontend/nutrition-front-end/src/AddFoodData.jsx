@@ -1,11 +1,16 @@
 import './assets/AddFoodData.css'
 
-function AddFoodData({ isOpen }){
+function AddFoodData({ isOpen, onClose }){
     if (!isOpen) return null;
 
     return(
         <div className="add-food-data-container">
-            <h2 className="food-info">Chicken</h2>
+            <div className="add-food-data-header">
+                <h2 className="food-info">Chicken</h2>
+                <div className="x-data-wrapper">
+                    <span onClick={onClose} className="x-data">{"\u00D7"}</span>
+                </div>
+            </div>
             <div className="serving-size">
                 <label for="serve-size">Serving Size</label>
                 <select id="serve-size">

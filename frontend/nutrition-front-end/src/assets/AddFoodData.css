@@ -1,6 +1,6 @@
 .add-food-data-container{
     width: 60%; 
-    height: 60%; 
+    height: 65%; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,6 +14,7 @@
     box-shadow: 0px 0px 20px -4px black; 
 }
 .food-info{
+    flex: 1;
     display: flex;
     flex-direction: column;
     width: 100%; 
@@ -42,8 +43,9 @@
 }
 .food-info::after{
     content: "";
-    background-color: #1d693d; 
-    width: 100%;
+    background-color: #1d693d;
+    margin-top: 10px; 
+    width: 110%;
     height: 1px;
 }
 #num-servings{
@@ -65,4 +67,25 @@ input, select{
 }
 .cal-value{
     font-size: 1rem;
+}
+.add-food-data-header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.x-data-wrapper{ 
+    text-align: right;
+}
+.x-data{
+    width: 30px;
+    height: 30px;
+    font-size: 3rem; 
+    cursor: pointer;
+    transform: scale(1.5);
+    
+}
+.x-data:hover{
+    color:red; 
+    transition: color 0.5s ease;
 }

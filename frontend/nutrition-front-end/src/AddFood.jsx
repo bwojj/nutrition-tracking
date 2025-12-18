@@ -1,8 +1,9 @@
 import AddFoodData from './AddFoodData';
 import './assets/AddFood.css'
 import { useState } from 'react';
+import { createPortal } from 'react-dom'
 
-function AddFood({ isOpen }){
+function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose}){
     let foodDatabase = [
     {
         id: 1,
@@ -72,28 +73,47 @@ function AddFood({ isOpen }){
         food.name.toLowerCase().includes(search.toLowerCase())
     ));
 
+    // const zIndex = isDataModalOpen ? 
+
     if (!isOpen) return null; 
 
-    return(
-        <div className="add-food-container">
-            <h1 className="add-food-title">Add Food</h1>
-            <input className="search" onChange={handleChange} placeholder="Search Foods"/>
-            <div className="foods">
-                {searchFilteredFoods.map((element, index) => (
-                    <div className="food-items-inner" key={index}>
-                        <div className="name">
-                            <span className="food-name">{element.name}</span>
-                        </div>
-                        <div className="data">
-                            <span className="food-data">{element.calories}Cals</span>
-                            <span className="food-data">{element.protein}P</span>
-                            <span className="food-data">{element.carbs}C</span>
-                            <span className="food-data">{element.fat}F</span>
-                        </div>
+    return createPortal(
+        <div className="full-screen-overlay" onClick={onClose}>
+            <div className="add-food-container" onClick={(e) => e.stopPropagation()}>
+                {isDataModalOpen && (
+                    <div className="inner-modal-overlay" onClick={onDataClose} />
+                )}
+                <div className="add-food-header">
+                    <div style={{flex: 1}}></div>
+                    <h1 className="add-food-title">Add Food</h1>
+                    <div className="x-wrapper">
+                        <span onClick={onClose} className="x">{"\u00D7"}</span>
                     </div>
-                    ))}
+                </div>
+                <input className="search" onChange={handleChange} placeholder="Search Foods"/>
+                <div className="foods">
+                    {searchFilteredFoods.map((element, index) => (
+                        <div onClick={onDataOpen} className="food-items-inner" key={index}>
+                            <div className="name">
+                                <span className="food-name">{element.name}</span>
+                            </div>
+                            <div className="data">
+                                <div className="data-top">
+                                    <span className="food-data">{element.calories}Cals</span>
+                                    <span className="food-data">{element.protein}P</span>
+                                </div>
+                                <div className="data-bottom">
+                                    <span className="food-data">{element.carbs}C</span>
+                                    <span className="food-data">{element.fat}F</span>
+                                </div>
+                            </div>
+                        </div>
+                        ))}
+                </div>
+                <AddFoodData isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }
 
