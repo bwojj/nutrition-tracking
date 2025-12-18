@@ -1,7 +1,68 @@
 .add-food-data-container{
-    width: 40%; 
-    height: 300px; 
-    background-color: green; 
+    width: 60%; 
+    height: 60%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(0%, 25%);
+    gap: 20px;
+    padding: 15px;
+    background-color: white; 
     position: absolute;
     z-index: 20;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px -4px black; 
+}
+.food-info{
+    display: flex;
+    flex-direction: column;
+    width: 100%; 
+    text-align: left;
+}
+.serving-size, .serving-num, .meal{
+    display: flex;
+    justify-content: space-between;
+    width: 100%; 
+}
+.food-add-data{
+    margin-top: 35px; 
+    display: flex;
+    width: 100%; 
+    justify-content: space-between;
+    align-items: center;
+}
+.label-data{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border: 2px solid #1d693d;
+    padding: 8px; 
+    border-radius: 5px;
+}
+.food-info::after{
+    content: "";
+    background-color: #1d693d; 
+    width: 100%;
+    height: 1px;
+}
+#num-servings{
+    width: 12%;
+}
+input, select{
+    padding: 3px;
+    border-radius: 3px;
+}
+.macro-data{
+    display: flex;
+    gap: 30px;
+    margin-right: 10px;
+}
+.cals{
+    font-size: 1.2rem;
+    color: #1d693d;
+    font-weight: bold;
+}
+.cal-value{
+    font-size: 1rem;
 }

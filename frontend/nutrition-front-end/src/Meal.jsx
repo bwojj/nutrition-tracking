@@ -18,7 +18,7 @@ function Meal(props){
             }}>
                 <div className="name-button">
                     <h1 className="meal-title">{props.mealName}</h1>
-                    <button className="add-food-button">+</button>
+                    <button onClick={props.onOpen} className="add-food-button">+</button>
                 </div>
                 <div className="food-totals">
                     <span className="total-value">{dummyMeals[0].calories}Cals</span>
@@ -29,7 +29,7 @@ function Meal(props){
             </div>
             <div className="food">
                 <h3 className="food-name">{dummyMeals[0].foodName}</h3>
-                <div className="food-info">
+                <div className="meal-food-info">
                     <span className="food-value">{dummyMeals[0].calories}Cals</span>
                     <span className="food-value">{dummyMeals[0].protein}P</span> 
                     <span className="food-value">{dummyMeals[0].carbs}C</span> 

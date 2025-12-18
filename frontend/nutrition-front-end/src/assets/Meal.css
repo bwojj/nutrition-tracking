@@ -32,7 +32,7 @@
     height: 65px;
     margin-bottom: 20px;
 }
-.food-info, .food-totals{
+.meal-food-info, .food-totals{
     display: flex; 
     gap: 8px;
 }

@@ -2,7 +2,7 @@ import AddFoodData from './AddFoodData';
 import './assets/AddFood.css'
 import { useState } from 'react';
 
-function AddFood(){
+function AddFood({ isOpen }){
     let foodDatabase = [
     {
         id: 1,
@@ -72,6 +72,8 @@ function AddFood(){
         food.name.toLowerCase().includes(search.toLowerCase())
     ));
 
+    if (!isOpen) return null; 
+
     return(
         <div className="add-food-container">
             <h1 className="add-food-title">Add Food</h1>
@@ -91,7 +93,6 @@ function AddFood(){
                     </div>
                     ))}
             </div>
-            <AddFoodData/>
         </div>
     );
 }

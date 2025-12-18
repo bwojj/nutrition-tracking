@@ -1,12 +1,12 @@
 import './assets/Meals.css'
 import Meal from './Meal';
 
-function Meals(){
+function Meals({ onOpen }){
     return(
         <div className="meals">
-            <Meal rounded="True" mealName="Breakfast"/>
-            <Meal mealName="Lunch"/>
-            <Meal mealName="Dinner"/>
+            <Meal onOpen={onOpen} rounded="True" mealName="Breakfast"/>
+            <Meal onOpen={onOpen} mealName="Lunch"/>
+            <Meal onOpen={onOpen} mealName="Dinner"/>
         </div>
     );
 }

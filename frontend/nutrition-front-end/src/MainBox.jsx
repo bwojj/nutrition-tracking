@@ -5,14 +5,20 @@ import Meals from './Meals';
 import Micronutrients from './Micronutrients';
 import Progress from './Progress';
 import AddFoodData from './AddFoodData';
+import { useState } from 'react';
 
 function MainBox(){
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // const toggleModal = () => setIsModalOpen(!isModalOpen);
+
     return(
         <div className="main">
-            <AddFood/>
+            <AddFood isOpen={isModalOpen}/>
             <div className="top-main">
                 <Calories/>
-                <Meals/>
+                <Meals onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">
                 <Micronutrients/>
