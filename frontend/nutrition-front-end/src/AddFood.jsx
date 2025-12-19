@@ -73,7 +73,25 @@ function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose}){
         food.name.toLowerCase().includes(search.toLowerCase())
     ));
 
-    // const zIndex = isDataModalOpen ? 
+    const [dataSent, setDataSent] = useState({
+        food_name: "", 
+        calories: 0, 
+        protein: 0, 
+        carbs: 0, 
+        fat: 0, 
+    });
+        
+
+    function dataOpen(data){
+        setDataSent({
+            food_name: data.name, 
+            calories: data.calories, 
+            protein: data.protein, 
+            carbs: data.carbs, 
+            fat: data.fat, 
+        })
+        onDataOpen();
+    }
 
     if (!isOpen) return null; 
 
@@ -93,7 +111,7 @@ function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose}){
                 <input className="search" onChange={handleChange} placeholder="Search Foods"/>
                 <div className="foods">
                     {searchFilteredFoods.map((element, index) => (
-                        <div onClick={onDataOpen} className="food-items-inner" key={index}>
+                        <div onClick={() => dataOpen(element)} className="food-items-inner" key={index}>
                             <div className="name">
                                 <span className="food-name">{element.name}</span>
                             </div>
@@ -110,7 +128,7 @@ function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose}){
                         </div>
                         ))}
                 </div>
-                <AddFoodData isOpen={isDataModalOpen} onClose={onDataClose}/>
+                <AddFoodData info={dataSent} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
         </div>,
         document.body
