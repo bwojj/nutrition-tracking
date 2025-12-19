@@ -63,7 +63,7 @@
 }
 .food-items-inner:hover{
     transform: translatey(-5px);
-    transition: all 0.5s ease;
+    transition: all 0s ease;
     color: black; 
     background: white;
     border: 5px solid #1e6b3e;
