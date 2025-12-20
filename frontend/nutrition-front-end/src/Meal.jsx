@@ -1,14 +1,27 @@
+import { useEffect, useState } from 'react';
 import './assets/Meal.css'
 
 function Meal(props){
-    const dummyMeals = [{
-        foodName: 'Chicken',
-        calories: 167,
-        protein: 63,
-        carbs: 30, 
-        fat: 1,
-    }]; 
+    const [foodData, setFoodData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
+    useEffect(() => {
+        const fetchFoodData = async () => {
+            try{
+                const response = await fetch("http://127.0.0.1:8000/api/food-data/");
+                if(response.ok){
+                    const data = await response.json();
+                    setFoodData(data);
+                } 
+            } catch(error){
+                console.log("Failed to fetch", error)
+            } finally {
+                setIsLoading(false); 
+            }
+        }
+
+        fetchFoodData()
+    }, []);
     
     return(
         <div className="meal">
@@ -21,21 +34,23 @@ function Meal(props){
                     <button onClick={props.onOpen} className="add-food-button">+</button>
                 </div>
                 <div className="food-totals">
-                    <span className="total-value">{dummyMeals[0].calories}Cals</span>
-                    <span className="total-value">{dummyMeals[0].protein}P</span> 
-                    <span className="total-value">{dummyMeals[0].carbs}C</span> 
-                    <span className="total-value">{dummyMeals[0].fat}F</span>  
+                    <span className="total-value">Cals</span>
+                    <span className="total-value">P</span> 
+                    <span className="total-value">C</span> 
+                    <span className="total-value">F</span>  
                 </div>
             </div>
-            <div className="food">
-                <h3 className="food-name">{dummyMeals[0].foodName}</h3>
-                <div className="meal-food-info">
-                    <span className="food-value">{dummyMeals[0].calories}Cals</span>
-                    <span className="food-value">{dummyMeals[0].protein}P</span> 
-                    <span className="food-value">{dummyMeals[0].carbs}C</span> 
-                    <span className="food-value">{dummyMeals[0].fat}F</span>  
+            {foodData.map((element, index) => (
+                <div key={index} className="food">
+                    <h3 className="food-name">{element.food_name}</h3>
+                    <div className="meal-food-info">
+                        <span className="food-value">{element.calories}Cals</span>
+                        <span className="food-value">{element.protein}P</span> 
+                        <span className="food-value">{element.carbs}C</span> 
+                        <span className="food-value">{element.fat}F</span>  
+                    </div>
                 </div>
-            </div>
+            ))}
 
         </div>
     );

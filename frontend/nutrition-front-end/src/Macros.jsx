@@ -14,7 +14,6 @@ function Macro(props){
     }, []);
     
     const radius = windowWidth >= 1471 ? 60 : (windowWidth <= 400 ? 35 : 40); 
-    console.log(windowWidth);
     
 
     const circumfrence = 2 * Math.PI * radius; 

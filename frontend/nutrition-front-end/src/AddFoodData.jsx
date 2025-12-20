@@ -4,20 +4,12 @@ import { useState } from 'react';
 function AddFoodData({ isOpen, onClose, info }){
     const saveFood = async (foodData) => {
         try {
-            const foodItem = {
-            meal_name: "Breakfast",
-            food_name: "Oatmeal",
-            calories: 150,
-            protein: 5,
-            carbs: 27,
-            fat: 3
-            };
             const response = await fetch("http://127.0.0.1:8000/api/add-food/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(foodItem),
+                body: JSON.stringify(foodData),
             });
             
             if(response.ok) {
