@@ -24,7 +24,7 @@ function AddFoodData({ isOpen, onClose, info }){
     };
 
     const [formData, setFormData] = useState({
-        meal_name: "",
+        meal_name: "Breakfast",
         food_name: info.food_name,
         calories: info.calories, 
         protein: info.protein, 
@@ -35,14 +35,15 @@ function AddFoodData({ isOpen, onClose, info }){
     function handleNumServingsChange(e){
 
         const value = Number(e.target.value);
-
-        setFormData({
-            ...formData, 
+        console.log(info.food_name);
+        setFormData(f => ({
+            ...f, 
+            food_name: info.food_name,
             calories: (info.calories * value),
             protein: (info.protein * value),
             carbs: (info.carbs * value),
             fat: (info.fat * value)
-        });
+        }));
     }
     function handleChange(e){
         const { id, value } = e.target; 
@@ -55,6 +56,7 @@ function AddFoodData({ isOpen, onClose, info }){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData);
         await saveFood(formData);
     }
 
@@ -81,7 +83,7 @@ function AddFoodData({ isOpen, onClose, info }){
             </div>
             <div className="serving-num">
                 <label for="meal">Meal</label>
-                <select id="meal" onChange={handleChange}>
+                <select defaultValue="Breakfast" id="meal_name" onChange={handleChange}>
                     <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
                     <option value="Dinner">Dinner</option>

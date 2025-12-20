@@ -33,7 +33,7 @@ def add_food(request):
     meal_obj, _ = Meal.objects.get_or_create(
         user=user_profile, 
         date=day_obj,
-        meal_name=request.data.get('meal_name', 'General')
+        meal_name=request.data.get('meal_name')
     )
     food, _ = FoodData.objects.get_or_create(
         meal = meal_obj, 
