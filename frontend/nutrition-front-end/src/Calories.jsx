@@ -2,7 +2,7 @@ import './assets/Calories.css'
 import Macro from './Macros';
 import { useEffect, useState } from 'react';
 
-function Calories() {
+function Calories({ foodData }) {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -21,30 +21,47 @@ function Calories() {
     const x2 = cx + r;
     const y  = cy;
 
-    let currentCalories = 1000; 
+    let currentCalories = 0; 
+    foodData.forEach(value => {
+        currentCalories += value.calories;
+    })
     const targetCalories = 1620; 
 
+
     const circumfrence = Math.PI * r; 
-    let progress = 0; 
-    const targetProgress = (currentCalories / targetCalories) * 100;
 
     const [offset, setOffset] = useState(circumfrence); 
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            if(progress >= targetProgress){
-                return(clearInterval(intervalId));
-            }
-            else{
-                // eslint-disable-next-line react-hooks/exhaustive-deps
-                progress += 1; 
-                setOffset(circumfrence - (circumfrence * progress) / 100);
-                setPercentage(progress);
-            }
-        }, 30);
-    }, [])
+        const targetProgress = (currentCalories / targetCalories) * 100;
 
+        const intervalId = setInterval(() => {
+            setPercentage((prev) => {
+                if (prev >= targetProgress){
+                    clearInterval(intervalId);
+                    return prev;
+                }
+
+                const nextValue = prev + 1;
+
+                setOffset(circumfrence - (circumfrence * nextValue) / 100);
+
+                return nextValue;
+            })
+        }, 30);
+
+        return () => clearInterval(intervalId);
+    }, [currentCalories, circumfrence])
+
+    const macroData = (macroName) => {
+        let currentMacros = 0; 
+        foodData.forEach(value => {
+            currentMacros += value[macroName];
+        }); 
+
+        return currentMacros; 
+    }
 
     return (
         <>
@@ -77,9 +94,9 @@ function Calories() {
                     <span className="calorie-ratio">{currentCalories} / {targetCalories}</span>
                 </div>
                 <div class="macros">
-                    <Macro color="#7231bd" name="Protein" amount="110" goal="150"/>
-                    <Macro color="#31bd98" name="Carbs" amount="150" goal="200"/>
-                    <Macro color="#ffad21ff" name="Fat" amount="50" goal="80"/>
+                    <Macro color="#7231bd" name="Protein" amount={macroData("protein")} goal="150"/>
+                    <Macro color="#31bd98" name="Carbs" amount={macroData("carbs")} goal="200"/>
+                    <Macro color="#ffad21ff" name="Fat" amount={macroData("fat")} goal="80"/>
                 </div>
             </div>
         </>

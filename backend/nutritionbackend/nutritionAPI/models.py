@@ -17,6 +17,9 @@ class Meal(models.Model):
     date = models.ForeignKey(Day, on_delete=models.CASCADE, related_name="meals")
     meal_name = models.CharField(max_length=64)
 
+    class Meta:
+        unique_together = ('user', 'date', 'meal_name')
+
 
 class FoodData(models.Model):
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="item", default=1)

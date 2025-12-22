@@ -12,6 +12,10 @@ class MealSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FoodDataSerializer(serializers.ModelSerializer):
+    meal = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='meal_name'
+     )
     class Meta:
         model = FoodData
         fields = '__all__'

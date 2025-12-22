@@ -3,7 +3,7 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 
-function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose}){
+function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData}){
     let foodDatabase = [
     {
         id: 1,
@@ -128,7 +128,7 @@ function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose}){
                         </div>
                         ))}
                 </div>
-                <AddFoodData info={dataSent} isOpen={isDataModalOpen} onClose={onDataClose}/>
+                <AddFoodData info={dataSent} onModalClose={onClose} refreshData={refreshData} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
         </div>,
         document.body

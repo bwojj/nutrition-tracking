@@ -1,7 +1,7 @@
 import './assets/AddFoodData.css'
 import { useState } from 'react';
 
-function AddFoodData({ isOpen, onClose, info }){
+function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
     const saveFood = async (foodData) => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/add-food/", {
@@ -58,6 +58,12 @@ function AddFoodData({ isOpen, onClose, info }){
         e.preventDefault();
         console.log(formData);
         await saveFood(formData);
+
+        if (refreshData){
+            await refreshData();
+        }
+        onClose();
+        onModalClose();
     }
 
     if (!isOpen) return null;

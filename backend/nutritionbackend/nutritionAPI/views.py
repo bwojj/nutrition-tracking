@@ -22,14 +22,15 @@ class FoodDataView(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def add_food(request): 
-    today = date.today()
 
+    today = date.today()
     user_profile = User.objects.first()
 
     day_obj, _ = Day.objects.get_or_create(
         user=user_profile,
         date=today
     )
+
     meal_obj, _ = Meal.objects.get_or_create(
         user=user_profile, 
         date=day_obj,

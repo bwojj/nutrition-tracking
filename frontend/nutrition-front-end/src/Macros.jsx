@@ -17,27 +17,30 @@ function Macro(props){
     
 
     const circumfrence = 2 * Math.PI * radius; 
-    let progress = 0;
-    const targetProgress = (Number(props.amount) / Number(props.goal)) * 100;
 
     const [offset, setOffset] = useState(circumfrence);
     const [percentage, setPercentage] = useState(0); 
     
     useEffect(() => {
+        const targetProgress = (Number(props.amount) / Number(props.goal)) * 100;
+
         const intervalId = setInterval(() => {
-            if (progress >= targetProgress){
-                return (
-                    clearInterval(intervalId)
-                );
-            }
-            else{
-                // eslint-disable-next-line react-hooks/exhaustive-deps
-                progress += 2; 
-                setOffset((circumfrence - (circumfrence * progress) / 100));
-                setPercentage(progress); 
-            };
-            }, 60);
-        }, []);
+            setPercentage((prev) => {
+                if (prev >= targetProgress){
+                    clearInterval(intervalId);
+                    return prev; 
+                }
+
+                const nextValue = prev + 1; 
+
+                setOffset(circumfrence - (circumfrence * nextValue) / 100);
+
+                return nextValue; 
+            })
+        }, 30);
+
+        return () => clearInterval(intervalId);
+        }, [circumfrence, props.amount]);
     
 
 
