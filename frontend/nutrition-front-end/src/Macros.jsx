@@ -22,9 +22,26 @@ function Macro(props){
     const [percentage, setPercentage] = useState(0); 
     
     useEffect(() => {
-        const targetProgress = (Number(props.amount) / Number(props.goal)) * 100;
+        const targetProgress = Math.round((Number(props.amount) / Number(props.goal)) * 100);
 
         const intervalId = setInterval(() => {
+
+        if (percentage > targetProgress) {
+            const intervalId = setInterval(() => {
+                setPercentage((prev) => {
+                    const safePrev = isNaN(prev) ? 0 : prev;
+                    console.log(safePrev);
+                    if(safePrev > targetProgress){
+                        const prevValue = safePrev - 1; 
+                        setOffset(circumfrence - (circumfrence * prevValue) / 100);
+                        return prevValue; 
+                    }
+                    clearInterval(intervalId);
+                    return targetProgress;
+                });
+            }, 30); 
+        return () => clearInterval(intervalId);
+        }
             setPercentage((prev) => {
                 if (prev >= targetProgress){
                     clearInterval(intervalId);
@@ -40,7 +57,7 @@ function Macro(props){
         }, 30);
 
         return () => clearInterval(intervalId);
-        }, [circumfrence, props.amount]);
+        }, [circumfrence, props.amount, props.goal]);
     
 
 

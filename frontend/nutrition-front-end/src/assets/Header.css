@@ -27,6 +27,7 @@
     font-size: 3rem; 
     font-family: 'Montserrat';
     color: white;
+    margin-left: -20px;
 }
 
 @media(max-width: 1150px){

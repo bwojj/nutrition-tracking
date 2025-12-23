@@ -102,15 +102,15 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
                 </div>
                 <div className="macro-data">
                     <div className="label-data" style={{border: '2px solid #7231bd'}}>
-                        <span style={{color: '#7231bd', fontWeight: 'bold'}}>Protein</span>
+                        <span className="macro-data-name" style={{color: '#7231bd', fontWeight: 'bold'}}>Protein</span>
                         <span>{formData.protein}</span>
                     </div>
                     <div className="label-data" style={{border: '2px solid #31bd98'}}>
-                        <span style={{color: '#31bd98', fontWeight: 'bold'}}>Carbs</span>
+                        <span className="macro-data-name" style={{color: '#31bd98', fontWeight: 'bold'}}>Carbs</span>
                         <span>{formData.carbs}</span>
                     </div>
                     <div className="label-data" style={{border: '2px solid #ffad21ff'}}>
-                        <span style={{color: '#ffad21ff', fontWeight: 'bold'}}>Fat</span>
+                        <span className="macro-data-name" style={{color: '#ffad21ff', fontWeight: 'bold'}}>Fat</span>
                         <span>{formData.fat}</span>
                     </div>
                 </div>

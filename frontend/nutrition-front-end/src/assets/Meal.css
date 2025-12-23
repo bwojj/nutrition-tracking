@@ -35,6 +35,14 @@
     box-shadow: 0px 0px 5px 1px #1d693d;
     border-radius: 10px;
     height: 65px;
+    cursor: pointer; 
+}
+.food:hover{
+    background-color: rgba(255, 0, 0, 0.513); 
+    transform: translatey(-3px);
+    box-shadow: none;
+    transition: all 0.6s ease;
+    font-style:oblique;
 }
 .meal-food-info, .food-totals{
     display: flex; 
@@ -68,4 +76,9 @@
     background-color: #0388fc; 
     color: white; 
     transition: background-color 0.5s ease; 
+}
+.none{
+    color: rgba(128, 128, 128, 0.856);
+    font-style: italic;
+    margin-top: 10px;
 }

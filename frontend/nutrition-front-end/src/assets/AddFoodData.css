@@ -29,6 +29,7 @@
     margin-top: 35px; 
     display: flex;
     width: 100%; 
+    gap: 30px;
     justify-content: space-between;
     align-items: center;
 }
@@ -36,8 +37,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
     border: 2px solid #1d693d;
+    gap: 5px;
     padding: 8px; 
     border-radius: 5px;
 }
@@ -58,7 +59,7 @@ input, select{
 }
 .macro-data{
     display: flex;
-    gap: 30px;
+    gap: 10px;
     margin-right: 10px;
 }
 .cals{
@@ -103,4 +104,40 @@ input, select{
 .x-data:hover{
     color:red; 
     transition: color 0.5s ease;
+}
+
+@media (max-width: 870px){
+    .add-food-data-container{
+        width: 75%;
+    }
+    .food-info{
+        font-size: 1rem;
+    }
+    .label-data{
+        width: 15%;
+        padding: 10px;
+    }
+    .food-add-data{
+        gap: 40px;
+        justify-content: center;
+    }
+    .macro-data-name{
+        font-size: 12px;
+    }
+    .cals{
+        font-size: 14px;
+    }
+    .macro-data{
+        gap: 10px;
+    }
+}
+@media (max-width: 620px){
+    .macro-data{
+        margin-right: -10px;
+    }
+}
+@media (max-width: 400px){
+    .add-food-data-container{
+        width: 85%;
+    }
 }

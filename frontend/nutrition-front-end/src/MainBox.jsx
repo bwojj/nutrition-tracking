@@ -27,7 +27,21 @@ function MainBox(){
             setIsLoading(false); 
         }
     }
+    const deleteFood = async (id) => {
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/food-data/${id}/`, {
+                method: 'DELETE',
+            });
 
+            if (response.ok) {
+                setFoodData(prevData => prevData.filter(food => food.id !== id));
+            } else {
+                console.error("Failed to delete item");
+            }
+        } catch (error) {
+            console.error("Error deleting food:", error);
+        }
+    };
     useEffect(() => { refreshData(); }, []);
 
 
@@ -38,7 +52,7 @@ function MainBox(){
                 onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}/>
             <div className="top-main">
                 <Calories foodData={foodData}/>
-                <Meals foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
+                <Meals onDelete={deleteFood} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">
                 <Micronutrients foodData={foodData}/>

@@ -34,7 +34,24 @@ function Calories({ foodData }) {
     const [percentage, setPercentage] = useState(0);
 
     useEffect(() => {
-        const targetProgress = (currentCalories / targetCalories) * 100;
+        const targetProgress = Math.round((currentCalories / targetCalories) * 100) || 0;
+
+        if (percentage > targetProgress) {
+        const intervalId = setInterval(() => {
+            setPercentage((prev) => {
+                const safePrev = isNaN(prev) ? 0 : prev;
+                console.log(safePrev);
+                if(safePrev > targetProgress){
+                    const prevValue = safePrev - 1; 
+                    setOffset(circumfrence - (circumfrence * prevValue) / 100);
+                    return prevValue; 
+                }
+                clearInterval(intervalId);
+                return targetProgress;
+            });
+        }, 30); 
+        return () => clearInterval(intervalId);
+        }
 
         const intervalId = setInterval(() => {
             setPercentage((prev) => {
@@ -52,7 +69,7 @@ function Calories({ foodData }) {
         }, 30);
 
         return () => clearInterval(intervalId);
-    }, [currentCalories, circumfrence])
+    }, [currentCalories, circumfrence, foodData])
 
     const macroData = (macroName) => {
         let currentMacros = 0; 
