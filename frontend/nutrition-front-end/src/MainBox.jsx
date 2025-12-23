@@ -10,6 +10,7 @@ function MainBox(){
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
+    const [meal, setMeal] = useState("");
 
     const [foodData, setFoodData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -49,10 +50,11 @@ function MainBox(){
         <div className="main">
             <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
-                onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}/>
+                onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
+                setMeal={setMeal} meal={meal}/>
             <div className="top-main">
                 <Calories foodData={foodData}/>
-                <Meals onDelete={deleteFood} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
+                <Meals onDelete={deleteFood} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">
                 <Micronutrients foodData={foodData}/>

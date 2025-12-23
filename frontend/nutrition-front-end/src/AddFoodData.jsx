@@ -1,7 +1,11 @@
 import './assets/AddFoodData.css'
-import { useState } from 'react';
+import { MealsContext } from './Context/Context';
+import { useContext, useState } from 'react';
 
 function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
+    const { meals } = useContext(MealsContext);
+    
+
     const saveFood = async (foodData) => {
         try {
             const response = await fetch("http://127.0.0.1:8000/api/add-food/", {
@@ -89,10 +93,10 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
             </div>
             <div className="serving-num">
                 <label for="meal">Meal</label>
-                <select defaultValue="Breakfast" id="meal_name" onChange={handleChange}>
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Lunch">Lunch</option>
-                    <option value="Dinner">Dinner</option>
+                <select defaultValue={info.meal} id="meal_name" onChange={handleChange}>
+                    {meals.map((element) => (
+                        <option value={element}>{element}</option>
+                    ))};
                 </select>
             </div>
             <div className="food-add-data">

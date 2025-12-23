@@ -2,6 +2,12 @@ import './assets/Meal.css'
 
 function Meal(props){
 
+    console.log("Props Check:", { 
+  onOpen: props.onOpen, 
+  setMeal: props.setMeal, 
+  mealName: props.mealName 
+});
+
     const totalCalculate = (name) => {
         let total = 0; 
         props.foodData.forEach(value => total += value[name]);
@@ -9,12 +15,17 @@ function Meal(props){
         return total;
     }
 
+    const openAddFoodModal = (name) => {
+        props.setMeal(name)
+        props.onOpen()
+    }
+
     return(
         <div className="meal">
             <div className={`meal-header ${props.first ? 'first': ''}`}>
                 <div className="name-button">
                     <h1 className="meal-title">{props.mealName}</h1>
-                    <button onClick={props.onOpen} className="add-food-button">+</button>
+                    <button onClick={() => openAddFoodModal(props.mealName)} className="add-food-button">+</button>
                 </div>
                 <div className="food-totals">
                     <span className="total-value">{totalCalculate('calories')}Cals</span>

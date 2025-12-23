@@ -3,7 +3,9 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 
-function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData}){
+function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData}){
+
+
     let foodDatabase = [
     {
         id: 1,
@@ -79,6 +81,7 @@ function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, re
         protein: 0, 
         carbs: 0, 
         fat: 0, 
+        meal: "",
     });
         
 
@@ -89,6 +92,7 @@ function AddFood({ isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, re
             protein: data.protein, 
             carbs: data.carbs, 
             fat: data.fat, 
+            meal: meal, 
         })
         onDataOpen();
     }
