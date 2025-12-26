@@ -1,13 +1,6 @@
 import './assets/Meal.css'
 
 function Meal(props){
-
-    console.log("Props Check:", { 
-  onOpen: props.onOpen, 
-  setMeal: props.setMeal, 
-  mealName: props.mealName 
-});
-
     const totalCalculate = (name) => {
         let total = 0; 
         props.foodData.forEach(value => total += value[name]);
