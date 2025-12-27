@@ -1,5 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+.header-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); 
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow: hidden;
+}
+.header-overlay.active{
+    display: flex;
+}
 .header{
     display: flex; 
     justify-content: space-between;
@@ -25,16 +41,22 @@
     gap: 5px;
     cursor: pointer;
 }
+.hamburger.active {
+    position: fixed; 
+    z-index: 100001; 
+    right: 0px; 
+}
 #line1.active{
     animation: x1 500ms ease-out 0s forwards 1;
-    z-index: 15; 
+    z-index: 100000;  
 }
 #line2.active{
     display: none;
 }
 #line3.active{
     animation: x3 500ms ease-out 0s forwards 1;
-    z-index: 15; 
+    z-index: 100000; 
+    
 }
 .title{
     font-size: 3rem; 
@@ -43,8 +65,10 @@
     margin-left: -20px;
 }
 .menu{
-    width: 15%; 
+    width: 12%; 
     height: 100vh;
+    padding-top: 15px;
+    padding-bottom: 10px;
     position: absolute;
     background-color: #144130;
     color: white;
@@ -52,20 +76,17 @@
     right: -15%; 
     top: 0; 
     display: none;
+    align-items: flex-start;
     flex-direction: column;
+    overflow: hidden;
 }
 .menu-title{
-    text-align: center;
-    position: relative;
-    right: 35px;
-    top: 15px;
     font-size: 30px;
+    padding-left: 40px;
 }
 .menu-list{
-    list-style: none;
-    position: relative;
-    left: 25px;
     display: flex;
+    list-style: none;
     flex-direction: column;
     gap: 15px;
 }
@@ -105,18 +126,54 @@
     .header img{
         height: 50px; 
         width: 50px;
-        margin-left: 2px; 
+        margin-left: 10px; 
     }
     .line{
-        margin-right: 2px;
+        margin-right: 8px;
     }
     .title{
-        font-size: 1.5rem; 
+        font-size: 1.75rem;
+        margin-left: 8px; 
     }
     .header{
         height: 75px;
-        justify-content: space-around;
+        justify-content: space-between;
         width: 100%;
-        left: -1%;
+    }
+    .menu{
+        padding-top: 0px;
+        margin-top: -10px;
+    }
+    .hamburger.active{
+        top: 27px;
+    }
+}
+@media(max-width: 2660px){
+    .menu{
+        right: -12%;
+    }
+}
+@media(max-width: 2000px){
+    .menu{
+        width: 16%;
+        right: -16%;
+    }
+}
+@media(max-width: 1500px){
+    .menu{
+        width: 25%;
+        right: -25%;
+    }
+}
+@media(max-width: 855px){
+    .menu{
+        width: 40%;
+        right: -40%;
+    }
+}
+@media(max-width: 550px){
+    .menu{
+        width: 60%;
+        right: -60%;
     }
 }
