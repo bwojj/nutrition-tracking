@@ -20,6 +20,7 @@ function Header(){
                 <span id="line2" className={`line ${animate ? 'active' : ''}`}></span>
                 <span id="line3" className={`line ${animate ? 'active' : ''}`}></span>
             </div>
+            <div className={`empty ${animate ? 'active' : ''}`}></div>
             <div className={`header-overlay ${animate ? 'active' : ''}`}>
                 <div className={`menu ${animate ? 'active' : ''}`}>
                     <h2 className="menu-title">Menu</h2>
