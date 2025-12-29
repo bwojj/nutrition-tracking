@@ -45,13 +45,67 @@ function MainBox(){
     };
     useEffect(() => { refreshData(); }, []);
 
+    const searchFoods = async (query) => {
+
+        const url = new URL("https://world.openfoodfacts.org/cgi/search.pl"); 
+
+        const selectedFields = [
+            "product_name",
+            "brands",
+            "nutriments",
+            "code",
+            "serving_size",
+        ].join(",");
+
+        const params = {
+            search_terms: query,
+            search_simple: 1, 
+            action: "process",
+            json: 1,
+            page_size: 5,
+            fields: selectedFields
+        };
+
+        url.search = new URLSearchParams(params).toString();
+
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "User-Agent": "MSUTracking/1.0 (wojobeemer@gmail.com)"
+                }
+            });
+
+            if(!response.ok) throw new Error("Network response failed");
+
+            const data = await response.json();
+            const products = data.products; 
+
+            return products.map(product => {
+                const n = product.nutriments;
+                return {
+                    id: product.code,
+                    name: product.product_name || "", 
+                    calories: n['energy-kcal_serving'] || 0,
+                    protein: n['proteins_serving'] || 0,
+                    carbs: n['carbohydrates_serving'] || 0,
+                    fat: n['fat_serving'] || 0,
+                }
+            });
+            
+        } catch(error){
+            console.log("Search Failed", error); 
+        }
+
+    }
+
 
     return(
         <div className="main">
             <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
                 onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
-                setMeal={setMeal} meal={meal}/>
+                setMeal={setMeal} meal={meal} searchFoods={searchFoods}/>
             <div className="top-main">
                 <Calories foodData={foodData}/>
                 <Meals onDelete={deleteFood} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>

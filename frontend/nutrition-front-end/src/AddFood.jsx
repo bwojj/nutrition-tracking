@@ -3,8 +3,9 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 
-function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData}){
+function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData, searchFoods}){
 
+    const [apiFoods, setApiFoods] = useState([]);
 
     let foodDatabase = [
     {
@@ -71,10 +72,16 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         setSearch(event.target.value);
     }
 
-    const searchFilteredFoods = foodDatabase.filter((food) => (
+    let searchFilteredFoods = foodDatabase.filter((food) => (
         food.name.toLowerCase().includes(search.toLowerCase())
     ));
 
+    async function handleSearch(){
+        if(searchFilteredFoods.length <= 0){
+            const results = await searchFoods(search.toLowerCase());
+            setApiFoods(results || []); 
+        }
+    }
     const [dataSent, setDataSent] = useState({
         food_name: "", 
         calories: 0, 
@@ -112,9 +119,12 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
                         <span onClick={onClose} className="x">{"\u00D7"}</span>
                     </div>
                 </div>
-                <input className="search" onChange={handleChange} placeholder="Search Foods"/>
+                <div className="searchBox">
+                    <input className="search" onChange={handleChange} placeholder="Search Foods"/>
+                    <button className="searchBTN" onClick={handleSearch}>Search</button>
+                </div>
                 <div className="foods">
-                    {searchFilteredFoods.map((element, index) => (
+                    {(searchFilteredFoods.length <= 0 ? apiFoods : searchFilteredFoods).map((element, index) => (
                         <div onClick={() => dataOpen(element)} className="food-items-inner" key={index}>
                             <div className="name">
                                 <span className="food-name">{element.name}</span>

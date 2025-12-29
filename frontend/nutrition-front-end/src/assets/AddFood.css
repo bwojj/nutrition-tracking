@@ -129,6 +129,26 @@
     color:red; 
     transition: color 0.5s ease;
 }
+.searchBox{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.searchBTN{
+    background-color: #1e6b3e;
+    color: white; 
+    border: none; 
+    border-radius: 8px;
+    padding: 20px 15px;
+    margin-bottom: 10px;
+    cursor: pointer; 
+}
+.searchBTN:hover{
+    transition: all 0.25s ease;
+    background-color: #1e6b3ee9;
+}
 
 @media (max-width: 1150px){
     .add-food-container{
