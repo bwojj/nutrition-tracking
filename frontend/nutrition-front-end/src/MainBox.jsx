@@ -81,15 +81,28 @@ function MainBox(){
             const data = await response.json();
             const products = data.products; 
 
-            return products.map(product => {
+            return products.filter(product => {
                 const n = product.nutriments;
+
+                return (
+                    product.code && 
+                    product.product_name &&
+                    n['energy-kcal_serving'] !== undefined &&
+                    n['proteins_serving'] !== undefined &&
+                    n['carbohydrates_serving'] !== undefined &&
+                    n['fat_serving'] !== undefined 
+                );
+            }).map(product => {
+                const n = product.nutriments;
+
                 return {
                     id: product.code,
-                    name: product.product_name || "", 
-                    calories: n['energy-kcal_serving'] || 0,
-                    protein: n['proteins_serving'] || 0,
-                    carbs: n['carbohydrates_serving'] || 0,
-                    fat: n['fat_serving'] || 0,
+                    name: product.product_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '), 
+                    calories: n['energy-kcal_serving'],
+                    protein: n['proteins_serving'],
+                    carbs: n['carbohydrates_serving'],
+                    fat: n['fat_serving'],
+                    brand: product.brands,
                 }
             });
             

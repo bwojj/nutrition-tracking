@@ -2,6 +2,7 @@ import AddFoodData from './AddFoodData';
 import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData, searchFoods}){
 
@@ -14,7 +15,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 165,
         protein: 31,
         carbs: 0,
-        fat: 3.6
+        fat: 3.6,
+        brand: "Default"
     },
     {
         id: 2,
@@ -22,7 +24,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 218,
         protein: 4.5,
         carbs: 45,
-        fat: 1.6
+        fat: 1.6,
+         brand: "Default"
     },
     {
         id: 3,
@@ -30,7 +33,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 240,
         protein: 3,
         carbs: 12,
-        fat: 22
+        fat: 22,
+         brand: "Default"
     },
     {
         id: 4,
@@ -38,7 +42,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 100,
         protein: 17,
         carbs: 6,
-        fat: 0.4
+        fat: 0.4,
+         brand: "Default"
     },
     {
         id: 5,
@@ -46,7 +51,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 164,
         protein: 6,
         carbs: 6,
-        fat: 14
+        fat: 14,
+        brand: "Default"
     },
     {
         id: 6,
@@ -54,7 +60,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 103,
         protein: 2,
         carbs: 24,
-        fat: 0.2
+        fat: 0.2,
+        brand: "Default"
     },
     {
         id: 7,
@@ -62,7 +69,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         calories: 208,
         protein: 20,
         carbs: 0,
-        fat: 13
+        fat: 13,
+        brand: "Default"
     }
     ];
 
@@ -77,7 +85,10 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
     ));
 
     async function handleSearch(){
-        if(searchFilteredFoods.length <= 0){
+        if(search.length <= 0){
+            setApiFoods([]);
+        }
+        else if(searchFilteredFoods.length <= 0){
             const results = await searchFoods(search.toLowerCase());
             setApiFoods(results || []); 
         }
@@ -124,23 +135,35 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
                     <button className="searchBTN" onClick={handleSearch}>Search</button>
                 </div>
                 <div className="foods">
-                    {(searchFilteredFoods.length <= 0 ? apiFoods : searchFilteredFoods).map((element, index) => (
-                        <div onClick={() => dataOpen(element)} className="food-items-inner" key={index}>
-                            <div className="name">
-                                <span className="food-name">{element.name}</span>
-                            </div>
-                            <div className="data">
-                                <div className="data-top">
-                                    <span className="food-data">{element.calories}Cals</span>
-                                    <span className="food-data">{element.protein}P</span>
+                    <AnimatePresence>
+                        {(searchFilteredFoods.length <= 0 ? apiFoods : searchFilteredFoods).map((element, index) => (
+                            <motion.div 
+                                onClick={() => dataOpen(element)} 
+                                className="food-items-inner" 
+                                key={index}
+                                layout 
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <div className="name">
+                                    <span className="food-name">{element.name}</span>
+                                    <span className="brand-name">{element.brand}</span>
                                 </div>
-                                <div className="data-bottom">
-                                    <span className="food-data">{element.carbs}C</span>
-                                    <span className="food-data">{element.fat}F</span>
+                                <div className="data">
+                                    <div className="data-top">
+                                        <span className="food-data">{element.calories}Cals</span>
+                                        <span className="food-data">{element.protein}P</span>
+                                    </div>
+                                    <div className="data-bottom">
+                                        <span className="food-data">{element.carbs}C</span>
+                                        <span className="food-data">{element.fat}F</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        ))}
+                            </motion.div>
+                            ))}
+                        </AnimatePresence>
                 </div>
                 <AddFoodData info={dataSent} onModalClose={onClose} refreshData={refreshData} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
