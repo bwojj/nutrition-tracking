@@ -34,19 +34,42 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
         protein: info.protein, 
         carbs: info.carbs, 
         fat: info.fat, 
+        fiber: info.fiber,
+        sugar: info.sugar,
+        saturated_fat: info.saturated_fat,
+        polyunsaturated_fat: info.polyunsaturated_fat,
+        monounsaturated_fat: info.monounsaturated_fat,
+        trans_fat: info.trans_fat,
+        cholesterol: info.cholesterol,
+        sodium: info.sodium,
+        potassium: info.potassium,
+        vitamin_a: info.vitamin_a,
+        vitamin_c: info.vitamin_c,
+        calcium: info.calcium
     });
 
     function handleNumServingsChange(e){
 
         const value = Number(e.target.value);
-        console.log(info.food_name);
         setFormData(f => ({
             ...f, 
             food_name: info.food_name,
             calories: (info.calories * value),
             protein: (info.protein * value),
             carbs: (info.carbs * value),
-            fat: (info.fat * value)
+            fat: (info.fat * value),
+            fiber: (info.fiber * value),
+            sugar: (info.sugar * value),
+            saturated_fat: (info.saturated_fat * value),
+            polyunsaturated_fat: (info.polyunsaturated_fat * value),
+            monounsaturated_fat: (info.monounsaturated_fat * value),
+            trans_fat: (info.trans_fat * value),
+            cholesterol: (info.cholesterol * value),
+            sodium: (info.sodium * value),
+            potassium: (info.potassium * value),
+            vitamin_a: (info.vitamin_a * value),
+            vitamin_c: (info.vitamin_c * value),
+            calcium: (info.calcium * value)
         }));
     }
     function handleChange(e){

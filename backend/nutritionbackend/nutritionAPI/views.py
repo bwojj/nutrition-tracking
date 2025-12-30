@@ -43,6 +43,18 @@ def add_food(request):
         protein = request.data.get('protein'),
         carbs = request.data.get('carbs'),
         fat =   request.data.get('fat'),
+        fiber = request.data.get('fiber'),
+        sugar = request.data.get('sugar'),
+        saturated_fat = request.data.get('saturated_fat'),
+        polyunsaturated_fat = request.data.get('polyunsaturated_fat'),
+        monounsaturated_fat = request.data.get('monounsaturated_fat'),
+        trans_fat = request.data.get('trans_fat'),
+        cholesterol = request.data.get('cholesterol'),
+        sodium = request.data.get('sodium'),
+        potassium = request.data.get('potassium'),
+        vitamin_A = request.data.get('vitamin_a'),
+        vitamin_C = request.data.get('vitamin_c'),
+        calcium = request.data.get('calcium'),
     )
 
     return Response({"status": "success", "message": f"Added {food.food_name} to {meal_obj.meal_name}"})
