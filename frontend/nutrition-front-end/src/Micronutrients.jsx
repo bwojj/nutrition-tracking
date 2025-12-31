@@ -3,9 +3,9 @@ import { FaPills } from "react-icons/fa";
 import { TbPill } from "react-icons/tb";
 import { MdMedication } from "react-icons/md";
 
-function Micronutrients(){
+function Micronutrients({ onOpen }){
     return(
-        <div className="micronutrient-box">
+        <div className="micronutrient-box" onClick={onOpen}>
             <h1 className="micro-title">Micronutrients</h1>
             <div className="micronutrient-icons">
                 <div className="icon-name">

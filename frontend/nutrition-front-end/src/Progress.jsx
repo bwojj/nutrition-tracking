@@ -3,9 +3,9 @@ import { FaWeight } from "react-icons/fa";
 import { FaBullseye } from "react-icons/fa";
 import { FaUtensils } from "react-icons/fa";
 
-function Progress(){
+function Progress({ onOpen }){
     return(
-        <div className="progress-container">
+        <div className="progress-container" onClick={onOpen}>
             <h1 className="progress-title">Progress Tracker</h1>
             <div className="tracking-icons">
                 <div className="icon-info">

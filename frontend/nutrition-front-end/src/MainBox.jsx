@@ -4,12 +4,16 @@ import Calories from './Calories';
 import Meals from './Meals';
 import Micronutrients from './Micronutrients';
 import Progress from './Progress';
+import FullMicronutrients from './FullMicronutrients';
+import FullProgress from './FullProgress';
 import { useState, useEffect } from 'react';
 
 function MainBox(){
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
+    const [isMicroModalOpen, setIsMicroModalOpen] = useState(false);
+    const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
     const [meal, setMeal] = useState("");
 
     const [foodData, setFoodData] = useState([]);
@@ -119,13 +123,15 @@ function MainBox(){
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
                 onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
                 setMeal={setMeal} meal={meal} searchFoods={searchFoods}/>
+            <FullMicronutrients isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
+            <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)}/>
             <div className="top-main">
                 <Calories foodData={foodData}/>
                 <Meals onDelete={deleteFood} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">
-                <Micronutrients foodData={foodData}/>
-                <Progress/>
+                <Micronutrients foodData={foodData} onOpen={() => setIsMicroModalOpen(true)}/>
+                <Progress onOpen={() => setIsProgressModalOpen(true)}/>
             </div>
         </div>
     );
