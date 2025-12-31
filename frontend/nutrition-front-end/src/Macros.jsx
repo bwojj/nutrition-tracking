@@ -30,7 +30,6 @@ function Macro(props){
             const intervalId = setInterval(() => {
                 setPercentage((prev) => {
                     const safePrev = isNaN(prev) ? 0 : prev;
-                    console.log(safePrev);
                     if(safePrev > targetProgress){
                         const prevValue = safePrev - 1; 
                         setOffset(circumfrence - (circumfrence * prevValue) / 100);

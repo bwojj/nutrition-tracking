@@ -123,7 +123,7 @@ function MainBox(){
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
                 onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
                 setMeal={setMeal} meal={meal} searchFoods={searchFoods}/>
-            <FullMicronutrients isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
+            <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)}/>
             <div className="top-main">
                 <Calories foodData={foodData}/>
