@@ -1,0 +1,14 @@
+.micro-progress{
+    width: 80%;
+    height: 10px; 
+    background-color: #305f3e;
+    border-radius: 5px;
+    position: relative;
+}
+.micro-progress-fill{
+    position: absolute;
+    z-index: 10px;
+    height: 10px; 
+    border-radius: 5px;
+    background-color: white;
+}

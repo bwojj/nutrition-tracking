@@ -1,0 +1,18 @@
+.micro-div{
+    width: 100%; 
+    height: 50px;
+    background-color: #203428;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    color: white; 
+}
+.progress-dv{
+    display: flex;
+    width: 60%;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+    margin-right: 20px;
+}
