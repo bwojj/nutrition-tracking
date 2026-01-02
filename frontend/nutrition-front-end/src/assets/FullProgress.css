@@ -1,18 +1,19 @@
 .full-progress-box{
     background-color: #17271e; ; 
     position: absolute;
-    width: 40%;
+    width: 30%;
     left: 0;
     top: 0;
-    transform: translate(82%, 40%);
-    height: 500px;
+    transform: translate(122%, 25%);
+    height: 650px;
     padding-bottom: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 10px; 
     box-shadow: 0px 0px 20px -4px black;
-    z-index: 10;
+    z-index: 10000;
+    overflow: auto;
     color: white;
 }
 .progress-input{
@@ -20,12 +21,98 @@
     flex-direction: column;
     align-items: center;
     width: 80%;
+    gap: 20px;
 }
-.progress-input input, .progress-input select{
-    margin-bottom: 20px;
-    height: 30px;
-    width: 90%;
+.label-input{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 10px;
 }
-.progress-input label{
-    text-align: left;
+.full-progress-box input{
+    height: 35px; 
+}
+.label-input select{
+    height: 40px;
+}
+.full-progress-box input, .label-input select{
+    background-color: #203326;
+    border: 1px solid rgba(255, 255, 255, 0.132);
+    border-radius: 8px; 
+    box-shadow: 0px 0px 2px -5px white; 
+}
+#saveBtn{
+    width: 64%;
+    min-height: 40px;
+    font-size: 1.25rem;
+    background-color: #325b3e;
+    color: white;
+    border-radius: 8px;
+    border: none; 
+    margin-top: 20px;
+    cursor: pointer; 
+    flex-shrink: 0;
+}
+.advanced-options{
+    width: 65%;
+    display: flex;
+    align-items: flex-start;
+}
+#advanced{
+    margin-top: 30px;
+    background-color: #17271e;
+    border: none;
+    color: white;
+    width: max-content; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-style: italic;
+    color: rgb(167, 167, 167);
+}
+.arrow{
+    margin-bottom: 6px;
+}
+.advanced-options-box{
+    margin-top: 25px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 15px;
+}
+.advanced-label-input{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 10px;
+}
+@media (max-width: 1015px){
+    .full-progress-box{
+        width: 50%;
+        transform: translate(50%, 40%);
+    }
+}
+@media (max-width: 650px){
+    .full-progress-box{
+        width: 70%;
+        transform: translate(21%, 40%);
+    }
+}
+@media (max-width: 430px){
+    .full-progress-box{
+        width: 90%;
+        transform: translate(6%, 40%);
+    }
+    .label-input{
+        width: 90%;
+    }
+}
+@media (max-width: 400px){
+    .full-progress-title{
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+    }
 }
