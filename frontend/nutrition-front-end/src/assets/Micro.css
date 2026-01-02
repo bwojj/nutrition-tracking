@@ -7,6 +7,9 @@
     justify-content: space-between;
     padding: 5px;
     color: white; 
+    overflow: hidden;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
 }
 .progress-dv{
     display: flex;
@@ -15,4 +18,19 @@
     align-items: center;
     gap: 20px;
     margin-right: 20px;
+}
+.micro-goal{
+    width: 30px;
+    text-align: center;
+}
+
+@media(max-width: 675px){
+    .micro-name{
+        font-size: 0.75rem;
+    }
+}
+@media(max-width: 675px){
+    .progress-dv{
+        width: 40%; 
+    }
 }

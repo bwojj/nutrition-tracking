@@ -42,3 +42,22 @@
 .dv-label{
     margin-right: 10px;
 }
+
+@media (max-width: 1432px){
+    .full-micronutrient-box{
+        width: 65%;
+        transform: translate(30%, 40%);
+    }
+}
+@media (max-width: 868px){
+    .full-micronutrient-box{
+        width: 85%;
+        transform: translate(9%, 40%);
+    }
+}
+@media (max-width: 675px){
+    .full-micronutrient-box{
+        width: 95%;
+        transform: translate(3%, 40%);
+    }
+}

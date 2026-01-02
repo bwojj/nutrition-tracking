@@ -7,7 +7,7 @@ function Micro(props){
             <span className="micro-name">{props.vitamin}</span>
             <div className="progress-dv">
                 <MicroProgress current={props.amount} goal={props.goal}/>
-                <span className="dv%">{props.goal}</span>
+                <span className="micro-goal">{props.goal}</span>
             </div>
         </div>
     );

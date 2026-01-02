@@ -1,8 +1,9 @@
 import './assets/MicroProgress.css'
 
 function MicroProgress(props){
-    const current = Math.round(((Number(props.current) / Number(props.goal)) * 100)) || 0;
-    console.log(current);
+    const current = props.current > props.goal ? 100 : 
+                                    Math.round(((Number(props.current) / Number(props.goal)) * 100)) || 0;
+    
 
     return(
         <div className="micro-progress">

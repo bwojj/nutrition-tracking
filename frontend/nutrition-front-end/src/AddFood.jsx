@@ -17,8 +17,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         protein: 31,
         carbs: 0,
         fat: 3.6,
-        fiber: 0,
-        sugar: 0,
+        fiber: 100,
+        sugar: 100,
         saturated_fat: 1.0,
         polyunsaturated_fat: 0.8,
         monounsaturated_fat: 1.2,
@@ -26,8 +26,8 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         cholesterol: 85,
         sodium: 74,
         potassium: 256,
-        vitamin_a: 0,
-        vitamin_c: 0,
+        vitamin_a: 100,
+        vitamin_c: 100,
         calcium: 15
     },
     {

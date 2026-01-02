@@ -1,5 +1,5 @@
 .full-progress-box{
-    background-color: rgba(0, 0, 0, 0.7); 
+    background-color: #17271e; ; 
     position: absolute;
     width: 40%;
     left: 0;
@@ -10,8 +10,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white; 
     border-radius: 10px; 
     box-shadow: 0px 0px 20px -4px black;
     z-index: 10;
+    color: white;
+}
+.progress-input{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+.progress-input input, .progress-input select{
+    margin-bottom: 20px;
+    height: 30px;
+    width: 90%;
+}
+.progress-input label{
+    text-align: left;
 }
