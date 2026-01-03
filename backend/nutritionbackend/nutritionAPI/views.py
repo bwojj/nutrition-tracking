@@ -2,9 +2,9 @@ from datetime import date
 from rest_framework import viewsets 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Day, Meal, FoodData
+from .models import Day, Meal, FoodData, Progress
 from django.contrib.auth.models import User
-from .serializers import DaySerializer, MealSerializer, FoodDataSerializer
+from .serializers import DaySerializer, MealSerializer, FoodDataSerializer, ProgressSerializer
 
 # Create your views here.
 
@@ -19,6 +19,10 @@ class MealView(viewsets.ModelViewSet):
 class FoodDataView(viewsets.ModelViewSet):
     queryset = FoodData.objects.all()
     serializer_class = FoodDataSerializer
+
+class ProgressView(viewsets.ModelViewSet):
+    queryset = Progress.objects.all()
+    serializer_class = ProgressSerializer
 
 @api_view(['POST'])
 def add_food(request): 
@@ -59,3 +63,19 @@ def add_food(request):
 
     return Response({"status": "success", "message": f"Added {food.food_name} to {meal_obj.meal_name}"})
 
+@api_view(['POST'])
+def update_progress(request):
+    user_profile = User.objects.first()
+
+    progress_obj, _ = Progress.objects.get_or_create(
+        user=user_profile,
+        goal_calories = 1630,
+        goal_protein =  145,
+        goal_carbs = 150,
+        goal_fat =  55,
+        current_weight = 159,
+        goal_weight = 155,
+        goal = "Weight Loss",
+    )
+
+    return Response({"status": "success", "message": f"Added {progress_obj}"})

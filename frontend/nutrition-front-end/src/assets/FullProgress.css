@@ -40,6 +40,17 @@
     border: 1px solid rgba(255, 255, 255, 0.132);
     border-radius: 8px; 
     box-shadow: 0px 0px 2px -5px white; 
+    color: white;
+    padding-left: 10px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.full-progress-box input:focus, .label-input select:focus{
+    outline: none; 
+    color: white;
 }
 #saveBtn{
     width: 64%;

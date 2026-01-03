@@ -2,7 +2,10 @@ import './assets/Calories.css'
 import Macro from './Macros';
 import { useEffect, useState } from 'react';
 
-function Calories({ foodData }) {
+function Calories({ foodData, progressData }) {
+    if (!progressData || progressData.length === 0) {
+        return <div className="calories">Loading progress...</div>;
+    }
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -25,7 +28,7 @@ function Calories({ foodData }) {
     foodData.forEach(value => {
         currentCalories += value.calories;
     })
-    const targetCalories = 1620; 
+    const targetCalories = progressData[0].goal_calories;
 
 
     const circumfrence = Math.PI * r; 
@@ -79,6 +82,8 @@ function Calories({ foodData }) {
         return currentMacros; 
     }
 
+    
+
     return (
         <>
             <div className="calories">
@@ -110,9 +115,9 @@ function Calories({ foodData }) {
                     <span className="calorie-ratio">{currentCalories} / {targetCalories}</span>
                 </div>
                 <div class="macros">
-                    <Macro color="#7231bd" name="Protein" amount={macroData("protein")} goal="150"/>
-                    <Macro color="#31bd98" name="Carbs" amount={macroData("carbs")} goal="200"/>
-                    <Macro color="#ffad21ff" name="Fat" amount={macroData("fat")} goal="80"/>
+                    <Macro color="#7231bd" name="Protein" amount={macroData("protein")} goal={progressData[0].goal_protein}/>
+                    <Macro color="#31bd98" name="Carbs" amount={macroData("carbs")} goal={progressData[0].goal_carbs}/>
+                    <Macro color="#ffad21ff" name="Fat" amount={macroData("fat")} goal={progressData[0].goal_fat}/>
                 </div>
             </div>
         </>

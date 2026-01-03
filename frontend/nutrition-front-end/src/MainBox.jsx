@@ -17,6 +17,7 @@ function MainBox(){
     const [meal, setMeal] = useState("");
 
     const [foodData, setFoodData] = useState([]);
+    const [progressData, setProgressData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const refreshData = async () => {
@@ -49,6 +50,21 @@ function MainBox(){
     };
     useEffect(() => { refreshData(); }, []);
 
+    const getProgress = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/progress/');
+            if (response.ok){
+                const data = await response.json();
+                setProgressData(data); 
+            }
+        } catch(error) {
+            console.log('Failed to Fetch', error)
+        }
+    }
+
+    useEffect(() => { getProgress(); }, []);
+
+    
     const searchFoods = async (query) => {
 
         const url = new URL("https://world.openfoodfacts.org/cgi/search.pl"); 
@@ -126,7 +142,7 @@ function MainBox(){
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)}/>
             <div className="top-main">
-                <Calories foodData={foodData}/>
+                <Calories foodData={foodData} progressData={progressData}/>
                 <Meals onDelete={deleteFood} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">

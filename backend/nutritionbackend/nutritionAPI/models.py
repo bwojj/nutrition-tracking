@@ -41,3 +41,13 @@ class FoodData(models.Model):
     vitamin_C = models.FloatField()
     calcium = models.FloatField()
     
+class Progress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='goals', default=1)
+    goal_calories = models.IntegerField()
+    goal_protein =  models.IntegerField()
+    goal_carbs =  models.IntegerField()
+    goal_fat =  models.IntegerField()
+    current_weight = models.FloatField()
+    goal_weight = models.FloatField()
+    goal = models.CharField(max_length=64)
+
