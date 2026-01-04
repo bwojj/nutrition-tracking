@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
-function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData, searchFoods}){
+function AddFood({ meal, setIsLoading, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData, searchFoods}){
 
     const [apiFoods, setApiFoods] = useState([]);
 
@@ -111,7 +111,7 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
         vitamin_a: 0,
         vitamin_c: 0,
         calcium: 0,
-        meal: "",
+        meal: meal,
     });
         
 
@@ -189,7 +189,7 @@ function AddFood({ meal, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClo
                             ))}
                         </AnimatePresence>
                 </div>
-                <AddFoodData info={dataSent} onModalClose={onClose} refreshData={refreshData} isOpen={isDataModalOpen} onClose={onDataClose}/>
+                <AddFoodData setIsLoading={setIsLoading} info={dataSent} onModalClose={onClose} refreshData={refreshData} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
         </div>,
         document.body

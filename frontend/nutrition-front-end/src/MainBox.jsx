@@ -7,9 +7,9 @@ import Progress from './Progress';
 import FullMicronutrients from './FullMicronutrients';
 import FullProgress from './FullProgress';
 import { useState, useEffect } from 'react';
+import LoadingScreen from './LoadingScreen';
 
 function MainBox(){
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
     const [isMicroModalOpen, setIsMicroModalOpen] = useState(false);
@@ -21,6 +21,7 @@ function MainBox(){
     const [isLoading, setIsLoading] = useState(true);
 
     const refreshData = async () => {
+        setIsLoading(true);
         try{
             const response = await fetch("http://127.0.0.1:8000/api/food-data/");
             if(response.ok){
@@ -34,6 +35,7 @@ function MainBox(){
         }
     }
     const deleteFood = async (id) => {
+        setIsLoading(true);
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/food-data/${id}/`, {
                 method: 'DELETE',
@@ -46,11 +48,14 @@ function MainBox(){
             }
         } catch (error) {
             console.error("Error deleting food:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
     useEffect(() => { refreshData(); }, []);
 
     const getProgress = async () => {
+        setIsLoading(true);
         try {
             const response = await fetch('http://127.0.0.1:8000/api/progress/');
             if (response.ok){
@@ -59,6 +64,8 @@ function MainBox(){
             }
         } catch(error) {
             console.log('Failed to Fetch', error)
+        } finally {
+            setIsLoading(false); 
         }
     }
 
@@ -132,22 +139,24 @@ function MainBox(){
 
     }
 
-
+    if (isLoading) {
+        return <LoadingScreen/>
+    }
     return(
         <div className="main">
             <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
                 onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
-                setMeal={setMeal} meal={meal} searchFoods={searchFoods}/>
+                setMeal={setMeal} meal={meal} searchFoods={searchFoods} setIsLoading={setIsLoading}/>
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
-            <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)}/>
+            <FullProgress isLoading={isLoading} refreshData={getProgress} progressData={progressData} isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)}/>
             <div className="top-main">
                 <Calories foodData={foodData} progressData={progressData}/>
                 <Meals onDelete={deleteFood} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">
                 <Micronutrients foodData={foodData} onOpen={() => setIsMicroModalOpen(true)}/>
-                <Progress onOpen={() => setIsProgressModalOpen(true)}/>
+                <Progress progressData={progressData[0]} onOpen={() => setIsProgressModalOpen(true)}/>
             </div>
         </div>
     );

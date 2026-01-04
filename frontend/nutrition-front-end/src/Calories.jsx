@@ -1,11 +1,9 @@
 import './assets/Calories.css'
 import Macro from './Macros';
+import LoadingScreen from './LoadingScreen';
 import { useEffect, useState } from 'react';
 
 function Calories({ foodData, progressData }) {
-    if (!progressData || progressData.length === 0) {
-        return <div className="calories">Loading progress...</div>;
-    }
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {

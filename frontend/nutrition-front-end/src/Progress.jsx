@@ -3,7 +3,7 @@ import { FaWeight } from "react-icons/fa";
 import { FaBullseye } from "react-icons/fa";
 import { FaUtensils } from "react-icons/fa";
 
-function Progress({ onOpen }){
+function Progress({ onOpen, progressData }){
     return(
         <div className="progress-container" onClick={onOpen}>
             <h1 className="progress-title">Progress Tracker</h1>
@@ -11,12 +11,12 @@ function Progress({ onOpen }){
                 <div className="icon-info">
                     <FaWeight size={45} color={'#1d693d'}/>
                     <h2 className="tracking-title">Current Weight:</h2>
-                    <span className="progress-data">163 lbs</span>
+                    <span className="progress-data">{progressData.current_weight} lbs</span>
                 </div>
                 <div className="icon-info">
                     <FaBullseye size={45} color={'#1d693d'}/>
                     <h2 className="tracking-title">Goal Weight:</h2>
-                    <span className="progress-data">155 lbs</span>
+                    <span className="progress-data">{progressData.goal_weight} lbs</span>
                 </div>
                 <div className="icon-info">
                     <FaUtensils size={45} color={'#1d693d'}/>

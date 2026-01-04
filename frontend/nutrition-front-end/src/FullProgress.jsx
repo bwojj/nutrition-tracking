@@ -1,13 +1,69 @@
 import { createPortal } from "react-dom";
-import { useState } from "react";
+import { Activity, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import './assets/FullProgress.css'
+import LoadingScreen from "./LoadingScreen";
 
-function FullProgress({ isOpen, onClose }){
+function FullProgress({ isOpen, onClose, progressData, refreshData, isLoading }){
 
     const [advanced, setAdvanced] = useState(false);
+ 
+    const [formData, setFormData] = useState({
+        currentWeight: progressData[0].current_weight || 0, 
+        goalWeight: progressData[0].goal_weight || 0, 
+        goal: progressData[0].goal || "", 
+        goalCalories: progressData[0].goal_calories || 0, 
+        goalProtein: progressData[0].goal_protein || 0, 
+        goalCarbs: progressData[0].goal_carbs || 0, 
+        goalFat: progressData[0].goal_fat || 0,
+    });
+
+    function handleChange(event){
+        const { name, value, type} = event.target; 
+
+        const finalType = type === "number" ? parseFloat(value) : value;
+        setFormData(prev => ({
+            ...prev,
+            [name]: finalType, 
+        }))
+
+    }
+
+    const saveProgress = async (progressInfo) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/update-progress/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(progressInfo),
+            });
+            
+            if(response.ok) {
+                const result = await response.json();
+                console.log("Saved", result);
+            } else {
+                console.log("Server Error", response.statusText);
+            }
+        } catch(error){
+            console.log('Network Error', error); 
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+        await saveProgress(formData);
+        await refreshData();
+
+        onClose();
+    }
 
     if (!isOpen) return null; 
+
+    if (isLoading) {
+        return <LoadingScreen/>
+    }
 
     return createPortal(
         <div className="full-screen-overlay" onClick={onClose}>
@@ -16,21 +72,21 @@ function FullProgress({ isOpen, onClose }){
                 <div className="progress-input">
                     <div className="label-input">
                         <label for="currentWeight">Current Weight</label>
-                        <input id="currentWeight" type="number"/>
+                        <input onChange={handleChange} name="currentWeight" id="currentWeight" type="number"/>
                     </div>
                     <div className="label-input">
                         <label for="goalWeight">Goal Weight</label>
-                        <input id="goalWeight" type="number"/>
+                        <input onChange={handleChange} name="goalWeight" id="goalWeight" type="number"/>
                     </div>
                     <div className="label-input">
                         <label for="goal">Goal</label>
-                        <select id="goal">
+                        <select onChange={handleChange} name="goal" id="goal">
             
                         </select>
                     </div>
                     <div className="label-input">
                         <label for="actiivty">Activity</label>
-                        <select id="activity">
+                        <select onChange={handleChange} name="activity" id="activity">
 
                         </select>
                     </div>
@@ -57,20 +113,20 @@ function FullProgress({ isOpen, onClose }){
                             transition={{ duration: 0.4, ease: "easeInOut" }}
                     >  
                         <div className="advanced-label-input">
-                            <label for="advanced-cals">Calories</label>
-                            <input type="number" id="advanced-cals"/>
+                            <label for="goalCalories">Calories</label>
+                            <input onChange={handleChange} type="number" name="goalCalories" id="goalCalories"/>
                         </div>
                         <div className="advanced-label-input">
-                            <label for="protein-cals">Protein</label>
-                            <input type="number" id="protein"/>
+                            <label for="goalProtein">Protein</label>
+                            <input onChange={handleChange} type="number" name="goalProtein" id="goalProtein"/>
                         </div>
                         <div className="advanced-label-input">
-                            <label for="advanced-carbs">Carbohydrates</label>
-                            <input type="number" id="advanced-carbs"/>
+                            <label for="goalCarbs">Carbohydrates</label>
+                            <input onChange={handleChange} type="number" name="goalCarbs" id="goalCarbs"/>
                         </div>
                         <div className="advanced-label-input">
-                            <label for="advanced-fat">Fat</label>
-                            <input type="number" id="advanced-fat"/>
+                            <label for="goalFat">Fat</label>
+                            <input onChange={handleChange} type="number" name="goalFat" id="goalFat"/>
                         </div>
                     </motion.div>
                 : null}
@@ -80,6 +136,7 @@ function FullProgress({ isOpen, onClose }){
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}      
                     transition={{ duration: 0.4, ease: "easeInOut" }}
+                    onClick={handleSubmit}
                >Save</motion.button>
             </div>
         </div>,

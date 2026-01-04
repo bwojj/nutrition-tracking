@@ -2,7 +2,7 @@ import './assets/AddFoodData.css'
 import { MealsContext } from './Context/Context';
 import { useContext, useState } from 'react';
 
-function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
+function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info, setIsLoading }){
     const { meals } = useContext(MealsContext);
     
 
@@ -27,8 +27,9 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
         }
     };
 
+    console.log(info.meal);
     const [formData, setFormData] = useState({
-        meal_name: "Breakfast",
+        meal_name: info.meal,
         food_name: info.food_name,
         calories: info.calories, 
         protein: info.protein, 
@@ -51,8 +52,8 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
     function handleNumServingsChange(e){
 
         const value = Number(e.target.value);
-        setFormData(f => ({
-            ...f, 
+        setFormData({
+            meal_name: info.meal, 
             food_name: info.food_name,
             calories: (info.calories * value),
             protein: (info.protein * value),
@@ -70,7 +71,7 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
             vitamin_a: (info.vitamin_a * value),
             vitamin_c: (info.vitamin_c * value),
             calcium: (info.calcium * value)
-        }));
+        });
     }
     function handleChange(e){
         const { id, value } = e.target; 
@@ -84,6 +85,7 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info }){
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
+        setIsLoading(true);
         await saveFood(formData);
 
         if (refreshData){

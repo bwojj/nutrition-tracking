@@ -67,15 +67,17 @@ def add_food(request):
 def update_progress(request):
     user_profile = User.objects.first()
 
-    progress_obj, _ = Progress.objects.get_or_create(
+    progress_obj, _ = Progress.objects.update_or_create(
         user=user_profile,
-        goal_calories = 1630,
-        goal_protein =  145,
-        goal_carbs = 150,
-        goal_fat =  55,
-        current_weight = 159,
-        goal_weight = 155,
-        goal = "Weight Loss",
+        defaults={
+            'goal_calories': request.data.get("goalCalories"),
+            'goal_protein': request.data.get("goalProtein"),
+            'goal_carbs': request.data.get("goalCarbs"),
+            'goal_fat': request.data.get("goalFat"),
+            'current_weight': request.data.get("currentWeight"),
+            'goal_weight': request.data.get("goalWeight"),
+            'goal': request.data.get("goal"),
+        }
     )
 
     return Response({"status": "success", "message": f"Added {progress_obj}"})

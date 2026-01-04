@@ -42,7 +42,7 @@ class FoodData(models.Model):
     calcium = models.FloatField()
     
 class Progress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='goals', default=1)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='goals', default=1)
     goal_calories = models.IntegerField()
     goal_protein =  models.IntegerField()
     goal_carbs =  models.IntegerField()
