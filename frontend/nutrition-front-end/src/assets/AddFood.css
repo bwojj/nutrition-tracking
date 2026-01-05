@@ -12,17 +12,17 @@
     overflow: hidden;
 }
 .inner-modal-overlay {
-    position: absolute; /* Relative to the .add-food-container */
+    position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dimming color */
-    z-index: 20; /* Sit above Modal #1 content but below Modal #2 */
-    border-radius: 10px; /* Match the corner radius of Modal #1 */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 20; 
+    border-radius: 10px; 
 }
 .add-food-container{
-    background-color: rgba(0, 0, 0, 0.7); 
+    background: linear-gradient(to right, #1e6b3e, #15492b ,#0d2f1b); 
     position: absolute;
     width: 40%;
     transform: translate(40px, 0%);
@@ -50,48 +50,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 12px;
+    border-radius: 6px;
     width: 90%;
-
     padding: 30px 20px; 
-
     min-height: 100px; 
-    
     cursor: pointer;
-    color: white;
+    color: black;
     box-sizing: border-box;
-
-    background: linear-gradient(
-        180deg, 
-        rgba(255, 255, 255, 0.18) 0%, 
-        rgba(255, 255, 255, 0.05) 50%, 
-        rgba(0, 0, 0, 0.12) 100%
-    ), #1e6b3e;
-    box-shadow: 
-        inset 0 1px 1px rgba(255, 255, 255, 0.45),
-        inset 0 -3px 6px rgba(0, 0, 0, 0.3),
-        0 8px 15px rgba(0, 0, 0, 0.25);
-
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     position: relative;
     overflow: hidden;
+    background-color: white;
+    box-shadow: 0px 0px 2px -5px white;
+    transition: all 0.25s ease;
 }
 .food-items-inner:hover {
-    transform: translateY(-5px) scale(1.02);
-    background: linear-gradient(
-        180deg, 
-        rgba(255, 255, 255, 0.25) 0%, 
-        rgba(255, 255, 255, 0.1) 50%, 
-        rgba(0, 0, 0, 0.05) 100%
-    ), #26854d;
-    
-    box-shadow: 
-        inset 0 1px 2px rgba(255, 255, 255, 0.5),
-        0 20px 35px rgba(0, 0, 0, 0.35);
+    translate: -1px -5px;
+    background-color: rgba(255, 255, 255, 0.75);
 }
 .food-name{
     font-size: 1.25rem;
+    font-weight: bold;
+}
+.food-data, .brand-name{
+    color: gray;
 }
 .data{
     display: flex;
@@ -110,12 +91,24 @@
     font-size: 1.2rem;
 }
 .search{
-    width: 80%; 
+    width: 92%; 
     height: 50px;
-    border-radius: 10px; 
-    padding-left: 10px;
+    border-radius: 6px;
+    border: none; 
+    padding-left: 35px;
     font-size: 22px;
     margin-bottom: 10px;
+}
+.add-food-container input:focus{
+    outline: none; 
+    color: black;
+}
+.search-icon {
+  position: absolute;
+  right: 92%;
+  margin-bottom: 12px;
+  color: #666;
+  pointer-events: none; 
 }
 .add-food-header{
     width: 100%;
@@ -126,6 +119,7 @@
 .add-food-title{
     flex: 1;
     text-align: center;
+    color: white;
 }
 .x-wrapper{ 
     text-align: right;
@@ -140,6 +134,7 @@
     height: 80px;
     font-size: 4rem; 
     cursor: pointer;
+    color: white;
     transform: scale(1.5);
     
 }
@@ -165,19 +160,6 @@
     font-weight: 600;
     position: relative;
     overflow: hidden;
-    transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
-
-    background: linear-gradient(
-        180deg, 
-        rgba(255, 255, 255, 0.2) 0%, 
-        rgba(255, 255, 255, 0.05) 50%, 
-        rgba(0, 0, 0, 0.1) 100%
-    ), #1e6b3e;
-
-    box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.4), 
-        inset 0 -2px 0 rgba(0, 0, 0, 0.2),      
-        0 4px 8px rgba(0, 0, 0, 0.3);          
 }
 
 .searchBTN:hover {
@@ -189,10 +171,7 @@
 }
 
 .searchBTN:active {
-    transform: translateY(1px);
-    box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.3),    
-        0 2px 4px rgba(0, 0, 0, 0.2);
+    translate: 1px -1px;
     background: #195a34;
 }
 .name{
@@ -254,5 +233,15 @@
 @media (max-width: 800px){
     .add-food-title{
         font-size: 1.25rem;
+    }
+}
+@media (max-width: 600px){
+    .search-icon{
+        right: 90%;
+    }
+}
+@media (max-width: 330px){
+    .search-icon{
+        right: 88%;
     }
 }

@@ -3,6 +3,7 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Search } from 'lucide-react';
 
 function AddFood({ meal, setIsLoading, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData, searchFoods}){
 
@@ -84,6 +85,12 @@ function AddFood({ meal, setIsLoading, isOpen, onClose, onDataOpen, isDataModalO
         food.name.toLowerCase().includes(search.toLowerCase())
     ));
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     async function handleSearch(){
         if(search.length <= 0){
             setApiFoods([]);
@@ -155,8 +162,8 @@ function AddFood({ meal, setIsLoading, isOpen, onClose, onDataOpen, isDataModalO
                     </div>
                 </div>
                 <div className="searchBox">
-                    <input className="search" onChange={handleChange} placeholder="Search Foods"/>
-                    <button className="searchBTN" onClick={handleSearch}>Search</button>
+                    <Search className="search-icon" size={20} />
+                    <input className="search" onKeyDown={handleKeyDown} onChange={handleChange} placeholder="Search Foods"/>
                 </div>
                 <div className="foods">
                     <AnimatePresence>
