@@ -10,6 +10,12 @@
     padding: 50px 0px;
     position: relative;
 }
+#selected-date{
+    width: 11%;
+    border: none;
+    margin-bottom: -30px;
+    font-size: 1.75rem; 
+}
 .top-main{
     display: flex;
     gap: 35px;

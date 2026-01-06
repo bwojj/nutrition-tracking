@@ -48,9 +48,11 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.full-progress-box input:focus, .label-input select:focus{
-    outline: none; 
+.full-progress-box input:focus, .full-progress-box:focus{
     color: white;
+}
+input:focus, select:focus{
+    outline: none; 
 }
 #saveBtn{
     width: 64%;

@@ -18,12 +18,17 @@ function MainBox(){
 
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+
+    const [daysData, setDaysData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const today = new Date().toISOString().split('T')[0]; 
 
     const refreshData = async () => {
         setIsLoading(true);
         try{
-            const response = await fetch("http://127.0.0.1:8000/api/food-data/");
+            const response = await fetch(`http://127.0.0.1:8000/api/food-data/?date=${selectedDate}`);
             if(response.ok){
                 const data = await response.json();
                 setFoodData(data);
@@ -52,8 +57,6 @@ function MainBox(){
             setIsLoading(false);
         }
     };
-    useEffect(() => { refreshData(); }, []);
-
     const getProgress = async () => {
         setIsLoading(true);
         try {
@@ -67,10 +70,26 @@ function MainBox(){
         } finally {
             setIsLoading(false); 
         }
+    };
+
+    const getDays = async () => {
+        setIsLoading(true);
+        try {
+            const response = await fetch("http://127.0.0.1:8000/api/days/")
+            if (response.ok){
+                const data = await response.json(); 
+                setDaysData(data);
+            } 
+        } catch(error){
+            console.log('Failed to fetch', error)
+        } finally{
+            setIsLoading(false);
+        }
     }
 
+    useEffect(() => { refreshData(); }, [selectedDate]);
     useEffect(() => { getProgress(); }, []);
-
+    useEffect(() => { getDays(); }, []);
     
     const searchFoods = async (query) => {
 
@@ -144,10 +163,16 @@ function MainBox(){
     }
     return(
         <div className="main">
+            <select id="selected-date" onChange={(event) => setSelectedDate(event.target.value)}
+                style={{width: today === selectedDate ? '7%' : '11%'}}>
+                {daysData.map((element) => (
+                    <option value={element.date}>{element.date === today ? 'Today' : element.date}</option>
+                ))}; 
+            </select>
             <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
                 onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
-                setMeal={setMeal} meal={meal} searchFoods={searchFoods} setIsLoading={setIsLoading}/>
+                setMeal={setMeal} meal={meal} searchFoods={searchFoods} setIsLoading={setIsLoading} date={selectedDate}/>
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isLoading={isLoading} refreshData={getProgress} progressData={progressData} isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)}/>
             <div className="top-main">

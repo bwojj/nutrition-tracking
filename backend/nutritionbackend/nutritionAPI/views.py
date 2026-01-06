@@ -17,8 +17,16 @@ class MealView(viewsets.ModelViewSet):
     serializer_class = MealSerializer
 
 class FoodDataView(viewsets.ModelViewSet):
-    queryset = FoodData.objects.all()
     serializer_class = FoodDataSerializer
+
+    def get_queryset(self):
+        queryset = FoodData.objects.all()
+        date_param = self.request.query_params.get('date')
+        
+        if date_param:
+            queryset = queryset.filter(meal__date__date=date_param)
+            
+        return queryset
 
 class ProgressView(viewsets.ModelViewSet):
     queryset = Progress.objects.all()
@@ -27,12 +35,14 @@ class ProgressView(viewsets.ModelViewSet):
 @api_view(['POST'])
 def add_food(request): 
 
-    today = date.today()
+    date_str = request.data.get('date')
+
+    target_date = date_str if date_str else date.today()
     user_profile = User.objects.first()
 
     day_obj, _ = Day.objects.get_or_create(
         user=user_profile,
-        date=today
+        date=target_date,
     )
 
     meal_obj, _ = Meal.objects.get_or_create(

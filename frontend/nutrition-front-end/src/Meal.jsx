@@ -1,4 +1,6 @@
 import './assets/Meal.css'
+import { HiOutlineInformationCircle } from "react-icons/hi";
+import { LuTrash2 } from "react-icons/lu";
 
 function Meal(props){
     const totalCalculate = (name) => {
@@ -30,7 +32,7 @@ function Meal(props){
             {props.foodData && props.foodData.length > 0 ? (
                 props.foodData.map((element) => (
                 element.meal === props.mealName ? (
-                        <div onClick={() => props.onDelete(element.id)} key={element.id} className="food">
+                        <div key={element.id} className="food">
                             <h3 className="food-name">{element.food_name}</h3>
                             <div className="meal-food-info">
                                 <span className="food-value">{element.calories}Cals</span>
@@ -38,8 +40,9 @@ function Meal(props){
                                 <span className="food-value">{element.carbs}C</span> 
                                 <span className="food-value">{element.fat}F</span>  
                             </div>
-                            <div className="food-hover" style={{ opacity: 1}}>
-
+                            <div className="food-hover">
+                                <HiOutlineInformationCircle className="info-icon" size={30} color="blue" />
+                                <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => props.onDelete(element.id)} />
                             </div>
                         </div>
                 ) : null

@@ -2,13 +2,13 @@ import './assets/AddFoodData.css'
 import { MealsContext } from './Context/Context';
 import { useContext, useState } from 'react';
 
-function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info, setIsLoading }){
+function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info, setIsLoading, date }){
     const { meals } = useContext(MealsContext);
     
 
     const saveFood = async (foodData) => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/add-food/", {
+            const response = await fetch(`http://127.0.0.1:8000/api/add-food/?date=${date}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
