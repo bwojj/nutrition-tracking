@@ -1,44 +1,75 @@
-from datetime import date
+from datetime import date, timedelta
 from rest_framework import viewsets 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Day, Meal, FoodData, Progress
+from rest_framework import generics
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
-from .serializers import DaySerializer, MealSerializer, FoodDataSerializer, ProgressSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+from .serializers import DaySerializer, MealSerializer, FoodDataSerializer, ProgressSerializer, RegisterSerializer
 
 # Create your views here.
 
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer 
+
 class DayView(viewsets.ModelViewSet):
-    queryset = Day.objects.all()
     serializer_class = DaySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Day.objects.filter(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+        user_profile = request.user
+        today = date.today()
+
+        for i in range(8):
+            future_date = today + timedelta(days=i)
+            Day.objects.get_or_create(user=user_profile, date=future_date)
+
+        return super().list(request, *args, **kwargs)
 
 class MealView(viewsets.ModelViewSet):
-    queryset = Meal.objects.all()
     serializer_class = MealSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Meal.objects.filter(day__user=self.request.user)
 
 class FoodDataView(viewsets.ModelViewSet):
     serializer_class = FoodDataSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        queryset = FoodData.objects.all()
+        print("=== REQUEST USER ===", self.request.user, self.request.user.is_authenticated)
+        queryset = FoodData.objects.filter(meal__date__user=self.request.user)
         date_param = self.request.query_params.get('date')
-        
         if date_param:
             queryset = queryset.filter(meal__date__date=date_param)
-            
         return queryset
 
 class ProgressView(viewsets.ModelViewSet):
-    queryset = Progress.objects.all()
     serializer_class = ProgressSerializer
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return Progress.objects.filter(user=self.request.user)
+
+@csrf_exempt
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def add_food(request): 
 
     date_str = request.data.get('date')
 
     target_date = date_str if date_str else date.today()
-    user_profile = User.objects.first()
+    user_profile = request.user
 
     day_obj, _ = Day.objects.get_or_create(
         user=user_profile,
@@ -73,9 +104,11 @@ def add_food(request):
 
     return Response({"status": "success", "message": f"Added {food.food_name} to {meal_obj.meal_name}"})
 
+@csrf_exempt
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def update_progress(request):
-    user_profile = User.objects.first()
+    user_profile = request.user
 
     progress_obj, _ = Progress.objects.update_or_create(
         user=user_profile,

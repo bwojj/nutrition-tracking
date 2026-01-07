@@ -3,7 +3,7 @@ import './assets/Header.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 
-function Header(){
+function Header({ setIsMicroModalOpen, setIsProgressModalOpen }){
 
     const [animate, setAnimate] = useState(false); 
 
@@ -25,8 +25,8 @@ function Header(){
                 <div className={`menu ${animate ? 'active' : ''}`}>
                     <h2 className="menu-title">Menu</h2>
                     <ul className="menu-list">
-                        <li className="menu-item">Micronutrients</li>
-                        <li className="menu-item">Progress</li>
+                        <li onClick={() => setIsMicroModalOpen(true)} className="menu-item">Micronutrients</li>
+                        <li onClick={() => setIsProgressModalOpen(true)} className="menu-item">Progress</li>
                     </ul>
                 </div>
             </div>

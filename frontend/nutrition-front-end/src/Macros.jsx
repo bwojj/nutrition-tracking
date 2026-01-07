@@ -32,6 +32,7 @@ function Macro(props){
                     const safePrev = isNaN(prev) ? 0 : prev;
                     if(safePrev > targetProgress){
                         const prevValue = safePrev - 1; 
+                        
                         setOffset(circumfrence - (circumfrence * prevValue) / 100);
                         return prevValue; 
                     }
@@ -49,7 +50,8 @@ function Macro(props){
 
                 const nextValue = prev + 1; 
 
-                setOffset(circumfrence - (circumfrence * nextValue) / 100);
+                const clampedValueForCircle = Math.min(nextValue, 100);
+                setOffset(circumfrence - (circumfrence * clampedValueForCircle) / 100);
 
                 return nextValue; 
             })

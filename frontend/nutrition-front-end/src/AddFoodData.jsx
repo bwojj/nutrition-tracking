@@ -8,12 +8,16 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info, setIsLo
 
     const saveFood = async (foodData) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/add-food/?date=${date}`, {
+            const payload = {
+                ...foodData, 
+                date: date, 
+            }
+            const response = await fetch(`http://127.0.0.1:8000/api/add-food/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(foodData),
+                body: JSON.stringify(payload),
             });
             
             if(response.ok) {

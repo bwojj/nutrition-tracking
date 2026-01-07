@@ -9,11 +9,9 @@ import FullProgress from './FullProgress';
 import { useState, useEffect } from 'react';
 import LoadingScreen from './LoadingScreen';
 
-function MainBox(){
+function MainBox({ isMicroModalOpen, isProgressModalOpen, setIsMicroModalOpen, setIsProgressModalOpen}){
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
-    const [isMicroModalOpen, setIsMicroModalOpen] = useState(false);
-    const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
     const [meal, setMeal] = useState("");
 
     const [foodData, setFoodData] = useState([]);
@@ -25,10 +23,19 @@ function MainBox(){
 
     const today = new Date().toISOString().split('T')[0]; 
 
+
     const refreshData = async () => {
         setIsLoading(true);
+        const token = localStorage.getItem('access_token');
         try{
-            const response = await fetch(`http://127.0.0.1:8000/api/food-data/?date=${selectedDate}`);
+            const response = await fetch(`http://127.0.0.1:8000/api/food-data/?date=${selectedDate}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                method: "GET"
+            });
             if(response.ok){
                 const data = await response.json();
                 setFoodData(data);
@@ -41,8 +48,12 @@ function MainBox(){
     }
     const deleteFood = async (id) => {
         setIsLoading(true);
+        const token = localStorage.getItem('access_token');
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/food-data/${id}/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 method: 'DELETE',
             });
 
@@ -58,9 +69,14 @@ function MainBox(){
         }
     };
     const getProgress = async () => {
+        const token = localStorage.getItem('access_token');
         setIsLoading(true);
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/progress/');
+            const response = await fetch('http://127.0.0.1:8000/api/progress/', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             if (response.ok){
                 const data = await response.json();
                 setProgressData(data); 
@@ -71,11 +87,16 @@ function MainBox(){
             setIsLoading(false); 
         }
     };
-
+    console.log(localStorage.getItem('access_token')); 
     const getDays = async () => {
+        const token = localStorage.getItem('access_token');
         setIsLoading(true);
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/days/")
+            const response = await fetch("http://127.0.0.1:8000/api/days/", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             if (response.ok){
                 const data = await response.json(); 
                 setDaysData(data);
@@ -157,16 +178,14 @@ function MainBox(){
         }
 
     }
-
     if (isLoading) {
         return <LoadingScreen/>
     }
     return(
         <div className="main">
-            <select id="selected-date" onChange={(event) => setSelectedDate(event.target.value)}
-                style={{width: today === selectedDate ? '7%' : '11%'}}>
+            <select value={selectedDate} id="selected-date" className={selectedDate === today ? 'today' : ''}onChange={(event) => setSelectedDate(event.target.value)}>
                 {daysData.map((element) => (
-                    <option value={element.date}>{element.date === today ? 'Today' : element.date}</option>
+                    <option className="option" value={element.date}>{element.date === today ? 'Today' : element.date}</option>
                 ))}; 
             </select>
             <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}

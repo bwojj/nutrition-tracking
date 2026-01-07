@@ -77,6 +77,11 @@
   color: white;
   margin-left: -20px;
 }
+.menu-item:hover{
+  translate: 0px -1px; 
+  cursor: pointer;
+  transition: all 0.5s ease; 
+}
 .menu {
   width: 12%;
   height: 100vh;
