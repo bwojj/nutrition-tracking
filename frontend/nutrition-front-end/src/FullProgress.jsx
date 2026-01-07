@@ -37,7 +37,6 @@ function FullProgress({ isOpen, onClose, progressData, refreshData, isLoading })
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    authorization: `Bearer ${token}`, 
                 },
                 body: JSON.stringify(progressInfo),
             });

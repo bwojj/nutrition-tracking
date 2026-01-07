@@ -26,16 +26,8 @@ function MainBox({ isMicroModalOpen, isProgressModalOpen, setIsMicroModalOpen, s
 
     const refreshData = async () => {
         setIsLoading(true);
-        const token = localStorage.getItem('access_token');
         try{
-            const response = await fetch(`http://127.0.0.1:8000/api/food-data/?date=${selectedDate}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                method: "GET"
-            });
+            const response = await fetch(`http://127.0.0.1:8000/api/food-data/?date=${selectedDate}`);
             if(response.ok){
                 const data = await response.json();
                 setFoodData(data);
@@ -48,12 +40,8 @@ function MainBox({ isMicroModalOpen, isProgressModalOpen, setIsMicroModalOpen, s
     }
     const deleteFood = async (id) => {
         setIsLoading(true);
-        const token = localStorage.getItem('access_token');
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/food-data/${id}/`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
                 method: 'DELETE',
             });
 
@@ -69,14 +57,9 @@ function MainBox({ isMicroModalOpen, isProgressModalOpen, setIsMicroModalOpen, s
         }
     };
     const getProgress = async () => {
-        const token = localStorage.getItem('access_token');
         setIsLoading(true);
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/progress/', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await fetch('http://127.0.0.1:8000/api/progress/');
             if (response.ok){
                 const data = await response.json();
                 setProgressData(data); 
@@ -87,16 +70,10 @@ function MainBox({ isMicroModalOpen, isProgressModalOpen, setIsMicroModalOpen, s
             setIsLoading(false); 
         }
     };
-    console.log(localStorage.getItem('access_token')); 
     const getDays = async () => {
-        const token = localStorage.getItem('access_token');
         setIsLoading(true);
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/days/", {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            const response = await fetch("http://127.0.0.1:8000/api/days/")
             if (response.ok){
                 const data = await response.json(); 
                 setDaysData(data);

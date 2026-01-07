@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "corsheaders", 
-    'rest_framework_simplejwt',
-    "nutritionAPI",
+    "nutritionAPI"
 ]
 
 MIDDLEWARE = [
@@ -57,10 +55,6 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-]
-
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "Authorization",
 ]
 
 ROOT_URLCONF = 'nutritionbackend.urls'
@@ -95,21 +89,6 @@ DATABASES = {
         'HOST': 'nutrition-django-db.cb02gawqoanw.us-east-2.rds.amazonaws.com',
         'PORT': '5432',
     }
-}
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-}
-
-
-
-from datetime import timedelta
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer',)
 }
 
 

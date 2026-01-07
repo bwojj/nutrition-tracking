@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Day(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='days')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='days', default=1)
     date = models.DateField()
 
     class Meta:
@@ -13,11 +13,12 @@ class Day(models.Model):
         ]
 
 class Meal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meals', default=1)
     date = models.ForeignKey(Day, on_delete=models.CASCADE, related_name="meals")
     meal_name = models.CharField(max_length=64)
 
     class Meta:
-        unique_together = ('date', 'meal_name')
+        unique_together = ('user', 'date', 'meal_name')
 
 
 class FoodData(models.Model):
@@ -49,4 +50,3 @@ class Progress(models.Model):
     current_weight = models.FloatField()
     goal_weight = models.FloatField()
     goal = models.CharField(max_length=64)
-
