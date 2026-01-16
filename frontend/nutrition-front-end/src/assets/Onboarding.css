@@ -1,0 +1,94 @@
+/* Unique wrapper to isolate styles */
+.onboarding-scope-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0f172a;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.onboarding-scope-card {
+  background-color: #1e293b;
+  color: #f8fafc;
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid #334155;
+}
+
+.onboarding-scope-title {
+  margin: 0 0 24px 0;
+  color: #38bdf8;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.onboarding-scope-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboarding-scope-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #94a3b8;
+}
+
+.onboarding-scope-input {
+  padding: 12px;
+  background-color: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.onboarding-scope-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+  outline: none;
+}
+
+.onboarding-scope-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.onboarding-scope-macro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.onboarding-scope-divider {
+  height: 1px;
+  background-color: #334155;
+  margin: 24px 0;
+}
+
+.onboarding-scope-submit-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.onboarding-scope-submit-btn:hover {
+  background-color: #0ea5e9;
+}

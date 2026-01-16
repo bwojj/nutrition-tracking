@@ -1,12 +1,10 @@
 import { createPortal } from "react-dom";
-import { Activity, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import './assets/FullProgress.css'
 import LoadingScreen from "./LoadingScreen";
 
 function FullProgress({ isOpen, onClose, progressData, refreshData, isLoading }){
-
-    const token = localStorage.getItem('access_token');
 
     const [advanced, setAdvanced] = useState(false);
  
@@ -19,6 +17,19 @@ function FullProgress({ isOpen, onClose, progressData, refreshData, isLoading })
         goalCarbs: progressData[0].goal_carbs || 0, 
         goalFat: progressData[0].goal_fat || 0,
     });
+
+    useEffect(() => {
+        const data = progressData[0];
+        setFormData({
+            currentWeight: data.current_weight,
+            goalWeight: data.goal_weight, 
+            goal: data.goal, 
+            goalCalories: data.goal_calories, 
+            goalProtein: data.goal_protein, 
+            goalCarbs: data.goal_carbs, 
+            goalFat: data.goal_fat, 
+        })
+    }, [progressData])
 
     function handleChange(event){
         const { name, value, type} = event.target; 

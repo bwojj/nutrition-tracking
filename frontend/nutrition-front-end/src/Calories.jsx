@@ -3,8 +3,9 @@ import Macro from './Macros';
 import LoadingScreen from './LoadingScreen';
 import { useEffect, useState } from 'react';
 
-function Calories({ foodData, progressData }) {
+function Calories({ foodData, progressData, isLoading }) {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -80,8 +81,9 @@ function Calories({ foodData, progressData }) {
         return currentMacros; 
     }
 
-    
-
+    if (isLoading || progressData.length < 0) {
+        return <LoadingScreen/>
+    }
     return (
         <>
             <div className="calories">

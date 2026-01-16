@@ -3,9 +3,27 @@ import './assets/Header.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 
-function Header({ setIsMicroModalOpen, setIsProgressModalOpen }){
+function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn }){
 
     const [animate, setAnimate] = useState(false); 
+
+    const logout = async () => {
+        try{
+            const response = await fetch('http://localhost:8000/logout/', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+            if(response.ok){
+                setIsLoggedIn(false);
+            }
+
+        } catch(error){
+            console.log("Failed", error);
+        }
+    }
 
     const handleAnimation = () => {
         setAnimate(prev => !prev); 
@@ -27,6 +45,7 @@ function Header({ setIsMicroModalOpen, setIsProgressModalOpen }){
                     <ul className="menu-list">
                         <li onClick={() => setIsMicroModalOpen(true)} className="menu-item">Micronutrients</li>
                         <li onClick={() => setIsProgressModalOpen(true)} className="menu-item">Progress</li>
+                        <li onClick={logout} className="menu-item">Log-Out</li>
                     </ul>
                 </div>
             </div>
