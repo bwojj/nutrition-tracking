@@ -1,136 +1,53 @@
+import './assets/MainBox.css';
 import AddFood from './AddFood';
-import './assets/MainBox.css'
 import Calories from './Calories';
 import Meals from './Meals';
 import Micronutrients from './Micronutrients';
 import Progress from './Progress';
 import FullMicronutrients from './FullMicronutrients';
 import FullProgress from './FullProgress';
-import Login from './Login';
-import { useState, useEffect } from 'react';
 import LoadingScreen from './LoadingScreen';
+import { useState, useEffect } from 'react';
+import { getFoodData } from './api/mealApi';
+import { getDays, getProgress } from './api/userApi';
 
-function MainBox({ isLoggedIn, isMicroModalOpen, isProgressModalOpen, setIsMicroModalOpen, setIsProgressModalOpen}){
+function MainBox({ isLoggedIn, isMicroModalOpen, setIsMicroModalOpen, isProgressModalOpen, setIsProgressModalOpen}){
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
     const [meal, setMeal] = useState("");
-
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-
     const [daysData, setDaysData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const today = new Date().toISOString().split('T')[0]; 
 
-    const refresh = async () => {
-        const response = await fetch('http://localhost:8000/token/refresh/', {
-            credentials: 'include',
-            method: "POST",
-        }); 
-        return response; 
-    }
-
-    const refreshData = async () => {
-        setIsLoading(true);
-        try{
-            const response = await fetch(`http://localhost:8000/api/food-data/?date=${selectedDate}`, { 
-                credentials: 'include',
-            });
-            if (response.status === 401){
-                const refreshResponse = refresh();
-                if(refreshResponse.ok){
-                    const response = await fetch(`http://localhost:8000/api/food-data/?date=${selectedDate}`, { 
-                        credentials: 'include',
-                    });
-                    if(response.ok){
-                        const data = await response.json();
-                        setFoodData(data);
-                        window.location.reload();
-                    }
-                }
-            }
-            if(response.ok){
-                const data = await response.json();
-                setFoodData(data);
-            } 
-        } catch(error){
-            console.log("Failed to fetch", error)
-        } finally {
-            setIsLoading(false); 
-        }
-    }
-    const deleteFood = async (id) => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(`http://localhost:8000/api/food-data/${id}/`, {
-                method: 'DELETE',
-                credentials: 'include',
-            });
-            if(response.status === 401){
-                const refreshResponse = refresh();
-                if(refreshResponse.ok){
-                    const response = await fetch(`http://localhost:8000/api/food-data/${id}/`, {
-                            method: 'DELETE',
-                            credentials: 'include',
-                        }); 
-                    if (response.ok) {
-                        setFoodData(prevData => prevData.filter(food => food.id !== id));
-                    } else {
-                        console.error("Failed to delete item");
-                    }
-                }
-            }
-            if (response.ok) {
-                setFoodData(prevData => prevData.filter(food => food.id !== id));
-            } else {
-                console.error("Failed to delete item");
-            }
-        } catch (error) {
-            console.error("Error deleting food:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-    const getProgress = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch('http://localhost:8000/api/progress/', {
-                credentials: 'include',
-            });
-            if (response.ok){
-                const data = await response.json();
-                setProgressData(data); 
-            }
-        } catch(error) {
-            console.log('Failed to Fetch', error)
-        } finally {
-            setIsLoading(false); 
-        }
-    };
-    const getDays = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch("http://localhost:8000/api/days/", {
-                credentials: 'include',
-            })
-            if (response.ok){
-                const data = await response.json(); 
-                setDaysData(data);
-            } 
-        } catch(error){
-            console.log("Failed", error); 
-        } finally{
-            setIsLoading(false);
-        }
-    }
-
     useEffect(() => {
     if (isLoggedIn) {
-        refreshData();
-        getDays();
-        getProgress();
+        setIsLoading(true);
+        const getRefresh = async () => {
+            const dataResponse = await getFoodData(selectedDate);
+            if(dataResponse){
+                setFoodData(dataResponse); 
+            }
+        }
+        const userProgress = async () => {
+            const progressResponse = await getProgress();
+            if(progressResponse){
+                setProgressData(progressResponse);
+            }
+        }
+        const userDays = async () => {
+            const dayResponse = await getDays();
+            if(dayResponse){
+                setDaysData(dayResponse); 
+            }
+        }
+        userDays();
+        userProgress();
+        getRefresh();
+        setIsLoading(false);
     }
 }, [isLoggedIn, selectedDate]);
     
@@ -200,7 +117,8 @@ function MainBox({ isLoggedIn, isMicroModalOpen, isProgressModalOpen, setIsMicro
         }
 
     }
-    if (isLoading || !progressData?.length) {
+
+    if(isLoading || !progressData?.length){
         return <LoadingScreen/>
     }
     return(
@@ -212,17 +130,19 @@ function MainBox({ isLoggedIn, isMicroModalOpen, isProgressModalOpen, setIsMicro
             </select>
             <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
-                onDataClose={() => setIsDataModalOpen(false)} refreshData={refreshData}
+                onDataClose={() => setIsDataModalOpen(false)} refreshData={getFoodData}
                 setMeal={setMeal} meal={meal} searchFoods={searchFoods} setIsLoading={setIsLoading} date={selectedDate}/>
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
+            <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)} progressData={progressData}/>
+            
             
             <div className="top-main">
-                <Calories foodData={foodData} progressData={progressData} isLoading={isLoading}/>
-                <Meals onDelete={deleteFood} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
+                {progressData.length > 0 ? <Calories foodData={foodData} progressData={progressData} isLoading={isLoading}/> : null }
+                <Meals setFoodData={setFoodData} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
             </div>
             <div className="bottom-main">
                 <Micronutrients foodData={foodData} onOpen={() => setIsMicroModalOpen(true)}/>
-                <Progress progressData={progressData[0]} onOpen={() => setIsProgressModalOpen(true)}/>
+                {progressData.length > 0 ? <Progress progressData={progressData[0]} onOpen={() => setIsProgressModalOpen(true)}/> : null}
             </div>
         </div>
     );

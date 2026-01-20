@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search } from 'lucide-react';
 
-function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, refreshData, searchFoods}){
+function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoods}){
 
     const [apiFoods, setApiFoods] = useState([]);
 
@@ -196,7 +196,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
                             ))}
                         </AnimatePresence>
                 </div>
-                <AddFoodData date={date} setIsLoading={setIsLoading} info={dataSent} onModalClose={onClose} refreshData={refreshData} isOpen={isDataModalOpen} onClose={onDataClose}/>
+                <AddFoodData date={date} selectedDate={selectedDate} setIsLoading={setIsLoading} info={dataSent} onModalClose={onClose} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
         </div>,
         document.body

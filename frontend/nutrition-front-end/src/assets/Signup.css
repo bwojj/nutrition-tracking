@@ -27,20 +27,20 @@
     margin-bottom: 5px;
 }
 
-.label-input {
+.signup-label-input {
     display: flex;
     flex-direction: column;
     gap: 5px;
     width: 100%;
 }
 
-.label-input label {
+.signup-label-input label {
     font-weight: 600;
     color: #333;
     font-size: 0.9rem;
 }
 
-.label-input input {
+.signup-label-input input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;

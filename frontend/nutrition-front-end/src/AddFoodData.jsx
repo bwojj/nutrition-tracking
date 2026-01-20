@@ -1,38 +1,11 @@
 import './assets/AddFoodData.css'
 import { MealsContext } from './Context/Context';
 import { useContext, useState } from 'react';
+import { saveFood } from './api/mealApi';
 
-function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info, setIsLoading, date }){
+function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date}){
     const { meals } = useContext(MealsContext);
-    
 
-    const saveFood = async (foodData) => {
-        try {
-            const payload = {
-                ...foodData, 
-                date: date, 
-            }
-            const response = await fetch(`http://localhost:8000/api/add-food/`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-            
-            if(response.ok) {
-                const result = await response.json();
-                console.log("Saved", result);
-            } else {
-                console.log("Server Error", response.statusText);
-            }
-        } catch(error){
-            console.log('Network Error', error); 
-        }
-    };
-
-    console.log(info.meal);
     const [formData, setFormData] = useState({
         meal_name: info.meal,
         food_name: info.food_name,
@@ -86,16 +59,11 @@ function AddFoodData({ refreshData, isOpen, onClose, onModalClose, info, setIsLo
             [id]: value
         })
     }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
         setIsLoading(true);
-        await saveFood(formData);
-
-        if (refreshData){
-            await refreshData();
-        }
+        await saveFood(formData, date);
+        window.location.reload();
         onClose();
         onModalClose();
     }

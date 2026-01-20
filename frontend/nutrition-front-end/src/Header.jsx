@@ -3,9 +3,11 @@ import './assets/Header.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 
-function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn }){
+function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn, username }){
 
     const [animate, setAnimate] = useState(false); 
+
+    
 
     const logout = async () => {
         try{
@@ -46,6 +48,8 @@ function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn }){
                         <li onClick={() => setIsMicroModalOpen(true)} className="menu-item">Micronutrients</li>
                         <li onClick={() => setIsProgressModalOpen(true)} className="menu-item">Progress</li>
                         <li onClick={logout} className="menu-item">Log-Out</li>
+                        <li></li>
+                        <li className="menu-item">Signed in as: <span style={{fontWeight: 'bold', marginLeft: 5}}>{username}</span></li>
                     </ul>
                 </div>
             </div>

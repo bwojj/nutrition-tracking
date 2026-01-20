@@ -1,26 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './assets/Onboarding.css';
+import LoadingScreen from './LoadingScreen';
 
-const Onboarding = () => {
-  const [formData, setFormData] = useState({
-    goal_calories: '',
-    goal_protein: '',
-    goal_carbs: '',
-    goal_fat: '',
-    current_weight: '',
-    goal_weight: '',
-    goal: 'Weight Loss'
-  });
+const Onboarding = ({ setIsLoggedIn }) => {
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [])
+
+   const [formData, setFormData] = useState({
+        currentWeight: 0, 
+        goalWeight: 0, 
+        goal: "Weight Loss", 
+        goalCalories: 0, 
+        goalProtein: 0, 
+        goalCarbs: 0, 
+        goalFat: 0,
+    });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    await progress(formData); 
+    setIsLoggedIn(true);
     console.log('Submitted Onboarding Data:', formData);
+    navigate('/');
   };
+
+  const progress = async (formData) => {
+    try{
+      const response = await fetch('http://localhost:8000/api/update-progress/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(formData), 
+      })
+      if(response.ok){
+        const data = await response.json();
+        console.log("Success", data); 
+      }
+    } catch(error){
+      console.log("Failed to post", error);
+    }
+  }
+  if(isLoading){
+    return <LoadingScreen/>;
+  }
 
   return (
     <div className="onboarding-scope-wrapper">
@@ -48,7 +84,7 @@ const Onboarding = () => {
               <input 
                 className="onboarding-scope-input"
                 type="number" 
-                name="current_weight" 
+                name="currentWeight" 
                 placeholder="175.0" 
                 onChange={handleChange} 
               />
@@ -58,7 +94,7 @@ const Onboarding = () => {
               <input 
                 className="onboarding-scope-input"
                 type="number" 
-                name="goal_weight" 
+                name="goalWeight" 
                 placeholder="127.0" 
                 onChange={handleChange} 
               />
@@ -72,7 +108,7 @@ const Onboarding = () => {
             <input 
               className="onboarding-scope-input"
               type="number" 
-              name="goal_calories" 
+              name="goalCalories" 
               placeholder="2200" 
               onChange={handleChange} 
             />
@@ -81,15 +117,15 @@ const Onboarding = () => {
           <div className="onboarding-scope-macro-grid">
             <div className="onboarding-scope-group">
               <label className="onboarding-scope-label">Protein (g)</label>
-              <input className="onboarding-scope-input" type="number" name="goal_protein" onChange={handleChange} />
+              <input className="onboarding-scope-input" type="number" name="goalProtein" onChange={handleChange} />
             </div>
             <div className="onboarding-scope-group">
               <label className="onboarding-scope-label">Carbs (g)</label>
-              <input className="onboarding-scope-input" type="number" name="goal_carbs" onChange={handleChange} />
+              <input className="onboarding-scope-input" type="number" name="goalCarbs" onChange={handleChange} />
             </div>
             <div className="onboarding-scope-group">
               <label className="onboarding-scope-label">Fat (g)</label>
-              <input className="onboarding-scope-input" type="number" name="goal_fat" onChange={handleChange} />
+              <input className="onboarding-scope-input" type="number" name="goalFat" onChange={handleChange} />
             </div>
           </div>
 

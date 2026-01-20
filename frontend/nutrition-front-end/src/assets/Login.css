@@ -27,19 +27,19 @@
     margin-bottom: 10px;
 }
 
-.label-input {
+.login-label-input {
     display: flex;
     flex-direction: column;
     gap: 5px;
     width: 100%;
 }
 
-.label-input label {
+.login-label-input label {
     font-weight: 600;
     color: #333;
 }
 
-.label-input input {
+.login-label-input input {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;

@@ -1,10 +1,11 @@
+import './assets/FullProgress.css'
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import './assets/FullProgress.css'
 import LoadingScreen from "./LoadingScreen";
+import { saveProgress } from './api/userApi';
 
-function FullProgress({ isOpen, onClose, progressData, refreshData, isLoading }){
+function FullProgress({ isOpen, onClose, progressData, isLoading }){
 
     const [advanced, setAdvanced] = useState(false);
  
@@ -42,32 +43,12 @@ function FullProgress({ isOpen, onClose, progressData, refreshData, isLoading })
 
     }
 
-    const saveProgress = async (progressInfo) => {
-        try {
-            const response = await fetch("http://127.0.0.1:8000/api/update-progress/", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(progressInfo),
-            });
-            
-            if(response.ok) {
-                const result = await response.json();
-                console.log("Saved", result);
-            } else {
-                console.log("Server Error", response.statusText);
-            }
-        } catch(error){
-            console.log('Network Error', error); 
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
         await saveProgress(formData);
-        await refreshData();
+        window.location.reload();
+        
 
         onClose();
     }

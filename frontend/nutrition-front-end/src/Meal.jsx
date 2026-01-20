@@ -1,13 +1,21 @@
 import './assets/Meal.css'
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { LuTrash2 } from "react-icons/lu";
+import { deleteFood } from './api/mealApi';
 
 function Meal(props){
+
     const totalCalculate = (name) => {
         let total = 0; 
         props.foodData.forEach(value => total += value[name]);
-
         return total;
+    }
+
+    const onDelete = async (id) => {
+        const deleteResponse = await deleteFood(id); 
+        if(deleteResponse === 'Success'){
+            props.setFoodData(prevData => prevData.filter(food => food.id !== id));
+        }
     }
 
     const openAddFoodModal = (name) => {
@@ -42,7 +50,7 @@ function Meal(props){
                             </div>
                             <div className="food-hover">
                                 <HiOutlineInformationCircle className="info-icon" size={30} color="blue" />
-                                <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => props.onDelete(element.id)} />
+                                <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)} />
                             </div>
                         </div>
                 ) : null

@@ -4,7 +4,7 @@
     width: 30%;
     left: 0;
     top: 0;
-    transform: translate(122%, 25%);
+    transform: translate(122%, 15%);
     height: 650px;
     padding-bottom: 15px;
     display: flex;
@@ -28,6 +28,9 @@
     flex-direction: column;
     width: 80%;
     gap: 10px;
+}
+.full-progress-box label{
+    color: white;
 }
 .full-progress-box input{
     height: 35px; 
@@ -105,19 +108,19 @@ input:focus, select:focus{
 @media (max-width: 1015px){
     .full-progress-box{
         width: 50%;
-        transform: translate(50%, 40%);
+        transform: translate(50%, 10%);
     }
 }
 @media (max-width: 650px){
     .full-progress-box{
         width: 70%;
-        transform: translate(21%, 40%);
+        transform: translate(21%, 10%);
     }
 }
 @media (max-width: 430px){
     .full-progress-box{
         width: 90%;
-        transform: translate(6%, 40%);
+        transform: translate(6%, 10%);
     }
     .label-input{
         width: 90%;

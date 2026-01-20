@@ -1,13 +1,14 @@
-import Header from "./Header"
-import MainBox from "./MainBox"
-import Onboarding from "./Onboarding"
+import './assets/index.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { MealsContext } from "./Context/Context"
 import { useState, useEffect } from "react"
-import './assets/index.css'
+import Header from "./Header"
+import MainBox from "./MainBox"
+import Onboarding from "./Onboarding"
 import Auth from "./Auth"
-import { is_authenticated } from "./api"
 import LoadingScreen from "./LoadingScreen"
+import { is_authenticated } from "./api"
+import { getUserData } from "./api/userApi"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
   const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [progressExists, setProgressExists] = useState(false); 
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,27 +42,19 @@ function App() {
   }, []); 
 
   useEffect(() => {
-    localStorage.setItem("isLoggedIn", isLoggedIn);
-    getUserData();
+    async function userData(){
+      localStorage.setItem("isLoggedIn", isLoggedIn);
+      const response = await getUserData();
+      if(response){
+        setUsername(response)
+      }
+    }
+
+    userData();
   }, [isLoggedIn])
 
-  const getUserData = async () => {
-    try{
-      const response = await fetch('http://localhost:8000/api/user/', {
-        credentials: 'include', 
-      })
-      if(response.ok){
-        const data = await response.json();
-        setUsername(data[0].username);
-      }
-    } catch(error){
-      console.log("Failed to fetch", error)
-    }
-  }
-
-  console.log(username);
   if(isLoading){
-    return <LoadingScreen/>;
+    return <LoadingScreen/>
   }
   return (
     <Router>
@@ -68,7 +62,7 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={!isLoggedIn ? <Auth setIsLoggedIn={setIsLoggedIn}/> : <Navigate to="/"/>}
+            element= {<Auth setIsLoggedIn={setIsLoggedIn} setIsLoading={setIsLoading}/>}
           />
           <Route
             path="/"
@@ -76,15 +70,15 @@ function App() {
               <>
               <Header isMicroModalOpen={isMicroModalOpen} setIsMicroModalOpen={setIsMicroModalOpen}
                   isProgressModalOpen={isProgressModalOpen} setIsProgressModalOpen={setIsProgressModalOpen}
-                  setIsLoggedIn={setIsLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn} username={username}
               />
               <MainBox isLoggedIn={isLoggedIn} isMicroModalOpen={isMicroModalOpen} setIsMicroModalOpen={setIsMicroModalOpen}
-                isProgressModalOpen={isProgressModalOpen} setIsProgressModalOpen={setIsProgressModalOpen}
+                isProgressModalOpen={isProgressModalOpen} setIsProgressModalOpen={setIsProgressModalOpen} progressExists={progressExists}
               /></> : <Navigate to="/login"/>}
           />
           <Route
             path="/onboarding"
-            element={<Onboarding/>}
+            element={<Onboarding setProgressExists={setProgressExists} setIsLoggedIn={setIsLoggedIn}/>}
           />
         </Routes>
           
