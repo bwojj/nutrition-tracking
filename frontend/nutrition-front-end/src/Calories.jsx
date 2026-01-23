@@ -1,103 +1,81 @@
-import './assets/Calories.css'
+import './assets/Calories.css';
 import Macro from './Macros';
 import LoadingScreen from './LoadingScreen';
 import { useEffect, useState } from 'react';
 
 function Calories({ foodData, progressData, isLoading }) {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
+    const [percentage, setPercentage] = useState(0);
+    const [isResizing, setIsResizing] = useState(false);
 
     useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-
+        let timeoutId;
+        const handleResize = () => {
+            setIsResizing(true);
+            setWindowWidth(window.innerWidth);
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => setIsResizing(false), 200);
+        };
         window.addEventListener('resize', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize); 
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            clearTimeout(timeoutId);
+        };
     }, []);
 
     const r = windowWidth >= 1471 ? 190 : 130;
     const cx = 200;
     const cy = 210;
-
     const x1 = cx - r;
     const x2 = cx + r;
     const y  = cy;
-
-    let currentCalories = 0; 
-    foodData.forEach(value => {
-        currentCalories += value.calories;
-    })
-    const targetCalories = progressData[0].goal_calories;
-
-
     const circumfrence = Math.PI * r; 
 
-    const [offset, setOffset] = useState(circumfrence); 
-    const [percentage, setPercentage] = useState(0);
+    let currentCalories = 0; 
+    foodData.forEach(value => { currentCalories += value.calories; });
+    const targetCalories = progressData?.[0]?.goal_calories || 2000;
+
+    const currentOffset = circumfrence - (circumfrence * percentage) / 100;
 
     useEffect(() => {
         const targetProgress = Math.round((currentCalories / targetCalories) * 100) || 0;
-
-        if (percentage > targetProgress) {
+        const duration = 1000; 
+        const frameRate = 20;  
+        const totalSteps = duration / frameRate;
+        
         const intervalId = setInterval(() => {
             setPercentage((prev) => {
-                const safePrev = isNaN(prev) ? 0 : prev;
-                if(safePrev > targetProgress){
-                    const prevValue = safePrev - 1; 
-                    setOffset(circumfrence - (circumfrence * prevValue) / 100);
-                    return prevValue; 
-                }
-                clearInterval(intervalId);
-                return targetProgress;
-            });
-        }, 30); 
-        return () => clearInterval(intervalId);
-        }
-
-        const intervalId = setInterval(() => {
-            setPercentage((prev) => {
-                if (prev >= targetProgress){
+                const distance = targetProgress - prev;
+                
+                if (Math.abs(distance) < 1) {
                     clearInterval(intervalId);
-                    return prev;
+                    return targetProgress;
                 }
 
-                const nextValue = prev + 1;
-
-                setOffset(circumfrence - (circumfrence * nextValue) / 100);
-
-                return nextValue;
-            })
-        }, 30);
+                const step = distance / (totalSteps / 2); 
+                return prev + (step > 0 ? Math.ceil(step) : Math.floor(step));
+            });
+        }, frameRate);
 
         return () => clearInterval(intervalId);
-    }, [currentCalories, circumfrence, foodData])
+    }, [currentCalories, targetCalories]);
 
     const macroData = (macroName) => {
         let currentMacros = 0; 
-        foodData.forEach(value => {
-            currentMacros += value[macroName];
-        }); 
-
+        foodData.forEach(value => { currentMacros += value[macroName]; }); 
         return currentMacros; 
+    };
+
+    if (isLoading || !progressData || progressData.length === 0) {
+        return <LoadingScreen />;
     }
 
-    if (isLoading || progressData.length < 0) {
-        return <LoadingScreen/>
-    }
     return (
-        <>
-            <div className="calories">
-                <h1 className="calorie-title">Total Calories</h1>
-
-                <svg width="500" height="325" viewBox="0 0 400 300" className="calorie-progress">
-                    <path
-                    d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`}
-                    fill="none"
-                    stroke="#c6c8bb"
-                    strokeWidth="30"
-                    strokeLinecap="round"
-                    />
-                    <path
+        <div className="calories">
+            <h1 className="calorie-title">Total Calories</h1>
+            <svg width="500" height="325" viewBox="0 0 400 300" className="calorie-progress">
+                <path d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`} fill="none" stroke="#c6c8bb" strokeWidth="30" strokeLinecap="round" />
+                <path
                     d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`}
                     fill="none"
                     stroke="green"
@@ -105,23 +83,22 @@ function Calories({ foodData, progressData, isLoading }) {
                     strokeLinecap="round"
                     style={{
                         strokeDasharray: circumfrence, 
-                        strokeDashoffset: offset, 
-                        transition: "stroke-dash-offset 0.5s ease", 
+                        strokeDashoffset: currentOffset,
+                        transition: isResizing ? "none" : "stroke-dashoffset 0.1s linear", 
                     }}
-                    />
-                </svg>
-                <div className="calorie-number-ratio">
-                    <span className="calorie-number">{percentage}%</span>
-                    <span className="calorie-ratio">{currentCalories} / {targetCalories}</span>
-                </div>
-                <div class="macros">
-                    <Macro color="#7231bd" name="Protein" amount={macroData("protein")} goal={progressData[0].goal_protein}/>
-                    <Macro color="#31bd98" name="Carbs" amount={macroData("carbs")} goal={progressData[0].goal_carbs}/>
-                    <Macro color="#ffad21ff" name="Fat" amount={macroData("fat")} goal={progressData[0].goal_fat}/>
-                </div>
+                />
+            </svg>
+            <div className="calorie-number-ratio">
+                <span className="calorie-number">{percentage}%</span>
+                <span className="calorie-ratio">{currentCalories} / {targetCalories}</span>
             </div>
-        </>
+            <div className="macros">
+                <Macro color="#7231bd" name="Protein" amount={macroData("protein")} goal={progressData[0].goal_protein}/>
+                <Macro color="#31bd98" name="Carbs" amount={macroData("carbs")} goal={progressData[0].goal_carbs}/>
+                <Macro color="#ffad21ff" name="Fat" amount={macroData("fat")} goal={progressData[0].goal_fat}/>
+            </div>
+        </div>
     );
 }
 
-export default Calories 
+export default Calories;

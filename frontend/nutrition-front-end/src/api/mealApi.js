@@ -34,17 +34,15 @@ export const deleteFood = async (id) => {
             method: 'DELETE',
             credentials: 'include',
         });
-        if(response.status === 401){
+        if (response.status === 401) {
             const refreshResponse = refresh();
-            if(refreshResponse.ok){
+            if (refreshResponse.ok) {
                 const response = await fetch(`http://localhost:8000/api/food-data/${id}/`, {
-                        method: 'DELETE',
-                        credentials: 'include',
-                    }); 
+                    method: 'DELETE',
+                    credentials: 'include',
+                });
                 if (response.ok) {
                     return 'Success'
-                } else {
-                    console.error("Failed to delete item");
                 }
             }
         }
@@ -61,8 +59,8 @@ export const deleteFood = async (id) => {
 export const saveFood = async (foodData, date) => {
     try {
         const payload = {
-             ...foodData, 
-            date: date, 
+            ...foodData,
+            date: date,
         }
         const response = await fetch(`http://localhost:8000/api/add-food/`, {
             method: 'POST',
@@ -72,14 +70,68 @@ export const saveFood = async (foodData, date) => {
             },
             body: JSON.stringify(payload),
         });
-            
-        if(response.ok) {
+
+        if (response.status === 401) {
+            const refreshResponse = refresh();
+            if (refreshResponse.ok) {
+                const response = await fetch(`http://localhost:8000/api/add-food/`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    return result;
+                }
+            }
+        }
+
+        if (response.ok) {
             const result = await response.json();
-             console.log("Saved", result);
+            console.log("Saved", result);
+            return result;
         } else {
             console.log("Server Error", response.statusText);
         }
-    } catch(error){
-        console.log('Network Error', error); 
+    } catch (error) {
+        console.log('Network Error', error);
     }
 };
+
+export const getFoods = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/foods`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        })
+
+        if (response.status === 401) {
+            const refreshResponse = refresh();
+            if (refreshResponse.ok) {
+                const response = await fetch(`${BASE_URL}/api/foods`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                })
+                if (response.ok) {
+                    const data = await response.json();
+                    return data;
+                }
+            }
+        }
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+    }
+    catch (error) {
+        console.log("Failed to fetch Foods", error);
+    }
+}

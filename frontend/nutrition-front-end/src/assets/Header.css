@@ -72,10 +72,16 @@
   z-index: 100000;
 }
 .title {
+position: absolute;
+  left: 51%;
+  top: 50%;
+  transform: translate(-50%, -50%); /* Moves the element back by half its own width/height */
+  margin: 0; 
   font-size: 3rem;
   font-family: "Montserrat";
   color: white;
-  margin-left: -20px;
+  white-space: nowrap; /* Prevents title from wrapping on small screens */
+  z-index: 1;
 }
 .menu-item:hover{
   translate: 0px -1px; 

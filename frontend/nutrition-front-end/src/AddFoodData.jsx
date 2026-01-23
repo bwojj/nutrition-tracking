@@ -1,9 +1,9 @@
 import './assets/AddFoodData.css'
 import { MealsContext } from './Context/Context';
-import { useContext, useState } from 'react';
+import { useContext, useState} from 'react';
 import { saveFood } from './api/mealApi';
 
-function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date}){
+function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date, onFoodAdded, selectedDate}){
     const { meals } = useContext(MealsContext);
 
     const [formData, setFormData] = useState({
@@ -26,6 +26,7 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date})
         vitamin_c: info.vitamin_c,
         calcium: info.calcium
     });
+
 
     function handleNumServingsChange(e){
 
@@ -60,12 +61,13 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date})
         })
     }
     const handleSubmit = async (e) => {
-        e.preventDefault();
         setIsLoading(true);
+        e.preventDefault();
         await saveFood(formData, date);
-        window.location.reload();
+        if (onFoodAdded) await onFoodAdded();
         onClose();
         onModalClose();
+        setIsLoading(false);
     }
 
     if (!isOpen) return null;
@@ -82,7 +84,7 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date})
             <div className="serving-size">
                 <label for="serve-size">Serving Size</label>
                 <select id="serve-size" onChange={handleChange}>
-                    <option value="1oz" selected>1oz</option>
+                    <option value="1oz" selected>{info.serving_size}</option>
                 </select>
             </div>
             <div className="serving-num">

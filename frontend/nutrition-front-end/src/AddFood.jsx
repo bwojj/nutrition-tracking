@@ -5,76 +5,11 @@ import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search } from 'lucide-react';
 
-function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoods}){
+function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoods, getRefresh, foodDatabase}){
 
     const [apiFoods, setApiFoods] = useState([]);
 
-    let foodDatabase = [
-    {
-        id: 1,
-        name: "Grilled Chicken Breast",
-        brand: "Default",
-        calories: 165,
-        protein: 31,
-        carbs: 0,
-        fat: 3.6,
-        fiber: 100,
-        sugar: 100,
-        saturated_fat: 1.0,
-        polyunsaturated_fat: 0.8,
-        monounsaturated_fat: 1.2,
-        trans_fat: 0,
-        cholesterol: 85,
-        sodium: 74,
-        potassium: 256,
-        vitamin_a: 100,
-        vitamin_c: 100,
-        calcium: 15
-    },
-    {
-        id: 2,
-        name: "MSU Bakers Dinner Roll", // Name from your MSU file
-        brand: "MSU Bakers",
-        calories: 80, 
-        protein: 2,
-        carbs: 15,
-        fat: 1,
-        fiber: 1,
-        sugar: 2,
-        saturated_fat: 0.2,
-        polyunsaturated_fat: 0.1,
-        monounsaturated_fat: 0.3,
-        trans_fat: 0,
-        cholesterol: 0,
-        sodium: 140,
-        potassium: 30,
-        vitamin_a: 0,
-        vitamin_c: 0,
-        calcium: 10
-    },
-    {
-        id: 3,
-        name: "Vegan Chocolate Cake",
-        brand: "MSU Bakers",
-        calories: 320,
-        protein: 3,
-        carbs: 52,
-        fat: 12,
-        fiber: 2,
-        sugar: 35,
-        saturated_fat: 4.5,
-        polyunsaturated_fat: 1.2,
-        monounsaturated_fat: 5.5,
-        trans_fat: 0,
-        cholesterol: 0,
-        sodium: 290,
-        potassium: 110,
-        vitamin_a: 0,
-        vitamin_c: 0,
-        calcium: 40
-    }
-    ];
-
+    
     const [search, setSearch] = useState("");
 
     function handleChange(event){
@@ -82,8 +17,14 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
     }
 
     let searchFilteredFoods = foodDatabase.filter((food) => (
-        food.name.toLowerCase().includes(search.toLowerCase())
+        food.food_name.toLowerCase().includes(search.toLowerCase())
     ));
+
+    function onClose(){
+        setIsModalOpen(false);
+        setSearch("");
+        setApiFoods([]);
+    }
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -102,6 +43,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
     }
     const [dataSent, setDataSent] = useState({
         food_name: "", 
+        serving_size: "",
         calories: 0, 
         protein: 0, 
         carbs: 0, 
@@ -124,7 +66,8 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
 
     function dataOpen(data){
         setDataSent({
-            food_name: data.name, 
+            food_name: data.food_name, 
+            serving_size: data.serving_size,
             calories: data.calories, 
             protein: data.protein, 
             carbs: data.carbs, 
@@ -138,8 +81,8 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
             cholesterol: data.cholesterol,
             sodium: data.sodium,
             potassium: data.potassium,
-            vitamin_a: data.vitamin_a,
-            vitamin_c: data.vitamin_c,
+            vitamin_a: data.vitamin_A,
+            vitamin_c: data.vitamin_C,
             calcium: data.calcium,
             meal: meal, 
         })
@@ -179,7 +122,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
                                 transition={{ duration: 0.2 }}
                             >
                                 <div className="name">
-                                    <span className="food-name">{element.name}</span>
+                                    <span className="food-name">{element.food_name}</span>
                                     <span className="brand-name">{element.brand}</span>
                                 </div>
                                 <div className="data">
@@ -196,7 +139,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, onClose, onDataOpen, isData
                             ))}
                         </AnimatePresence>
                 </div>
-                <AddFoodData date={date} selectedDate={selectedDate} setIsLoading={setIsLoading} info={dataSent} onModalClose={onClose} isOpen={isDataModalOpen} onClose={onDataClose}/>
+                <AddFoodData date={date} onFoodAdded={getRefresh} setIsLoading={setIsLoading} info={dataSent} onModalClose={onClose} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
         </div>,
         document.body

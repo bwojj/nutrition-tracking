@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Day, Meal, FoodData, Progress
+from .models import Day, Meal, FoodData, Progress, Foods
 
 # Register your models here.
 
-admin.site.register([Day, Meal, FoodData, Progress])
+admin.site.register([Day, Meal, FoodData, Progress, Foods])

@@ -8,10 +8,10 @@ import FullMicronutrients from './FullMicronutrients';
 import FullProgress from './FullProgress';
 import LoadingScreen from './LoadingScreen';
 import { useState, useEffect } from 'react';
-import { getFoodData } from './api/mealApi';
+import { getFoodData, getFoods } from './api/mealApi';
 import { getDays, getProgress } from './api/userApi';
 
-function MainBox({ isLoggedIn, isMicroModalOpen, setIsMicroModalOpen, isProgressModalOpen, setIsProgressModalOpen}){
+function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsMicroModalOpen, isProgressModalOpen, setIsProgressModalOpen}){
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
     const [meal, setMeal] = useState("");
@@ -19,39 +19,56 @@ function MainBox({ isLoggedIn, isMicroModalOpen, setIsMicroModalOpen, isProgress
     const [progressData, setProgressData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const [daysData, setDaysData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [foodDatabase, setFoodDatabase] = useState([]);
 
     const today = new Date().toISOString().split('T')[0]; 
 
-    useEffect(() => {
-    if (isLoggedIn) {
-        setIsLoading(true);
-        const getRefresh = async () => {
-            const dataResponse = await getFoodData(selectedDate);
-            if(dataResponse){
-                setFoodData(dataResponse); 
-            }
+    const getRefresh = async () => {
+        const [dataResponse, dayResponse] = await Promise.all([
+            getFoodData(selectedDate),
+            getDays()
+        ]);
+        if(dataResponse){
+            setFoodData(dataResponse);
         }
-        const userProgress = async () => {
-            const progressResponse = await getProgress();
-            if(progressResponse){
-                setProgressData(progressResponse);
-            }
+        if(dayResponse){
+            setDaysData(dayResponse);
         }
-        const userDays = async () => {
-            const dayResponse = await getDays();
-            if(dayResponse){
-                setDaysData(dayResponse); 
-            }
-        }
-        userDays();
-        userProgress();
-        getRefresh();
-        setIsLoading(false);
     }
+    useEffect(() => {
+  if (!isLoggedIn) return;
+
+  let cancelled = false;
+
+  const loadAll = async () => {
+    try {
+      const [progressResponse, dayResponse, foodResponse, itemsResponse] =
+        await Promise.all([
+          getProgress(),
+          getDays(),
+          getFoodData(selectedDate),
+          getFoods(),
+        ]);
+
+      if (cancelled) return;
+
+      setProgressData(progressResponse || []);
+      setDaysData(dayResponse || []);
+      setFoodData(foodResponse || []);
+      setFoodDatabase(itemsResponse || [])
+    } catch (err) {
+      console.error("MainBox load error:", err);
+    }
+  };
+
+  loadAll();
+
+  return () => {
+    cancelled = true; 
+  };
 }, [isLoggedIn, selectedDate]);
     
-    const searchFoods = async (query) => {
+const searchFoods = async (query) => {
 
         const url = new URL("https://world.openfoodfacts.org/cgi/search.pl"); 
 
@@ -103,12 +120,13 @@ function MainBox({ isLoggedIn, isMicroModalOpen, setIsMicroModalOpen, isProgress
 
                 return {
                     id: product.code,
-                    name: product.product_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '), 
+                    food_name: product.product_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '), 
                     calories: n['energy-kcal_serving'],
                     protein: n['proteins_serving'],
                     carbs: n['carbohydrates_serving'],
                     fat: n['fat_serving'],
                     brand: product.brands,
+                    serving_size: product.serving_size,
                 }
             });
             
@@ -117,8 +135,9 @@ function MainBox({ isLoggedIn, isMicroModalOpen, setIsMicroModalOpen, isProgress
         }
 
     }
+    console.log(foodDatabase);
 
-    if(isLoading || !progressData?.length){
+    if (!progressData.length || !daysData.length) {
         return <LoadingScreen/>
     }
     return(
@@ -128,10 +147,18 @@ function MainBox({ isLoggedIn, isMicroModalOpen, setIsMicroModalOpen, isProgress
                     <option className="option" value={element.date}>{element.date === today ? 'Today' : element.date}</option>
                 ))}; 
             </select>
-            <AddFood isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}
+            <AddFood 
+                isOpen={isModalOpen} setIsModalOpen={setIsModalOpen}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}
-                onDataClose={() => setIsDataModalOpen(false)} refreshData={getFoodData}
-                setMeal={setMeal} meal={meal} searchFoods={searchFoods} setIsLoading={setIsLoading} date={selectedDate}/>
+                onDataClose={() => setIsDataModalOpen(false)}
+                setIsLoading={setIsLoading}
+                setMeal={setMeal} 
+                meal={meal} 
+                searchFoods={searchFoods} 
+                date={selectedDate}
+                getRefresh={getRefresh} 
+                foodDatabase={foodDatabase}
+            />
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)} progressData={progressData}/>
             

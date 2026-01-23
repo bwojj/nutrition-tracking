@@ -17,45 +17,34 @@ function App() {
   const [isProgressModalOpen, setIsProgressModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [progressExists, setProgressExists] = useState(false); 
 
   const [isLoading, setIsLoading] = useState(true);
 
- useEffect(() => {
-      const checkAuth = async () => {
-        try{
-          const data = await is_authenticated();
-          
-          if (data && data.authenticated) {
-            setIsLoggedIn(true);
-          } else {
-            setIsLoggedIn(false);
-          }
-        } catch(error){
-            console.log("Error Fetch", error);
-        } finally {
-          setIsLoading(false);
-        };
-      };
 
-    checkAuth();
-  }, []); 
-
-  useEffect(() => {
-    async function userData(){
-      localStorage.setItem("isLoggedIn", isLoggedIn);
-      const response = await getUserData();
-      if(response){
-        setUsername(response)
+useEffect(() => {
+  const initializeApp = async () => {
+    setIsLoading(true);
+    try {
+      const authData = await is_authenticated();
+      
+      if (authData?.authenticated) {
+        setIsLoggedIn(true);
+        const user = await getUserData();
+        if (user) setUsername(user);
       }
+    } catch (error) {
+      console.error("Initialization error", error);
+    } finally{
+      setIsLoading(false);
     }
+  };
 
-    userData();
-  }, [isLoggedIn])
+  initializeApp();
+}, []);
 
-  if(isLoading){
-    return <LoadingScreen/>
-  }
+if(isLoading){
+  return <LoadingScreen/>
+}
   return (
     <Router>
       <MealsContext.Provider value={{ meals, setMeals}}>
@@ -72,13 +61,23 @@ function App() {
                   isProgressModalOpen={isProgressModalOpen} setIsProgressModalOpen={setIsProgressModalOpen}
                   setIsLoggedIn={setIsLoggedIn} username={username}
               />
-              <MainBox isLoggedIn={isLoggedIn} isMicroModalOpen={isMicroModalOpen} setIsMicroModalOpen={setIsMicroModalOpen}
-                isProgressModalOpen={isProgressModalOpen} setIsProgressModalOpen={setIsProgressModalOpen} progressExists={progressExists}
+              <MainBox 
+                isLoggedIn={isLoggedIn} 
+                isMicroModalOpen={isMicroModalOpen} 
+                setIsMicroModalOpen={setIsMicroModalOpen}
+                isProgressModalOpen={isProgressModalOpen} 
+                setIsProgressModalOpen={setIsProgressModalOpen} 
+                setIsLoading={setIsLoading}
+                isLoading={isLoading}
               /></> : <Navigate to="/login"/>}
           />
           <Route
             path="/onboarding"
-            element={<Onboarding setProgressExists={setProgressExists} setIsLoggedIn={setIsLoggedIn}/>}
+            element={
+              <Onboarding 
+              setIsLoggedIn={setIsLoggedIn}
+              />
+            }
           />
         </Routes>
           

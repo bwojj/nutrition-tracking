@@ -2,10 +2,10 @@ from datetime import date, timedelta
 from rest_framework import viewsets 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Day, Meal, FoodData, Progress
+from .models import Day, Meal, FoodData, Progress, Foods
 from django.contrib.auth.models import User
 from .serializers import (DaySerializer, MealSerializer, FoodDataSerializer, 
-        ProgressSerializer, UserRegistrationSerializer, UserSerializer)
+        ProgressSerializer, UserRegistrationSerializer, UserSerializer, FoodsSerializer)
 
 from rest_framework.decorators import api_view, permission_classes 
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -122,6 +122,10 @@ class ProgressView(viewsets.ModelViewSet):
         user_profile = self.request.user
 
         return Progress.objects.filter(user=user_profile)
+
+class FoodsView(viewsets.ModelViewSet): 
+    queryset = Foods.objects.all()
+    serializer_class = FoodsSerializer 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
