@@ -1,7 +1,7 @@
 import './assets/Meal.css'
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { LuTrash2 } from "react-icons/lu";
-import { deleteFood } from './api/mealApi';
+import { deleteFood } from './api/mealApi.js';
 
 function Meal(props){
 

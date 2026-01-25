@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import './assets/FullMicronutrients.css'
-import Micro from "./Micro";
+import Micro from "./Micro.jsx";
 import { useState } from "react";
 
 function FullMicronutrients({ isOpen, onClose, foodData }){

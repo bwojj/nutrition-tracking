@@ -1,4 +1,4 @@
-import { refresh } from "./authApi";
+import { refresh } from "./authApi.js";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

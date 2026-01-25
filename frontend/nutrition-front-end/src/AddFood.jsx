@@ -1,4 +1,4 @@
-import AddFoodData from './AddFoodData';
+import AddFoodData from './AddFoodData.jsx';
 import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'

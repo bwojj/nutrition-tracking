@@ -2,8 +2,8 @@ import './assets/FullProgress.css'
 import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import LoadingScreen from "./LoadingScreen";
-import { saveProgress } from './api/userApi';
+import LoadingScreen from "./LoadingScreen.jsx";
+import { saveProgress } from './api/userApi.js';
 
 function FullProgress({ isOpen, onClose, progressData, isLoading }){
 

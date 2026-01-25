@@ -1,14 +1,14 @@
 import './assets/index.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
-import { MealsContext } from "./Context/Context"
+import { MealsContext } from "./Context/Context.js"
 import { useState, useEffect } from "react"
-import Header from "./Header"
-import MainBox from "./MainBox"
-import Onboarding from "./Onboarding"
-import Auth from "./Auth"
-import LoadingScreen from "./LoadingScreen"
-import { is_authenticated } from "./api"
-import { getUserData } from "./api/userApi"
+import Header from "./Header.jsx"
+import MainBox from "./MainBox.jsx"
+import Onboarding from "./Onboarding.jsx"
+import Auth from "./Auth.jsx"
+import LoadingScreen from "./LoadingScreen.jsx"
+import { is_authenticated } from "./api.js"
+import { getUserData } from "./api/userApi.js"
 
 function App() {
 

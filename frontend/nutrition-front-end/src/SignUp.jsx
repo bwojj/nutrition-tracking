@@ -1,7 +1,7 @@
 import './assets/Signup.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signup, login } from './api/authApi';
+import { signup, login } from './api/authApi.js';
 
 function Signup({ setIsLoggedIn, setIsLoading }) {
     const navigate = useNavigate();

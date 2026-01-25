@@ -1,7 +1,7 @@
 import './assets/AddFoodData.css'
-import { MealsContext } from './Context/Context';
+import { MealsContext } from './Context/Context.js';
 import { useContext, useState} from 'react';
-import { saveFood } from './api/mealApi';
+import { saveFood } from './api/mealApi.js';
 
 function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date, onFoodAdded, selectedDate}){
     const { meals } = useContext(MealsContext);

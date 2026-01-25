@@ -1,15 +1,15 @@
 import './assets/MainBox.css';
-import AddFood from './AddFood';
-import Calories from './Calories';
-import Meals from './Meals';
-import Micronutrients from './Micronutrients';
-import Progress from './Progress';
-import FullMicronutrients from './FullMicronutrients';
-import FullProgress from './FullProgress';
-import LoadingScreen from './LoadingScreen';
+import AddFood from './AddFood.jsx';
+import Calories from './Calories.jsx';
+import Meals from './Meals.jsx';
+import Micronutrients from './Micronutrients.jsx';
+import Progress from './Progress.jsx';
+import FullMicronutrients from './FullMicronutrients.jsx';
+import FullProgress from './FullProgress.jsx';
+import LoadingScreen from './LoadingScreen.jsx';
 import { useState, useEffect } from 'react';
-import { getFoodData, getFoods } from './api/mealApi';
-import { getDays, getProgress } from './api/userApi';
+import { getFoodData, getFoods } from './api/mealApi.js';
+import { getDays, getProgress } from './api/userApi.js';
 
 function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsMicroModalOpen, isProgressModalOpen, setIsProgressModalOpen}){
     const [isModalOpen, setIsModalOpen] = useState(false);

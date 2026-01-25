@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './assets/Onboarding.css';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from './LoadingScreen.jsx';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 

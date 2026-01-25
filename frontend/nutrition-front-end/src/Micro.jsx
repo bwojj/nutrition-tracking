@@ -1,5 +1,5 @@
 import './assets/Micro.css'
-import MicroProgress from './MicroProgress';
+import MicroProgress from './MicroProgress.jsx';
 
 function Micro(props){
     return(

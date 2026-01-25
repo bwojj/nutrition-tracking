@@ -1,6 +1,6 @@
 import './assets/Meals.css'
-import { MealsContext } from './Context/Context';
-import Meal from './Meal';
+import { MealsContext } from './Context/Context.js';
+import Meal from './Meal.jsx';
 import { useContext } from 'react';
 
 function Meals({ meal, setMeal, setFoodData, foodData, onOpen, onDelete }){

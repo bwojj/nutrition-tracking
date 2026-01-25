@@ -1,6 +1,6 @@
 import './assets/Calories.css';
-import Macro from './Macros';
-import LoadingScreen from './LoadingScreen';
+import Macro from './Macros.jsx';
+import LoadingScreen from './LoadingScreen.jsx';
 import { useEffect, useState } from 'react';
 
 function Calories({ foodData, progressData, isLoading }) {
