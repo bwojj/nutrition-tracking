@@ -68,10 +68,13 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True  # TODO: Remove after debugging - allows all origins temporarily
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://nutrition-tracking-eight.vercel.app"
+    "https://nutrition-tracking-eight.vercel.app",
+]
+# Regex patterns for Vercel preview deployments
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://nutrition-tracking.*\.vercel\.app$",
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',
