@@ -1,0 +1,17 @@
+# Security: NEVER upload these
+.env
+db.sqlite3
+*.dump
+secrets.json
+
+# Python/Django junk
+__pycache__/
+*.py[cod]
+*$py.class
+staticfiles/
+media/
+
+# Environment/OS stuff
+venv/
+.DS_Store
+node_modules/

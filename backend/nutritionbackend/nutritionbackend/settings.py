@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +28,7 @@ SECRET_KEY = 'django-insecure-e6j2^gedfp&@$nd7#y918vk4ps9j!k=suttje$vnam#aoys)wl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,13 +48,12 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication', # MOVE THIS TO THE TOP
         'nutritionAPI.authentication.CookiesJWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ]
-
 }
 
 MIDDLEWARE = [
@@ -93,15 +95,21 @@ WSGI_APPLICATION = 'nutritionbackend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+ENV_PATH = Path(__file__).resolve().parent / '.env'
+load_dotenv(ENV_PATH, override=True)
+
+# Safety check: This will print in your terminal when you run the server
+print(f"--- DATABASE DEBUG ---")
+print(f"Looking for .env at: {ENV_PATH}")
+print(f"Found URL: {os.getenv('DATABASE_URL')[:20] if os.getenv('DATABASE_URL') else 'NOT FOUND'}")
+print(f"-----------------------")
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'NG2nJeqARkjyJaX',
-        'HOST': 'nutrition-django-db.cb02gawqoanw.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 
