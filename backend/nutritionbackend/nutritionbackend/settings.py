@@ -95,9 +95,15 @@ CORS_ALLOW_HEADERS = [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
-    "https://nutrition-tracking-eight.vercel.app"
+    "https://nutrition-tracking-eight.vercel.app",
+    "https://nutrition-tracking-production-36a9.up.railway.app"
 ]
 
+# Cross-origin cookie settings (required for credentials across different domains)
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
 
 ROOT_URLCONF = 'nutritionbackend.urls'
 
