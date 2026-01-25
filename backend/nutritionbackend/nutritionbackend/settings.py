@@ -70,7 +70,7 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "nutrition-tracking-eight.vercel.app"
+    "https://nutrition-tracking-eight.vercel.app"
 ]
 
 ROOT_URLCONF = 'nutritionbackend.urls'
