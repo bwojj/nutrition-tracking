@@ -212,5 +212,10 @@ def logout(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def is_authenticated(request): 
+def is_authenticated(request):
     return Response({'authenticated': True})
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def health_check(request):
+    return Response({'status': 'ok'})

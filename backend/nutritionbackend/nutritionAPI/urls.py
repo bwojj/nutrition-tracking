@@ -1,9 +1,9 @@
 from django.urls import path, include 
 from rest_framework import routers 
-from .views import ( 
-    DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, add_food, 
-    update_progress, CustomRefreshTokenView, CustomTokenObtainPairView, 
-    logout, register, is_authenticated
+from .views import (
+    DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, add_food,
+    update_progress, CustomRefreshTokenView, CustomTokenObtainPairView,
+    logout, register, is_authenticated, health_check
     )
 
 router = routers.DefaultRouter()
@@ -22,5 +22,6 @@ urlpatterns = [
     path('api/update-progress/', update_progress, name="progress-update"),
     path('logout/', logout, name="logout"),
     path('authenticated/', is_authenticated, name="authenticated"),
-    path('register/', register, name="register")
+    path('register/', register, name="register"),
+    path('health/', health_check, name="health"),
 ]
