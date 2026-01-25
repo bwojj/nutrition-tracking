@@ -1,6 +1,6 @@
 import { refresh } from "./authApi";
 
-const BASE_URL = 'http://localhost:8000/'
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const getUserData = async () => {
     try {
@@ -30,13 +30,13 @@ export const getUserData = async () => {
 
 export const getProgress = async () => {
     try {
-        const response = await fetch('http://localhost:8000/api/progress/', {
+        const response = await fetch(`${BASE_URL}api/progress/`, {
             credentials: 'include',
         });
         if (response.status === 401) {
             const refreshResponse = refresh();
             if (refreshResponse.ok) {
-                const response = await fetch('http://localhost:8000/api/progress/', {
+                const response = await fetch(`${BASE_URL}api/progress/`, {
                     credentials: 'include',
                 });
                 if (response.ok) {
@@ -56,13 +56,13 @@ export const getProgress = async () => {
 
 export const getDays = async () => {
     try {
-        const response = await fetch("http://localhost:8000/api/days/", {
+        const response = await fetch(`${BASE_URL}api/days/`, {
             credentials: 'include',
         })
         if (response.status === 401) {
             const refreshResponse = refresh();
             if (refreshResponse.ok) {
-                const response = await fetch("http://localhost:8000/api/days/", {
+                const response = await fetch(`${BASE_URL}api/days/`, {
                     credentials: 'include',
                 })
                 if (response.ok) {

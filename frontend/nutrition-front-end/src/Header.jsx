@@ -1,7 +1,9 @@
-import msuLogo from './assets/msuWhite1.png' 
+import msuLogo from './assets/msuWhite1.png'
 import './assets/Header.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn, username }){
 
@@ -11,7 +13,7 @@ function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn, us
 
     const logout = async () => {
         try{
-            const response = await fetch('http://localhost:8000/logout/', {
+            const response = await fetch(`${BASE_URL}logout/`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './assets/Onboarding.css';
 import LoadingScreen from './LoadingScreen';
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 const Onboarding = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const Onboarding = ({ setIsLoggedIn }) => {
 
   const progress = async (formData) => {
     try{
-      const response = await fetch('http://localhost:8000/api/update-progress/', {
+      const response = await fetch(`${BASE_URL}api/update-progress/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
