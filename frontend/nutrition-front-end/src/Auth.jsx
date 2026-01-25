@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Login from "./Login.jsx";
-import Signup from "./Signup.jsx";
+import SignUp from "./SignUp.jsx";
 
 function Auth({ setIsLoggedIn, setIsLoading}) {
     const [isLogin, setIsLogin] = useState(true);
@@ -8,7 +8,7 @@ function Auth({ setIsLoggedIn, setIsLoading}) {
     return (
         <div className="login-screen">
             <div className="auth-card">
-                {isLogin ? <Login setIsLoggedIn={setIsLoggedIn} /> : <Signup setIsLoggedIn={setIsLoggedIn} setIsLoading={setIsLoading} setIsLogin={setIsLogin} />}
+                {isLogin ? <Login setIsLoggedIn={setIsLoggedIn} /> : <SignUp setIsLoggedIn={setIsLoggedIn} setIsLoading={setIsLoading} setIsLogin={setIsLogin} />}
                 
                 <div className="toggle-container">
                     <button 
