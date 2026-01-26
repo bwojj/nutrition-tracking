@@ -8,7 +8,7 @@ export const getUserData = async () => {
             credentials: 'include',
         })
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/user/`, {
                     credentials: 'include',
@@ -34,7 +34,7 @@ export const getProgress = async () => {
             credentials: 'include',
         });
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/progress/`, {
                     credentials: 'include',
@@ -60,7 +60,7 @@ export const getDays = async () => {
             credentials: 'include',
         })
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/days/`, {
                     credentials: 'include',
@@ -93,7 +93,7 @@ export const saveProgress = async (progressInfo) => {
             body: JSON.stringify(progressInfo),
         });
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/update-progress/`, {
                     method: 'POST',

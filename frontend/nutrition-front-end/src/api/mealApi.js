@@ -8,7 +8,7 @@ export const getFoodData = async (selectedDate) => {
             credentials: 'include',
         });
         if (response.status === 401){
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if(refreshResponse.ok){
                 const response = await fetch(`${BASE_URL}api/food-data/?date=${selectedDate}`, { 
                     credentials: 'include',
@@ -35,7 +35,7 @@ export const deleteFood = async (id) => {
             credentials: 'include',
         });
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/food-data/${id}/`, {
                     method: 'DELETE',
@@ -72,7 +72,7 @@ export const saveFood = async (foodData, date) => {
         });
 
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/add-food/`, {
                     method: 'POST',
@@ -111,7 +111,7 @@ export const getFoods = async () => {
         })
 
         if (response.status === 401) {
-            const refreshResponse = refresh();
+            const refreshResponse = await refresh();
             if (refreshResponse.ok) {
                 const response = await fetch(`${BASE_URL}api/foods`, {
                     headers: {
