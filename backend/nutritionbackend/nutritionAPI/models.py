@@ -24,6 +24,7 @@ class Meal(models.Model):
 class FoodData(models.Model):
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="item", default=1)
     food_name = models.CharField(max_length=64)
+    serving_size = models.CharField(max_length=64, default="1 serving")
     calories = models.FloatField()
     protein = models.FloatField()
     carbs = models.FloatField()

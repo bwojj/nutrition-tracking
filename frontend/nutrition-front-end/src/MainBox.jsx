@@ -126,13 +126,25 @@ const searchFoods = async (query) => {
 
                 return {
                     id: product.code,
-                    food_name: product.product_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '), 
+                    food_name: product.product_name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
                     calories: n['energy-kcal_serving'],
                     protein: n['proteins_serving'],
                     carbs: n['carbohydrates_serving'],
                     fat: n['fat_serving'],
+                    fiber: n['fiber_serving'] || 0,
+                    sugar: n['sugars_serving'] || 0,
+                    saturated_fat: n['saturated-fat_serving'] || 0,
+                    polyunsaturated_fat: n['polyunsaturated-fat_serving'] || 0,
+                    monounsaturated_fat: n['monounsaturated-fat_serving'] || 0,
+                    trans_fat: n['trans-fat_serving'] || 0,
+                    cholesterol: n['cholesterol_serving'] || 0,
+                    sodium: n['sodium_serving'] || 0,
+                    potassium: n['potassium_serving'] || 0,
+                    vitamin_A: n['vitamin-a_serving'] || 0,
+                    vitamin_C: n['vitamin-c_serving'] || 0,
+                    calcium: n['calcium_serving'] || 0,
                     brand: product.brands,
-                    serving_size: product.serving_size,
+                    serving_size: product.serving_size || '1 serving',
                 }
             });
             

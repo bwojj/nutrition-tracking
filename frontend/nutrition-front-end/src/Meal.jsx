@@ -1,9 +1,20 @@
+import { useState } from 'react';
 import './assets/Meal.css'
+import NutritionFacts from './NutritionFacts.jsx';
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { LuTrash2 } from "react-icons/lu";
 import { deleteFood } from './api/mealApi.js';
 
 function Meal(props){
+    const [selectedFood, setSelectedFood] = useState(null);
+
+    const openNutritionFacts = (food) => {
+        setSelectedFood(food);
+    };
+
+    const closeNutritionFacts = () => {
+        setSelectedFood(null);
+    };
 
     const totalCalculate = (name) => {
         let total = 0; 
@@ -49,7 +60,7 @@ function Meal(props){
                                 <span className="food-value">{element.fat}F</span>  
                             </div>
                             <div className="food-hover">
-                                <HiOutlineInformationCircle className="info-icon" size={30} color="blue" />
+                                <HiOutlineInformationCircle className="info-icon" size={30} color="blue" onClick={() => openNutritionFacts(element)}/>
                                 <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)} />
                             </div>
                         </div>
@@ -58,6 +69,11 @@ function Meal(props){
             ) : <div className="none-div" style={{height: '50px', marginBottom: '-20px'}}><span className="none">No Foods</span></div>
             }
 
+            <NutritionFacts
+                isOpen={selectedFood !== null}
+                onClose={closeNutritionFacts}
+                foodData={selectedFood}
+            />
         </div>
     );
 }
