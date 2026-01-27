@@ -18,6 +18,7 @@ function Meal(props){
     };
 
     const handleFoodClick = (id) => {
+        // Toggle active state for mobile tap-to-reveal
         setActiveFood(activeFood === id ? null : id);
     };
 
@@ -70,7 +71,7 @@ function Meal(props){
                             </div>
                             <div className="food-hover" onClick={(e) => e.stopPropagation()}>
                                 <HiOutlineInformationCircle className="info-icon" size={30} color="blue" onClick={() => openNutritionFacts(element)}/>
-                                <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)} />
+                                <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)}/>
                             </div>
                         </div>
                 ) : null
