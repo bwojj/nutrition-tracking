@@ -26,7 +26,11 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
             res = Response()
 
-            res.data = {'success': True}
+            res.data = {
+                'success': True,
+                'access': access_token,
+                'refresh': refresh_token,
+            }
 
             res.set_cookie(
                 key="access_token", 
@@ -48,10 +52,14 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         except: 
             return Response({"success": False})
 
-class CustomRefreshTokenView(TokenRefreshView): 
-    def post(self, request, *args, **kwargs): 
-        try: 
-            refresh_token = request.COOKIES.get('refresh_token')
+class CustomRefreshTokenView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        try:
+            # Try cookie first (Chrome), fall back to request body (Safari)
+            refresh_token = request.COOKIES.get('refresh_token') or request.data.get('refresh')
+
+            if not refresh_token:
+                return Response({"refreshed": False, "error": "No refresh token"})
 
             request.data['refresh'] = refresh_token
 
@@ -61,21 +69,24 @@ class CustomRefreshTokenView(TokenRefreshView):
             access_token = tokens['access']
 
             res = Response()
-            
-            res.data = {'refreshed': True}
+
+            res.data = {
+                'refreshed': True,
+                'access': access_token,
+            }
 
             res.set_cookie(
                 key="access_token",
-                value=access_token, 
+                value=access_token,
                 httponly=True,
                 secure=True,
-                samesite='None', 
+                samesite='None',
                 path="/",
             )
 
             return res
-        except: 
-            return Response({"success": False})
+        except:
+            return Response({"refreshed": False})
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer

@@ -2,30 +2,34 @@ import msuLogo from './assets/msuWhite1.png'
 import './assets/Header.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
+import { getAuthHeaders, clearTokens } from './api/authApi.js';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function Header({ setIsMicroModalOpen, setIsProgressModalOpen, setIsLoggedIn, username }){
 
-    const [animate, setAnimate] = useState(false); 
-
-    
+    const [animate, setAnimate] = useState(false);
 
     const logout = async () => {
-        try{
+        try {
             const response = await fetch(`${BASE_URL}logout/`, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
                 credentials: 'include',
             });
-            if(response.ok){
+            // Clear tokens regardless of response (for Safari)
+            clearTokens();
+            if (response.ok) {
+                setIsLoggedIn(false);
+            } else {
+                // Still log out locally even if server call fails
                 setIsLoggedIn(false);
             }
-
-        } catch(error){
+        } catch (error) {
             console.log("Failed", error);
+            // Clear tokens and log out even on network error
+            clearTokens();
+            setIsLoggedIn(false);
         }
     }
 

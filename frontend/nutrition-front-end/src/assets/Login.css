@@ -1,15 +1,8 @@
-.login-screen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-}
+/* Duplicate removed - see .login-screen below */
 
 .login-box {
     background-color: white;
     padding: 40px;
-    margin-left: 18px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -103,16 +96,18 @@
     align-items: center;
     min-height: 100vh;
     background-color: #f4f4f4;
-    padding: 20px;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 .auth-card {
     background-color: white;
-    padding: 40px;
+    padding: 32px;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; 
+    max-width: 400px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -151,6 +146,7 @@
 
 .login-box, .signup-box {
     width: 100%;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 20px;

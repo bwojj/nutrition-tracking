@@ -1,53 +1,57 @@
-import { refresh } from "./authApi.js";
+import { refresh, getAuthHeaders } from "./authApi.js";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const getFoodData = async (selectedDate) => {
-    try{
-        const response = await fetch(`${BASE_URL}api/food-data/?date=${selectedDate}`, { 
+    try {
+        const response = await fetch(`${BASE_URL}api/food-data/?date=${selectedDate}`, {
             credentials: 'include',
+            headers: getAuthHeaders(),
         });
-        if (response.status === 401){
+        if (response.status === 401) {
             const refreshResponse = await refresh();
-            if(refreshResponse.ok){
-                const response = await fetch(`${BASE_URL}api/food-data/?date=${selectedDate}`, { 
+            if (refreshResponse.ok) {
+                const retryResponse = await fetch(`${BASE_URL}api/food-data/?date=${selectedDate}`, {
                     credentials: 'include',
+                    headers: getAuthHeaders(),
                 });
-                if(response.ok){
-                    const data = await response.json();
-                    return data; 
+                if (retryResponse.ok) {
+                    const data = await retryResponse.json();
+                    return data;
                 }
             }
         }
-        if(response.ok){
+        if (response.ok) {
             const data = await response.json();
-            return data; 
-        } 
-    } catch(error){
-        console.log("Failed to fetch", error)
+            return data;
+        }
+    } catch (error) {
+        console.log("Failed to fetch", error);
     }
-}
+};
 
 export const deleteFood = async (id) => {
     try {
         const response = await fetch(`${BASE_URL}api/food-data/${id}/`, {
             method: 'DELETE',
             credentials: 'include',
+            headers: getAuthHeaders(),
         });
         if (response.status === 401) {
             const refreshResponse = await refresh();
             if (refreshResponse.ok) {
-                const response = await fetch(`${BASE_URL}api/food-data/${id}/`, {
+                const retryResponse = await fetch(`${BASE_URL}api/food-data/${id}/`, {
                     method: 'DELETE',
                     credentials: 'include',
+                    headers: getAuthHeaders(),
                 });
-                if (response.ok) {
-                    return 'Success'
+                if (retryResponse.ok) {
+                    return 'Success';
                 }
             }
         }
         if (response.ok) {
-            return 'Success'
+            return 'Success';
         } else {
             console.error("Failed to delete item");
         }
@@ -61,29 +65,25 @@ export const saveFood = async (foodData, date) => {
         const payload = {
             ...foodData,
             date: date,
-        }
+        };
         const response = await fetch(`${BASE_URL}api/add-food/`, {
             method: 'POST',
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(payload),
         });
 
         if (response.status === 401) {
             const refreshResponse = await refresh();
             if (refreshResponse.ok) {
-                const response = await fetch(`${BASE_URL}api/add-food/`, {
+                const retryResponse = await fetch(`${BASE_URL}api/add-food/`, {
                     method: 'POST',
                     credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
                     body: JSON.stringify(payload),
                 });
-                if (response.ok) {
-                    const result = await response.json();
+                if (retryResponse.ok) {
+                    const result = await retryResponse.json();
                     return result;
                 }
             }
@@ -104,23 +104,19 @@ export const saveFood = async (foodData, date) => {
 export const getFoods = async () => {
     try {
         const response = await fetch(`${BASE_URL}api/foods`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
             credentials: 'include',
-        })
+        });
 
         if (response.status === 401) {
             const refreshResponse = await refresh();
             if (refreshResponse.ok) {
-                const response = await fetch(`${BASE_URL}api/foods`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                const retryResponse = await fetch(`${BASE_URL}api/foods`, {
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
                     credentials: 'include',
-                })
-                if (response.ok) {
-                    const data = await response.json();
+                });
+                if (retryResponse.ok) {
+                    const data = await retryResponse.json();
                     return data;
                 }
             }
@@ -130,8 +126,7 @@ export const getFoods = async () => {
             const data = await response.json();
             return data;
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log("Failed to fetch Foods", error);
     }
-}
+};

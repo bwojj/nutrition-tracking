@@ -7,6 +7,7 @@ import { deleteFood } from './api/mealApi.js';
 
 function Meal(props){
     const [selectedFood, setSelectedFood] = useState(null);
+    const [activeFood, setActiveFood] = useState(null);
 
     const openNutritionFacts = (food) => {
         setSelectedFood(food);
@@ -14,6 +15,10 @@ function Meal(props){
 
     const closeNutritionFacts = () => {
         setSelectedFood(null);
+    };
+
+    const handleFoodClick = (id) => {
+        setActiveFood(activeFood === id ? null : id);
     };
 
     const totalCalculate = (name) => {
@@ -51,15 +56,19 @@ function Meal(props){
             {props.foodData && props.foodData.length > 0 ? (
                 props.foodData.map((element) => (
                 element.meal === props.mealName ? (
-                        <div key={element.id} className="food">
+                        <div
+                            key={element.id}
+                            className={`food ${activeFood === element.id ? 'active' : ''}`}
+                            onClick={() => handleFoodClick(element.id)}
+                        >
                             <h3 className="food-name">{element.food_name}</h3>
                             <div className="meal-food-info">
                                 <span className="food-value">{element.calories}Cals</span>
-                                <span className="food-value">{element.protein}P</span> 
-                                <span className="food-value">{element.carbs}C</span> 
-                                <span className="food-value">{element.fat}F</span>  
+                                <span className="food-value">{element.protein}P</span>
+                                <span className="food-value">{element.carbs}C</span>
+                                <span className="food-value">{element.fat}F</span>
                             </div>
-                            <div className="food-hover">
+                            <div className="food-hover" onClick={(e) => e.stopPropagation()}>
                                 <HiOutlineInformationCircle className="info-icon" size={30} color="blue" onClick={() => openNutritionFacts(element)}/>
                                 <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)} />
                             </div>
