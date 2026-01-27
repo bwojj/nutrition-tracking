@@ -1,4 +1,17 @@
 body{
-  margin: 0; 
+  margin: 0;
   padding: 0;
+}
+
+/* Remove gray border on select elements (especially on mobile) */
+select {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+select:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
 }

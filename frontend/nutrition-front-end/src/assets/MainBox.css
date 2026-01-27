@@ -12,9 +12,8 @@
 }
 #selected-date{
     width: 11%;
-    border: none;
     margin-bottom: -30px;
-    font-size: 1.75rem; 
+    font-size: 1.75rem;
 }
 #selected-date.today{
     width: 7%;
