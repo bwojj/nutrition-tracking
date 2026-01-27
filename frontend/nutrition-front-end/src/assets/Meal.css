@@ -116,8 +116,12 @@
     margin-top: 10px;
 }
 
-/* Mobile: tap to reveal actions instead of hover */
-@media (max-width: 768px) {
+/* Mobile/Touch: tap to reveal actions instead of hover */
+@media (hover: none), (max-width: 768px) {
+    .food {
+        -webkit-tap-highlight-color: transparent;
+    }
+
     .food:hover {
         background-color: white;
         transform: none;
@@ -126,12 +130,13 @@
     }
 
     .food:hover .food-hover {
-        opacity: 0;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
 
     .food.active .food-hover {
-        opacity: 1;
-        pointer-events: auto;
+        opacity: 1 !important;
+        pointer-events: auto !important;
     }
 
     .food.active {
