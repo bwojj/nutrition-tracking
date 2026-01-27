@@ -30,12 +30,12 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date, 
 
 
     function handleNumServingsChange(e){
-
         const value = Number(e.target.value);
+        const servingSize = value > 1 ? `${value} x ${info.serving_size}` : info.serving_size;
         setFormData({
             meal_name: info.meal,
             food_name: info.food_name,
-            serving_size: info.serving_size,
+            serving_size: servingSize,
             calories: Math.round(info.calories * value),
             protein: Math.round(info.protein * value),
             carbs: Math.round(info.carbs * value),

@@ -30,9 +30,20 @@ function NutritionFacts({ isOpen, onClose, foodData }) {
 
                     <div className="nutrition-label-modal__divider-extra-thick"></div>
 
+                    <div className="nutrition-label-modal__amount-header">
+                        <span className="nutrition-label-modal__amount-label">Amount Per Serving</span>
+                    </div>
+
+                    <div className="nutrition-label-modal__divider-thin"></div>
+
                     <div className="nutrition-label-modal__calories-section">
-                        <span className="nutrition-label-modal__calories-label">Calories</span>
-                        <span className="nutrition-label-modal__calories-value">{Math.round(foodData.calories)}</span>
+                        <div className="nutrition-label-modal__calories-main">
+                            <span className="nutrition-label-modal__calories-label">Calories</span>
+                            <span className="nutrition-label-modal__calories-value">{Math.round(foodData.calories)}</span>
+                        </div>
+                        <div className="nutrition-label-modal__calories-fat">
+                            Calories from Fat {Math.round(foodData.fat * 9)}
+                        </div>
                     </div>
 
                     <div className="nutrition-label-modal__divider-medium"></div>

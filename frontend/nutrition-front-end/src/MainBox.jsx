@@ -11,6 +11,14 @@ import { useState, useEffect } from 'react';
 import { getFoodData, getFoods } from './api/mealApi.js';
 import { getDays, getProgress } from './api/userApi.js';
 
+const getLocalDateString = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsMicroModalOpen, isProgressModalOpen, setIsProgressModalOpen}){
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDataModalOpen, setIsDataModalOpen] = useState(false);
@@ -18,7 +26,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
     const [selectedDate, setSelectedDate] = useState(() => {
-        return localStorage.getItem('selectedDate') || new Date().toISOString().split('T')[0];
+        return localStorage.getItem('selectedDate') || getLocalDateString();
     });
     const [daysData, setDaysData] = useState([]);
     const [foodDatabase, setFoodDatabase] = useState([]);
@@ -27,7 +35,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
         localStorage.setItem('selectedDate', selectedDate);
     }, [selectedDate]);
 
-    const today = new Date().toISOString().split('T')[0]; 
+    const today = getLocalDateString(); 
 
     const getRefresh = async () => {
         const [dataResponse, dayResponse] = await Promise.all([
