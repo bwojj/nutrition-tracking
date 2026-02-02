@@ -25,15 +25,10 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     const [meal, setMeal] = useState("");
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(() => {
-        return localStorage.getItem('selectedDate') || getLocalDateString();
-    });
+    const [selectedDate, setSelectedDate] = useState(getLocalDateString);
     const [daysData, setDaysData] = useState([]);
     const [foodDatabase, setFoodDatabase] = useState([]);
 
-    useEffect(() => {
-        localStorage.setItem('selectedDate', selectedDate);
-    }, [selectedDate]);
 
     const today = getLocalDateString(); 
 
