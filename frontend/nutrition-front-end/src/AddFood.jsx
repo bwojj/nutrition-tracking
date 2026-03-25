@@ -7,18 +7,21 @@ import { Search } from 'lucide-react';
 
 function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoods, getRefresh, foodDatabase}){
 
-    const [apiFoods, setApiFoods] = useState([]);
-
-    
+    const INITIAL_LIMIT = 25;
     const [search, setSearch] = useState("");
+    const [apiFoods, setApiFoods] = useState([]);
 
     function handleChange(event){
         setSearch(event.target.value);
+        setApiFoods([]);
     }
 
-    let searchFilteredFoods = foodDatabase.filter((food) => (
-        food.food_name.toLowerCase().includes(search.toLowerCase())
-    ));
+    const localFiltered = search.length > 0
+        ? foodDatabase.filter((food) =>
+            food.food_name.toLowerCase().includes(search.toLowerCase())
+          )
+        : foodDatabase.slice(0, INITIAL_LIMIT);
+
 
     function onClose(){
         setIsModalOpen(false);
@@ -26,21 +29,12 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
         setApiFoods([]);
     }
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
+    const handleKeyDown = async (event) => {
+        if (event.key === 'Enter' && localFiltered.length === 0 && search.length > 0) {
+            const results = await searchFoods(search.toLowerCase());
+            setApiFoods(results || []);
         }
     };
-
-    async function handleSearch(){
-        if(search.length <= 0){
-            setApiFoods([]);
-        }
-        else if(searchFilteredFoods.length <= 0){
-            const results = await searchFoods(search.toLowerCase());
-            setApiFoods(results || []); 
-        }
-    }
     const [dataSent, setDataSent] = useState({
         food_name: "", 
         serving_size: "",
@@ -110,7 +104,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                 </div>
                 <div className="foods">
                     <AnimatePresence>
-                        {(searchFilteredFoods.length <= 0 ? apiFoods : searchFilteredFoods).map((element, index) => (
+                        {(localFiltered.length > 0 ? localFiltered : apiFoods).map((element, index) => (
                             <motion.div 
                                 onClick={() => dataOpen(element)} 
                                 className="food-items-inner" 
