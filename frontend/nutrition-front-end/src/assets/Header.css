@@ -21,7 +21,8 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background: linear-gradient(to right, #144130, #1e6b3e, #144130);
+  background: #0f1a14;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
 .header img {
@@ -94,8 +95,9 @@ position: absolute;
   padding-top: 15px;
   padding-bottom: 10px;
   position: absolute;
-  background-color: #144130;
-  color: white;
+  background-color: #1f4830;
+  border-left: 1px solid rgba(34, 197, 94, 0.4);
+  color: #e8f5ec;
   z-index: 10;
   right: -15%;
   top: 0;

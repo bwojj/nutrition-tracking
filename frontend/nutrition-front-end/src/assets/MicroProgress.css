@@ -8,7 +8,7 @@
 .micro-progress-fill{
     position: absolute;
     z-index: 10px;
-    height: 10px; 
+    height: 10px;
     border-radius: 5px;
-    background-color: white;
+    background-color: #22c55e;
 }

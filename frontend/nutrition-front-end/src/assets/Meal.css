@@ -11,8 +11,9 @@
     justify-content: space-between;
     overflow: hidden;
     margin: 20px -10px 0px -10px;
-    background-color: #1d693d;
-    color: white;
+    background-color: #1f4830;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+    color: #d4edd9;
 }
 .meal-header.first{
     border-top-right-radius: 10px;
@@ -31,9 +32,9 @@
     align-items: center;
     position: relative;
     justify-content: space-between;
-    background-color: white;
-    color: black;
-    box-shadow: 0px 0px 5px 1px #1d693d;
+    background-color: #1e3028;
+    color: #e8f5ec;
+    border: 1px solid rgba(34, 197, 94, 0.3);
     border-radius: 10px;
     height: 65px;
     cursor: pointer;
@@ -47,8 +48,9 @@
     transition: all 0.6s ease;
 }
 .meal-food-info, .food-totals{
-    display: flex; 
+    display: flex;
     gap: 8px;
+    padding-right: 14px;
 }
 .food-hover{
     display: flex;
@@ -56,9 +58,9 @@
     justify-content: flex-end;
     margin-right: 20px;
     gap: 25px;
-    background-color: white;
-    color: black;
-    box-shadow: 0px 0px 5px 1px #1d693d;
+    background-color: #1a2b20;
+    color: #e8f5ec;
+    border: 1px solid rgba(34, 197, 94, 0.3);
     border-radius: 10px;
     width: 100%;
     height: 65px;
@@ -78,6 +80,7 @@
 }
 .food-totals{
     margin-right: 10px;
+    padding-right: 12px;
 }
 .food-name, .food-info{
     margin: 0px 10px; 
@@ -103,15 +106,16 @@
     font-weight: bold;
     border: none;
     border-radius: 8px;
-    padding: 3px 10px; 
+    padding: 3px 10px;
     font-size: 20px;
-    box-shadow: 0px 0px 20px -4px black;
-    cursor: pointer; 
+    background-color: #22c55e;
+    color: #0f1a14;
+    box-shadow: 0px 0px 10px -2px rgba(34, 197, 94, 0.4);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 .add-food-button:hover{
-    background-color: #0388fc; 
-    color: white; 
-    transition: background-color 0.5s ease; 
+    background-color: #16a34a;
 }
 .none{
     color: rgba(128, 128, 128, 0.856);
@@ -125,9 +129,9 @@
     }
 
     .food:hover {
-        background-color: white;
+        background-color: #1e3028;
         transform: none;
-        box-shadow: 0px 0px 5px 1px #1d693d;
+        border: 1px solid rgba(34, 197, 94, 0.3);
         font-style: normal;
     }
 

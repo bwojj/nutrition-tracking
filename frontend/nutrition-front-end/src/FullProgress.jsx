@@ -62,7 +62,12 @@ function FullProgress({ isOpen, onClose, progressData, isLoading }){
     return createPortal(
         <div className="full-screen-overlay" onClick={onClose}>
             <div className="full-progress-box" onClick={(e) => e.stopPropagation()}>
-                <h1 className="full-progress-title">Manage Progress</h1>
+                <div className="modal-header">
+                    <span className="modal-close-btn" onClick={onClose}>&times;</span>
+                    <h1 className="full-progress-title">Manage Progress</h1>
+                    <div style={{width: '32px', flexShrink: 0}}></div>
+                </div>
+                <div className="progress-form-body">
                 <div className="progress-input">
                     <div className="label-input">
                         <label for="currentWeight">Current Weight</label>
@@ -75,7 +80,7 @@ function FullProgress({ isOpen, onClose, progressData, isLoading }){
                     <div className="label-input">
                         <label for="goal">Goal</label>
                         <select onChange={handleChange} name="goal" id="goal">
-            
+
                         </select>
                     </div>
                     <div className="label-input">
@@ -87,8 +92,8 @@ function FullProgress({ isOpen, onClose, progressData, isLoading }){
                 </div>
                 <div className="advanced-options">
                     <button onClick={() => setAdvanced(!advanced)} id="advanced">
-                        Advanced Options 
-                        <motion.span 
+                        Advanced Options
+                        <motion.span
                             animate={{ rotate: advanced ? 180 : 0, marginTop: advanced ? '15px' : 0 }}
                             transition={{ duration: 0.3 }}
                             style={{ display: 'inline-block', marginLeft: '5px', marginBottom: '8px'}}
@@ -98,14 +103,14 @@ function FullProgress({ isOpen, onClose, progressData, isLoading }){
                     </button>
                 </div>
                 <AnimatePresence>
-                {advanced ? 
+                {advanced ?
                     <motion.div className="advanced-options-box"
                     layout
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}      
+                            exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.4, ease: "easeInOut" }}
-                    >  
+                    >
                         <div className="advanced-label-input">
                             <label for="goalCalories">Calories</label>
                             <input onChange={handleChange} type="number" name="goalCalories" id="goalCalories"/>
@@ -128,10 +133,11 @@ function FullProgress({ isOpen, onClose, progressData, isLoading }){
                <motion.button id="saveBtn"
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}      
+                    exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.4, ease: "easeInOut" }}
                     onClick={handleSubmit}
                >Save</motion.button>
+               </div>
             </div>
         </div>,
         document.body

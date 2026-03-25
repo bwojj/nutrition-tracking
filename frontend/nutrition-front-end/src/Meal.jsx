@@ -70,7 +70,7 @@ function Meal(props){
                                 <span className="food-value">{element.fat}F</span>
                             </div>
                             <div className="food-hover" onClick={(e) => e.stopPropagation()}>
-                                <HiOutlineInformationCircle className="info-icon" size={30} color="blue" onClick={() => openNutritionFacts(element)}/>
+                                <HiOutlineInformationCircle className="info-icon" size={30} color="#60a5fa" onClick={() => openNutritionFacts(element)}/>
                                 <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)}/>
                             </div>
                         </div>

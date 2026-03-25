@@ -1,7 +1,8 @@
 .micro-div{
     width: 100%; 
     height: 50px;
-    background-color: #203428;
+    background-color: #1a2b20;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.15);
     display: flex; 
     align-items: center;
     justify-content: space-between;

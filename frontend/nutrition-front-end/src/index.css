@@ -1,13 +1,21 @@
 body{
   margin: 0;
   padding: 0;
+  background-color: #0f1a14;
+  color: #e8f5ec;
 }
 
 /* Remove gray border on select elements (especially on mobile) */
 select {
   border: none;
   outline: none;
-  background-color: transparent;
+  background-color: #1e3028;
+  color: #e8f5ec;
+}
+
+option {
+  background-color: #1e3028;
+  color: #e8f5ec;
 }
 
 select:focus {

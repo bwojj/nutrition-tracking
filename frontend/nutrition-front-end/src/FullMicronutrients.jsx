@@ -1,5 +1,6 @@
 import { createPortal } from "react-dom";
 import './assets/FullMicronutrients.css'
+import './assets/FullProgress.css'
 import Micro from "./Micro.jsx";
 import { useState } from "react";
 
@@ -29,8 +30,12 @@ function FullMicronutrients({ isOpen, onClose, foodData }){
     console.log(microTotals)
     return createPortal(
         <div className="full-screen-overlay" onClick={onClose}>
-            <div className="full-micronutrient-box">
-                <h1 class="full-micro-title">Micronutrients</h1>
+            <div className="full-micronutrient-box" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                    <span className="modal-close-btn" onClick={onClose}>&times;</span>
+                    <h1 className="full-micro-title">Micronutrients</h1>
+                    <div style={{width: '32px', flexShrink: 0}}></div>
+                </div>
                 <div className="micro-info">
                     <div className="title-dv">
                         <h2 className="micro-title">Vitamins</h2>

@@ -3,24 +3,25 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(145deg, #0d2b22 0%, #18453b 55%, #1e5c4e 100%);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 .onboarding-scope-card {
-  background: #ffffff;
-  padding: 48px 40px; /* Increased vertical padding for better balance */
-  border-radius: 16px; /* Slightly softer corners */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background: #162219;
+  padding: 48px 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 440px; /* Narrowed slightly to match the login's compact feel */
-  box-sizing: border-box; /* Crucial to prevent horizontal overflow */
+  max-width: 440px;
+  box-sizing: border-box;
+  border-top: 4px solid #22c55e;
 }
 
 .onboarding-scope-title {
-  color: #2d3e38;
+  color: #22c55e;
   font-size: 2rem;
-  font-weight: 800; /* Heavier weight for the "Login" style heading */
+  font-weight: 800;
   margin-bottom: 32px;
   text-align: center;
   letter-spacing: -0.5px;
@@ -41,24 +42,26 @@
 .onboarding-scope-label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #e8f5ec;
 }
 
 .onboarding-scope-input {
   padding: 12px 14px;
-  border: 1px solid #d1d1d1;
+  border: 1.5px solid rgba(255,255,255,0.12);
   border-radius: 8px;
   font-size: 1rem;
-  color: #333;
+  color: #e8f5ec;
+  background-color: #1a2b20;
   width: 100%;
-  box-sizing: border-box; /* Ensures padding doesn't push width past 100% */
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
 .onboarding-scope-input:focus {
-  border-color: #2d4a43;
+  border-color: #22c55e;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(45, 74, 67, 0.1);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+  background-color: #1e3028;
 }
 
 /* Fixes the side-by-side weight inputs */
@@ -78,13 +81,13 @@
 
 .onboarding-scope-divider {
   height: 1px;
-  background-color: #f0f0f0;
+  background-color: rgba(255,255,255,0.1);
   margin: 8px 0;
 }
 
 .onboarding-scope-submit-btn {
-  background-color: #2d4a43;
-  color: #ffffff;
+  background-color: #22c55e;
+  color: #0f1a14;
   padding: 14px;
   border: none;
   border-radius: 8px;
@@ -92,9 +95,11 @@
   font-weight: 700;
   cursor: pointer;
   margin-top: 12px;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
 }
 
 .onboarding-scope-submit-btn:hover {
-  background-color: #243b35;
+  background-color: #16a34a;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
 }

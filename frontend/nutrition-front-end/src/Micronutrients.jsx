@@ -22,21 +22,21 @@ function Micronutrients({ onOpen, foodData }){
             <h1 className="micro-title">Micronutrients</h1>
             <div className="micronutrient-icons">
                 <div className="icon-name">
-                    <div className="micronutrient-icon-box" style={{backgroundColor: '#add9ea'}}>
+                    <div className="micronutrient-icon-box" style={{backgroundColor: '#1a3a4a', color: '#7dd3fc'}}>
                         <FaPills size={45}/>
                     </div>
                     <span>Vitamin A</span>
                     <span>{totals.vitaminA}mg</span>
                 </div>
                 <div className="icon-name">
-                    <div className="micronutrient-icon-box" style={{backgroundColor: '#d7b696'}}>
+                    <div className="micronutrient-icon-box" style={{backgroundColor: '#3a2a1a', color: '#fdba74'}}>
                         <TbPill size={45}/>
                     </div>
                     <span>Vitamin C</span>
                     <span>{totals.vitaminC}mg</span>
                 </div>
                 <div className="icon-name">
-                    <div className="micronutrient-icon-box" style={{backgroundColor: '#abc699'}}>
+                    <div className="micronutrient-icon-box" style={{backgroundColor: '#2d1f4e', color: '#c084fc'}}>
                         <MdMedication size={45}/>
                     </div>
                     <span>Sodium</span>

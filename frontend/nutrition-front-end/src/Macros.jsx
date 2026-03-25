@@ -59,24 +59,25 @@ function Macro(props) {
                     cx="50%" 
                     cy="50%" 
                     fill="none" 
-                    stroke="#c6c8bb" 
+                    stroke="#1e3028"
                     strokeWidth={20}
                 />
-                <circle 
-                    className="progress-circle" 
-                    r={radius} 
-                    cx="50%" 
-                    cy="50%" 
-                    fill="none" 
-                    stroke={props.color} 
+                <circle
+                    className="progress-circle"
+                    r={radius}
+                    cx="50%"
+                    cy="50%"
+                    fill="none"
+                    stroke={props.color}
                     strokeWidth={20}
                     style={{
                         strokeDasharray: circumfrence,
-                        strokeDashoffset: currentOffset, 
+                        strokeDashoffset: currentOffset,
                         strokeLinecap: 'round',
-                        transform: 'rotate(-90deg)', 
+                        transform: 'rotate(-90deg)',
                         transformOrigin: '50% 50%',
                         transition: isResizing ? "none" : "stroke-dashoffset 0.1s linear",
+                        filter: `drop-shadow(0 0 3px ${props.color}90)`,
                     }}
                 />
             </svg>

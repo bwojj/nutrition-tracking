@@ -56,6 +56,11 @@ class Foods(models.Model):
     food_name = models.CharField(max_length=64)
     serving_size = models.CharField(max_length=64)
     brand = models.CharField(max_length=64, default="MSU")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['food_name', 'brand'], name='unique_food_per_brand')
+        ]
     calories = models.FloatField()
     protein = models.FloatField()
     carbs = models.FloatField()

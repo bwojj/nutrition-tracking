@@ -1,10 +1,9 @@
 .full-micronutrient-box{
-    background-color: #17271e; 
-    position: absolute;
+    background-color: #0f1a14;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    position: relative;
     width: 40%;
-    left: 0;
-    top: 0;
-    transform: translate(82%, 40%);
+    margin-top: -5%;
     height: 500px;
     padding-bottom: 15px;
     display: flex;
@@ -46,18 +45,15 @@
 @media (max-width: 1432px){
     .full-micronutrient-box{
         width: 65%;
-        transform: translate(30%, 25%);
     }
 }
 @media (max-width: 868px){
     .full-micronutrient-box{
         width: 85%;
-        transform: translate(9%, 25%);
     }
 }
 @media (max-width: 675px){
     .full-micronutrient-box{
         width: 95%;
-        transform: translate(3%, 25%);
     }
 }

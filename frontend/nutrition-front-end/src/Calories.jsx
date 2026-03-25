@@ -74,17 +74,18 @@ function Calories({ foodData, progressData, isLoading }) {
         <div className="calories">
             <h1 className="calorie-title">Total Calories</h1>
             <svg width="500" height="325" viewBox="0 0 400 300" className="calorie-progress">
-                <path d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`} fill="none" stroke="#c6c8bb" strokeWidth="30" strokeLinecap="round" />
+                <path d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`} fill="none" stroke="#1e3028" strokeWidth="30" strokeLinecap="round" />
                 <path
                     d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`}
                     fill="none"
-                    stroke="green"
+                    stroke="#22c55e"
                     strokeWidth="30"
                     strokeLinecap="round"
                     style={{
-                        strokeDasharray: circumfrence, 
+                        strokeDasharray: circumfrence,
                         strokeDashoffset: currentOffset,
-                        transition: isResizing ? "none" : "stroke-dashoffset 0.1s linear", 
+                        transition: isResizing ? "none" : "stroke-dashoffset 0.1s linear",
+                        filter: "drop-shadow(0 0 3px #22c55e90)",
                     }}
                 />
             </svg>
@@ -93,9 +94,9 @@ function Calories({ foodData, progressData, isLoading }) {
                 <span className="calorie-ratio">{currentCalories} / {targetCalories}</span>
             </div>
             <div className="macros">
-                <Macro color="#7231bd" name="Protein" amount={macroData("protein")} goal={progressData[0].goal_protein}/>
-                <Macro color="#31bd98" name="Carbs" amount={macroData("carbs")} goal={progressData[0].goal_carbs}/>
-                <Macro color="#ffad21ff" name="Fat" amount={macroData("fat")} goal={progressData[0].goal_fat}/>
+                <Macro color="#3b82f6" name="Protein" amount={macroData("protein")} goal={progressData[0].goal_protein}/>
+                <Macro color="#ef4444" name="Carbs" amount={macroData("carbs")} goal={progressData[0].goal_carbs}/>
+                <Macro color="#eab308" name="Fat" amount={macroData("fat")} goal={progressData[0].goal_fat}/>
             </div>
         </div>
     );

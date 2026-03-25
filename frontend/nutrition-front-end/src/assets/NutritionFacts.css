@@ -44,9 +44,9 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 2px solid #000;
-    background-color: #fff;
-    color: #000;
+    border: 2px solid rgba(255,255,255,0.3);
+    background-color: #162219;
+    color: #e8f5ec;
     font-size: 20px;
     cursor: pointer;
     display: flex;
@@ -57,7 +57,8 @@
 }
 
 .nutrition-label-modal__close-btn:hover {
-    background-color: #f0f0f0;
+    background-color: #22c55e;
+    color: #0f1a14;
     transform: scale(1.1);
 }
 
