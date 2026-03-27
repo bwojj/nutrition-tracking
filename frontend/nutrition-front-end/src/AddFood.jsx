@@ -3,7 +3,7 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Loader } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoodsDB, getRefresh, foodDatabase}){
 
@@ -12,11 +12,12 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
     const [isSearching, setIsSearching] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
 
+    const initial20 = foodDatabase.slice(0, 20);
     const localFiltered = search.length > 0
-        ? foodDatabase.filter((food) =>
+        ? initial20.filter((food) =>
             food.food_name.toLowerCase().includes(search.toLowerCase())
           )
-        : foodDatabase.slice(0, 20);
+        : initial20;
 
     function handleChange(event){
         setSearch(event.target.value);
@@ -124,7 +125,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                 <div className="foods">
                     {isSearching ? (
                         <div className="search-loading">
-                            <Loader className="spinner" size={32} />
+                            <div className="spinner"></div>
                         </div>
                     ) : (
                         <AnimatePresence>
