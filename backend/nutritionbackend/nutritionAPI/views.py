@@ -134,9 +134,18 @@ class ProgressView(viewsets.ModelViewSet):
 
         return Progress.objects.filter(user=user_profile)
 
-class FoodsView(viewsets.ModelViewSet): 
+class FoodsView(viewsets.ModelViewSet):
     queryset = Foods.objects.all()
-    serializer_class = FoodsSerializer 
+    serializer_class = FoodsSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = Foods.objects.order_by('-id')
+        search = request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(food_name__icontains=search)
+        queryset = queryset[:20]
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

@@ -103,7 +103,7 @@ export const saveFood = async (foodData, date) => {
 
 export const getFoods = async () => {
     try {
-        const response = await fetch(`${BASE_URL}api/foods`, {
+        const response = await fetch(`${BASE_URL}api/foods/`, {
             headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
             credentials: 'include',
         });
@@ -111,7 +111,7 @@ export const getFoods = async () => {
         if (response.status === 401) {
             const refreshResponse = await refresh();
             if (refreshResponse.ok) {
-                const retryResponse = await fetch(`${BASE_URL}api/foods`, {
+                const retryResponse = await fetch(`${BASE_URL}api/foods/`, {
                     headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
                     credentials: 'include',
                 });
@@ -128,5 +128,33 @@ export const getFoods = async () => {
         }
     } catch (error) {
         console.log("Failed to fetch Foods", error);
+    }
+};
+
+export const searchFoodsDB = async (query) => {
+    try {
+        const response = await fetch(`${BASE_URL}api/foods/?search=${encodeURIComponent(query)}`, {
+            headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+            credentials: 'include',
+        });
+        if (response.status === 401) {
+            const refreshResponse = await refresh();
+            if (refreshResponse.ok) {
+                const retryResponse = await fetch(`${BASE_URL}api/foods/?search=${encodeURIComponent(query)}`, {
+                    headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+                    credentials: 'include',
+                });
+                if (retryResponse.ok) {
+                    const data = await retryResponse.json();
+                    return data;
+                }
+            }
+        }
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.log("Failed to search foods", error);
     }
 };

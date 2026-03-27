@@ -250,3 +250,24 @@
         right: 88%;
     }
 }
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.spinner {
+    animation: spin 0.8s linear infinite;
+    color: #7aab8a;
+}
+.search-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+.no-results {
+    color: #7aab8a;
+    text-align: center;
+    padding: 30px;
+    font-size: 1rem;
+}
