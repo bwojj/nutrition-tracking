@@ -1,6 +1,7 @@
 import './assets/index.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
 import { MealsContext } from "./Context/Context.js"
+import { DaysProvider } from './Context/DayContext.jsx'
 import { useState, useEffect } from "react"
 import Header from "./Header.jsx"
 import MainBox from "./MainBox.jsx"
@@ -47,6 +48,7 @@ if(isLoading){
 }
   return (
     <Router>
+      <DaysProvider>
       <MealsContext.Provider value={{ meals, setMeals}}>
         <Routes>
           <Route
@@ -82,6 +84,7 @@ if(isLoading){
         </Routes>
           
       </MealsContext.Provider>
+      </DaysProvider>
       
     </Router>
   );

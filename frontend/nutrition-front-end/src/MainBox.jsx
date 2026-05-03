@@ -9,15 +9,9 @@ import FullProgress from './FullProgress.jsx';
 import LoadingScreen from './LoadingScreen.jsx';
 import { useState, useEffect } from 'react';
 import { getFoodData, getFoods, searchFoodsDB } from './api/mealApi.js';
-import { getDays, getProgress } from './api/userApi.js';
+import { getProgress } from './api/userApi.js';
+import { useDaysContext } from './Context/DayContext.jsx';
 
-const getLocalDateString = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-};
 
 function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsMicroModalOpen, isProgressModalOpen, setIsProgressModalOpen}){
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,23 +19,16 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     const [meal, setMeal] = useState("");
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
-    const [selectedDate, setSelectedDate] = useState(getLocalDateString);
-    const [daysData, setDaysData] = useState([]);
     const [foodDatabase, setFoodDatabase] = useState([]);
 
+    const { selectedDate } = useDaysContext();
 
-    const today = getLocalDateString(); 
 
     const getRefresh = async () => {
-        const [dataResponse, dayResponse] = await Promise.all([
-            getFoodData(selectedDate),
-            getDays()
-        ]);
+        const dataResponse = await getFoodData(selectedDate)
+
         if(dataResponse){
             setFoodData(dataResponse);
-        }
-        if(dayResponse){
-            setDaysData(dayResponse);
         }
     }
     useEffect(() => {
@@ -51,10 +38,9 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
 
   const loadAll = async () => {
     try {
-      const [progressResponse, dayResponse, foodResponse, itemsResponse] =
+      const [progressResponse, foodResponse, itemsResponse] =
         await Promise.all([
           getProgress(),
-          getDays(),
           getFoodData(selectedDate),
           getFoods(),
         ]);
@@ -62,7 +48,6 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
       if (cancelled) return;
 
       setProgressData(progressResponse || []);
-      setDaysData(dayResponse || []);
       setFoodData(foodResponse || []);
       setFoodDatabase(itemsResponse || [])
     } catch (err) {
@@ -77,16 +62,11 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
   };
 }, [isLoggedIn, selectedDate]);
     
-    if (!progressData.length || !daysData.length) {
+    if (!progressData.length) {
         return <LoadingScreen/>
     }
     return(
         <div className="main">
-            <select value={selectedDate} id="selected-date" className={selectedDate === today ? 'today' : ''}onChange={(event) => setSelectedDate(event.target.value)}>
-                {daysData.map((element) => (
-                    <option className="option" value={element.date}>{element.date === today ? 'Today' : element.date}</option>
-                ))}; 
-            </select>
             <AddFood 
                 isOpen={isModalOpen} setIsModalOpen={setIsModalOpen}
                 isDataModalOpen={isDataModalOpen} onDataOpen={() => setIsDataModalOpen(true)}

@@ -3,7 +3,17 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search } from 'lucide-react';
+import { Search, X, Clock, Star, Utensils, Scan, Apple } from 'lucide-react';
+
+const MEAL_TABS = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+
+const CATEGORY_CHIPS = [
+    { icon: <Clock size={14} />, label: 'Recent', active: true },
+    { icon: <Star size={14} />, label: 'Favorites' },
+    { icon: <Utensils size={14} />, label: 'My Meals' },
+    { icon: <Scan size={14} />, label: 'Scan' },
+    { icon: <Apple size={14} />, label: 'Foods' },
+];
 
 function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoodsDB, getRefresh, foodDatabase}){
 
@@ -104,24 +114,43 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                 {isDataModalOpen && (
                     <div className="inner-modal-overlay" onClick={onDataClose} />
                 )}
+
                 <div className="add-food-header">
-                    <div style={{flex: 1}}></div>
-                    <h1 className="add-food-title">Add Food</h1>
-                    <div className="x-wrapper">
-                        <span onClick={onClose} className="x">{"\u00D7"}</span>
+                    <div className="add-food-header-left">
+                        <span className="add-food-eyebrow">Add to log</span>
+                        <h1 className="add-food-title">Search Foods</h1>
+                    </div>
+                    <button className="add-food-close" onClick={onClose}><X size={16} /></button>
+                </div>
+
+                <div className="meal-tabs">
+                    {MEAL_TABS.map(m => (
+                        <button key={m} className={`meal-tab${m === meal ? ' meal-tab--active' : ''}`}>{m}</button>
+                    ))}
+                </div>
+
+                <div className="search-area">
+                    <div className="searchBox">
+                        <Search className="search-icon" size={18} />
+                        <input
+                            className="search"
+                            value={search}
+                            onKeyDown={handleKeyDown}
+                            onChange={handleChange}
+                            placeholder="Search foods, brands, meals…"
+                        />
+                        <button className="search-cmdk-chip" onClick={handleSearch}>⌘K</button>
+                    </div>
+                    <div className="category-chips">
+                        {CATEGORY_CHIPS.map(({ icon, label, active }) => (
+                            <button key={label} className={`category-chip${active ? ' category-chip--active' : ''}`}>
+                                {icon}
+                                {label}
+                            </button>
+                        ))}
                     </div>
                 </div>
-                <div className="searchBox">
-                    <Search className="search-icon" size={20} />
-                    <input
-                        className="search"
-                        value={search}
-                        onKeyDown={handleKeyDown}
-                        onChange={handleChange}
-                        placeholder="Search Foods"
-                    />
-                    <button className="searchBTN" onClick={handleSearch}>Search</button>
-                </div>
+
                 <div className="foods">
                     {isSearching ? (
                         <div className="search-loading">
@@ -129,8 +158,14 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                         </div>
                     ) : (
                         <AnimatePresence>
-                            {hasSearched && searchResults.length === 0 ? (
-                                <p className="no-results">No results found</p>
+                            {displayFoods.length === 0 ? (
+                                <motion.p
+                                    className="no-results"
+                                    key="no-results"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                >No foods found</motion.p>
                             ) : (
                                 displayFoods.map((element, index) => (
                                     <motion.div
@@ -145,24 +180,30 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                                     >
                                         <div className="name">
                                             <span className="food-name">{element.food_name}</span>
-                                            <span className="brand-name">{element.brand}</span>
-                                        </div>
-                                        <div className="data">
-                                            <div className="data-top">
-                                                <span className="food-data">{element.calories}Cals</span>
-                                                <span className="food-data">{element.protein}P</span>
-                                            </div>
-                                            <div className="data-bottom">
-                                                <span className="food-data">{element.carbs}C</span>
-                                                <span className="food-data">{element.fat}F</span>
+                                            <div className="food-meta">
+                                                <span className="brand-name">{element.brand}</span>
+                                                {element.serving_size && (
+                                                    <><span className="food-meta-sep">·</span><span className="brand-name">{element.serving_size}</span></>
+                                                )}
                                             </div>
                                         </div>
+                                        <div className="food-macros">
+                                            <span><span className="macro-p">P</span> {element.protein}</span>
+                                            <span><span className="macro-c">C</span> {element.carbs}</span>
+                                            <span><span className="macro-f">F</span> {element.fat}</span>
+                                            <span className="macro-cal">{element.calories} cal</span>
+                                        </div>
+                                        <button
+                                            className="food-add-btn"
+                                            onClick={(e) => { e.stopPropagation(); dataOpen(element); }}
+                                        >+</button>
                                     </motion.div>
                                 ))
                             )}
                         </AnimatePresence>
                     )}
                 </div>
+
                 <AddFoodData date={date} onFoodAdded={getRefresh} setIsLoading={setIsLoading} info={dataSent} onModalClose={onClose} isOpen={isDataModalOpen} onClose={onDataClose}/>
             </div>
         </div>,

@@ -1,9 +1,10 @@
+@import './tokens.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 body{
-    font-family: 'Montserrat';
+    font-family: var(--font-sans);
     margin: 0;
     padding: 0;
-    background-color: #0f1a14;
-    color: #e8f5ec;
+    background-color: var(--bg);
+    color: var(--fg);
 }

@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-e6j2^gedfp&@$nd7#y918vk4ps9j!k=suttje$vnam#aoys)wl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'nutrition-tracking-production-36a9.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'nutrition-tracking-production-36a9.up.railway.app', 'http://localhost:5176']
 
 
 # Application definition
