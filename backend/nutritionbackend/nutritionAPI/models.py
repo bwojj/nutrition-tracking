@@ -77,3 +77,5 @@ class Foods(models.Model):
     vitamin_A = models.FloatField()
     vitamin_C = models.FloatField()
     calcium = models.FloatField()
+    favorite = models.BooleanField(default=False)
+    date_last_used = models.DateTimeField(auto_now=True) 

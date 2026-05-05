@@ -139,13 +139,15 @@ class FoodsView(viewsets.ModelViewSet):
     serializer_class = FoodsSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = Foods.objects.order_by('-id')
+        queryset = Foods.objects.order_by('-date_last_used')
         search = request.query_params.get('search')
         if search:
             queryset = queryset.filter(food_name__icontains=search)
         queryset = queryset[:20]
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+    
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -240,3 +242,15 @@ def is_authenticated(request):
 @permission_classes([AllowAny])
 def health_check(request):
     return Response({'status': 'ok'})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def save_to_favorites(request):
+    food = request.food_name
+    brand = request.brand
+
+    food_obj, _ = Foods.update_or_create(
+        food_name=food,
+        brand=brand, 
+        favorite=True 
+    )

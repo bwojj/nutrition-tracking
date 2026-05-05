@@ -23,7 +23,7 @@ function Calories({ foodData, progressData, isLoading }) {
         };
     }, []);
 
-    const r = windowWidth >= 1471 ? 190 : 130;
+    const r = windowWidth >= 1471 ? 138 : 94;
     const cx = 200;
     const cy = 210;
     const x1 = cx - r;
@@ -73,13 +73,13 @@ function Calories({ foodData, progressData, isLoading }) {
     return (
         <div className="calories">
             <h1 className="calorie-title">Total Calories</h1>
-            <svg width="500" height="325" viewBox="0 0 400 300" className="calorie-progress">
-                <path d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`} fill="none" stroke="#1e3028" strokeWidth="30" strokeLinecap="round" />
+            <svg width="500" height="260" viewBox="0 0 400 240" className="calorie-progress">
+                <path d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`} fill="none" stroke="#1e3028" strokeWidth="24" strokeLinecap="round" />
                 <path
                     d={`M ${x1} ${y} A ${r} ${r} 0 0 1 ${x2} ${y}`}
                     fill="none"
                     stroke="#22c55e"
-                    strokeWidth="30"
+                    strokeWidth="24"
                     strokeLinecap="round"
                     style={{
                         strokeDasharray: circumfrence,

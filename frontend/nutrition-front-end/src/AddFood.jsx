@@ -3,7 +3,7 @@ import './assets/AddFood.css'
 import { useState } from 'react';
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, X, Clock, Star, Utensils, Scan, Apple } from 'lucide-react';
+import { Search, X, Clock, Star, Utensils, Apple } from 'lucide-react';
 
 const MEAL_TABS = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
@@ -11,7 +11,6 @@ const CATEGORY_CHIPS = [
     { icon: <Clock size={14} />, label: 'Recent', active: true },
     { icon: <Star size={14} />, label: 'Favorites' },
     { icon: <Utensils size={14} />, label: 'My Meals' },
-    { icon: <Scan size={14} />, label: 'Scan' },
     { icon: <Apple size={14} />, label: 'Foods' },
 ];
 
@@ -21,6 +20,9 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
+    const [activeMeal, setActiveMeal] = useState(meal);
+
+    
 
     const initial20 = foodDatabase.slice(0, 20);
     const localFiltered = search.length > 0
@@ -101,10 +103,11 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
             vitamin_a: data.vitamin_A,
             vitamin_c: data.vitamin_C,
             calcium: data.calcium,
-            meal: meal,
+            meal: activeMeal,
         })
         onDataOpen();
     }
+
 
     if (!isOpen) return null;
 
@@ -125,7 +128,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
 
                 <div className="meal-tabs">
                     {MEAL_TABS.map(m => (
-                        <button key={m} className={`meal-tab${m === meal ? ' meal-tab--active' : ''}`}>{m}</button>
+                        <button key={m} className={`meal-tab${m === activeMeal ? ' meal-tab--active' : ''}`} onClick={() => setActiveMeal(m)}>{m}</button>
                     ))}
                 </div>
 

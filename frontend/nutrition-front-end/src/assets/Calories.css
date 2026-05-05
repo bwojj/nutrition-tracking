@@ -1,6 +1,6 @@
 .calories{
     width: 35%;
-    height: 550px;
+    height: 450px;
     border: none;
     padding: 10px;
     display: flex;
@@ -8,61 +8,66 @@
     align-items: center;
     background-color: #162219;
     color: #e8f5ec;
-    border: 1px solid #2d6b44;
+    border: 1px solid var(--border);
     box-shadow: 0px 0px 20px -4px rgba(0,0,0,0.8);
     border-radius: 10px;
     position: relative;
 }
 .calorie-number-ratio{
-    display: flex; 
+    display: flex;
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 40%;
+    top: 34%;
 }
 .calorie-number{
-    font-size: 4.5rem; 
+    font-size: 3rem;
+    font-family: var(--font-mono);
 }
 .calorie-ratio{
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+    font-family: var(--font-mono);
 }
 .macros{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: -50px;
+    margin-top: 7px;
 }
 .macro-name-amount{
-    display: flex; 
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 .calorie-progress{
     width: 100%;
+    margin-top: -75px;
 }
 
 @media(max-width: 1150px){
     .calories{
         width: 90%;
-        height: 450px;
+        height: 380px;
     }
     .calorie-progress{
         width: 80%;
-        margin-top: -75px;
+        margin-top: -55px;
         stroke-linecap: round;
     }
     .calorie-number-ratio{
-        top: 45%;
+        top: 39%;
     }
     .calorie-number{
-        font-size: 2.5rem; 
+        font-size: 2rem;
+        font-family: var(--font-mono);
     }
     .calorie-ratio{
-        font-size: 1rem;
+        font-size: 0.9rem;
+        font-family: var(--font-mono);
     }
     .macros{
-        margin-top: -90px; 
+        margin-top: -70px;
         gap: 10px;
     }
     .macro-name-amount{
@@ -73,11 +78,15 @@
 }
 @media(max-width: 1441px){
     .calorie-number{
-        font-size: 2.5rem;
-        margin-top: -50px;
+        font-size: 2rem;
+        font-family: var(--font-mono);
+        margin-top: -35px;
     }
     .calorie-progress{
-        margin-top: -80px;
+        margin-top: -85px;
+    }
+    .macros{
+        margin-top: 2px;
     }
 }
 @media(max-width: 530px){

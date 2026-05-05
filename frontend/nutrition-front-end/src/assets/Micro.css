@@ -23,6 +23,7 @@
 .micro-goal{
     width: 30px;
     text-align: center;
+    font-family: var(--font-mono);
 }
 
 @media(max-width: 675px){

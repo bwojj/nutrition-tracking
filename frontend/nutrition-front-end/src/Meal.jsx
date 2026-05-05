@@ -1,91 +1,165 @@
 import { useState } from 'react';
-import './assets/Meal.css'
+import './assets/Meal.css';
 import NutritionFacts from './NutritionFacts.jsx';
-import { HiOutlineInformationCircle } from "react-icons/hi";
-import { LuTrash2 } from "react-icons/lu";
+import { HiOutlineInformationCircle } from 'react-icons/hi';
+import { LuTrash2 } from 'react-icons/lu';
 import { deleteFood } from './api/mealApi.js';
 
-function Meal(props){
+function Meal(props) {
     const [selectedFood, setSelectedFood] = useState(null);
+    const [open, setOpen] = useState(true);
     const [activeFood, setActiveFood] = useState(null);
 
-    const openNutritionFacts = (food) => {
-        setSelectedFood(food);
-    };
-
-    const closeNutritionFacts = () => {
-        setSelectedFood(null);
-    };
-
-    const handleFoodClick = (id) => {
-        // Toggle active state for mobile tap-to-reveal
-        setActiveFood(activeFood === id ? null : id);
-    };
-
     const totalCalculate = (name) => {
-        let total = 0; 
-        props.foodData.forEach(value => total += value[name]);
+        let total = 0;
+        props.foodData.forEach((value) => (total += value[name]));
         return total;
-    }
+    };
 
     const onDelete = async (id) => {
-        const deleteResponse = await deleteFood(id); 
-        if(deleteResponse === 'Success'){
-            props.setFoodData(prevData => prevData.filter(food => food.id !== id));
+        const r = await deleteFood(id);
+        if (r === 'Success') {
+            props.setFoodData((prev) => prev.filter((f) => f.id !== id));
         }
-    }
+    };
 
     const openAddFoodModal = (name) => {
-        props.setMeal(name)
-        props.onOpen()
-    }
+        props.setMeal(name);
+        props.onOpen();
+    };
 
-    return(
-        <div className="meal">
-            <div className={`meal-header ${props.first ? 'first': ''}`}>
-                <div className="name-button">
-                    <h1 className="meal-title">{props.mealName}</h1>
-                    <button onClick={() => openAddFoodModal(props.mealName)} className="add-food-button">+</button>
+    const cals = totalCalculate('calories');
+    const p    = totalCalculate('protein');
+    const c    = totalCalculate('carbs');
+    const f    = totalCalculate('fat');
+
+    const foods = props.foodData
+        ? props.foodData.filter((el) => el.meal === props.mealName)
+        : [];
+
+    return (
+        <div className="meal-row">
+            <button
+                type="button"
+                className="meal-bar"
+                onClick={() => setOpen((o) => !o)}
+            >
+                <div className="meal-bar-left">
+                    <span className="meal-bar-name">{props.mealName}</span>
+                    <span
+                        role="button"
+                        tabIndex={0}
+                        className="meal-add-chip"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            openAddFoodModal(props.mealName);
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                openAddFoodModal(props.mealName);
+                            }
+                        }}
+                        aria-label={`Add food to ${props.mealName}`}
+                    >
+                        +
+                    </span>
                 </div>
-                <div className="food-totals">
-                    <span className="total-value">{totalCalculate('calories')}Cals</span>
-                    <span className="total-value">{totalCalculate('protein')}P</span> 
-                    <span className="total-value">{totalCalculate('carbs')}C</span> 
-                    <span className="total-value">{totalCalculate('fat')}F</span>  
+
+                <div className="meal-bar-right">
+                    <span className="meal-bar-stat">
+                        <span className="num">{cals}</span>
+                        <span className="unit">Cals</span>
+                    </span>
+                    <span className="meal-bar-stat">
+                        <span className="num">{p}</span>
+                        <span className="unit">P</span>
+                    </span>
+                    <span className="meal-bar-stat">
+                        <span className="num">{c}</span>
+                        <span className="unit">C</span>
+                    </span>
+                    <span className="meal-bar-stat">
+                        <span className="num">{f}</span>
+                        <span className="unit">F</span>
+                    </span>
                 </div>
-            </div>
-            {props.foodData && props.foodData.length > 0 ? (
-                props.foodData.map((element) => (
-                element.meal === props.mealName ? (
-                        <div
-                            key={element.id}
-                            className={`food ${activeFood === element.id ? 'active' : ''}`}
-                            onClick={() => handleFoodClick(element.id)}
-                        >
-                            <h3 className="food-name">{element.food_name}</h3>
-                            <div className="meal-food-info">
-                                <span className="food-value">{element.calories}Cals</span>
-                                <span className="food-value">{element.protein}P</span>
-                                <span className="food-value">{element.carbs}C</span>
-                                <span className="food-value">{element.fat}F</span>
-                            </div>
-                            <div className="food-hover" onClick={(e) => e.stopPropagation()}>
-                                <HiOutlineInformationCircle className="info-icon" size={30} color="#60a5fa" onClick={() => openNutritionFacts(element)}/>
-                                <LuTrash2 className="trash-icon" size={30} color="red" onClick={() => onDelete(element.id)}/>
-                            </div>
-                        </div>
-                ) : null
-            ))
-            ) : <div className="none-div" style={{height: '50px', marginBottom: '-20px'}}><span className="none">No Foods</span></div>
-            }
+            </button>
+
+            {open && (
+                <div className="meal-drawer">
+                    {foods.length > 0 ? (
+                        <ul className="food-list">
+                            {foods.map((element) => (
+                                <li
+                                    key={element.id}
+                                    tabIndex={0}
+                                    className={`food-line ${activeFood === element.id ? 'active' : ''}`}
+                                    onClick={() =>
+                                        setActiveFood(
+                                            activeFood === element.id ? null : element.id
+                                        )
+                                    }
+                                >
+                                    <span className="food-line-name">{element.food_name}</span>
+                                    <div className="food-line-right">
+                                        <div className="food-line-stats">
+                                            <span className="food-line-stat">
+                                                <span className="num">{element.calories}</span>
+                                                <span className="unit">Cals</span>
+                                            </span>
+                                            <span className="food-line-stat">
+                                                <span className="num">{element.protein}</span>
+                                                <span className="unit">P</span>
+                                            </span>
+                                            <span className="food-line-stat">
+                                                <span className="num">{element.carbs}</span>
+                                                <span className="unit">C</span>
+                                            </span>
+                                            <span className="food-line-stat">
+                                                <span className="num">{element.fat}</span>
+                                                <span className="unit">F</span>
+                                            </span>
+                                        </div>
+                                        <div
+                                            className="food-line-actions"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <button
+                                                type="button"
+                                                className="icon-btn"
+                                                aria-label="Nutrition facts"
+                                                onClick={() => setSelectedFood(element)}
+                                            >
+                                                <HiOutlineInformationCircle size={18} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="icon-btn icon-btn-danger"
+                                                aria-label="Delete"
+                                                onClick={() => onDelete(element.id)}
+                                            >
+                                                <LuTrash2 size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="meal-empty">No foods</div>
+                    )}
+                </div>
+            )}
 
             <NutritionFacts
                 isOpen={selectedFood !== null}
-                onClose={closeNutritionFacts}
+                onClose={() => setSelectedFood(null)}
                 foodData={selectedFood}
             />
         </div>
     );
 }
 
-export default Meal
+export default Meal;

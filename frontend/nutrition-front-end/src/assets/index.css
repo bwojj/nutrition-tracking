@@ -1,10 +1,9 @@
 @import './tokens.css';
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-body{
-    font-family: var(--font-sans);
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg);
-    color: var(--fg);
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--fg);
 }

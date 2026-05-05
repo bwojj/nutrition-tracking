@@ -1,7 +1,7 @@
 .macro-container{
-    width: 32%; 
-    height: 200px;
-    border: none; 
+    width: 32%;
+    height: 165px;
+    border: none;
     position: relative;
 }
 .macro-percentage{
@@ -9,14 +9,21 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -100%);
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-family: var(--font-mono);
+}
+.macro-amount{
+    font-family: var(--font-mono);
 }
 .macro-name-amount{
     position: relative;
     left: 3%;
+    margin-top: -8px;
 }
 .macro-circles{
     width: 100%;
+    height: 125px;
+    margin-top: -3px;
 }
 .progress-circle{
     transform: rotate(-180deg);
@@ -28,7 +35,8 @@
 
 @media(max-width: 1441px){
     .macro-percentage{
-        font-size: 1.25rem; 
+        font-size: 1rem;
+        font-family: var(--font-mono);
         transform: translate(-50%, -150%);
     }
 }

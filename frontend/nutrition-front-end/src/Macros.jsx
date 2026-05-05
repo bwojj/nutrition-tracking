@@ -21,7 +21,8 @@ function Macro(props) {
         };
     }, []);
 
-    const radius = windowWidth >= 1471 ? 60 : (windowWidth <= 400 ? 35 : 40);
+    const radius   = windowWidth >= 1471 ? 48 : (windowWidth <= 400 ? 28 : 32);
+    const strokeW  = windowWidth >= 1471 ? 16 : (windowWidth <= 400 ? 11 : 13);
     const circumfrence = 2 * Math.PI * radius;
 
     const visualPercentage = Math.min(percentage, 100);
@@ -53,14 +54,14 @@ function Macro(props) {
     return (
         <div className="macro-container">
             <svg className="macro-circles">
-                <circle 
-                    className="circle" 
-                    r={radius} 
-                    cx="50%" 
-                    cy="50%" 
-                    fill="none" 
+                <circle
+                    className="circle"
+                    r={radius}
+                    cx="50%"
+                    cy="50%"
+                    fill="none"
                     stroke="#1e3028"
-                    strokeWidth={20}
+                    strokeWidth={strokeW}
                 />
                 <circle
                     className="progress-circle"
@@ -69,7 +70,7 @@ function Macro(props) {
                     cy="50%"
                     fill="none"
                     stroke={props.color}
-                    strokeWidth={20}
+                    strokeWidth={strokeW}
                     style={{
                         strokeDasharray: circumfrence,
                         strokeDashoffset: currentOffset,

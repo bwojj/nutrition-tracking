@@ -1,23 +1,24 @@
 import './assets/Progress.css'
-import { Dumbbell, Target, Utensils } from 'lucide-react';
+import { Dumbbell, ExternalLink, Target, Utensils } from 'lucide-react';
 
 function Progress({ onOpen, progressData }){
     return(
         <div className="progress-container" onClick={onOpen}>
+            <ExternalLink size={18} className="progress-expand-icon" />
             <h1 className="progress-title">Progress Tracker</h1>
             <div className="tracking-icons">
                 <div className="icon-info">
-                    <Dumbbell size={40} color={'#22c55e'}/>
+                    <Dumbbell size={32} color={'#22c55e'}/>
                     <h2 className="tracking-title">Current Weight:</h2>
                     <span className="progress-data">{progressData.current_weight} lbs</span>
                 </div>
                 <div className="icon-info">
-                    <Target size={40} color={'#22c55e'}/>
+                    <Target size={32} color={'#22c55e'}/>
                     <h2 className="tracking-title">Goal Weight:</h2>
                     <span className="progress-data">{progressData.goal_weight} lbs</span>
                 </div>
                 <div className="icon-info">
-                    <Utensils size={40} color={'#22c55e'}/>
+                    <Utensils size={32} color={'#22c55e'}/>
                     <h2 className="tracking-title">Eating Plan:</h2>
                     <span className="progress-data">Weight Loss</span>
                 </div>
