@@ -253,11 +253,11 @@ def health_check(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def save_to_favorites(request):
-    id = request.data.get('id')
-
     try: 
         food_obj = Foods.objects.get(id=request.data.get('id'))
-        food_obj.favorite = True; 
+        food_obj.favorite = True;
+
+        food_obj.save(update_fields=['favorite']) 
 
         return Response({'success': 'true'})
     except Exception as e: 
