@@ -331,6 +331,34 @@
     font-weight: 600;
 }
 
+/* Action buttons — star + add grouped together */
+.food-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.food-favorite-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    color: var(--fg-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: color var(--dur-fast) var(--ease-standard);
+    padding: 0;
+}
+
+.food-favorite-btn:hover {
+    color: var(--accent);
+}
+
 /* Add button */
 .food-add-btn {
     width: 32px;

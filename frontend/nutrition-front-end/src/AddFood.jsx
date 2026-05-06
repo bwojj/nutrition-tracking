@@ -14,7 +14,7 @@ const CATEGORY_CHIPS = [
     { icon: <Apple size={14} />, label: 'Foods' },
 ];
 
-function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoodsDB, getRefresh, foodDatabase, foodDatabasebyID}){
+function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, foodDatabaseFavorites, searchFoodsDB, getRefresh, foodDatabase, foodDatabasebyID}){
 
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -34,6 +34,12 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
             food.food_name.toLowerCase().includes(search.toLowerCase())
           )
         : foodDatabasebyID.slice(0, 20);
+    
+    const favorites = search.length > 0
+        ? foodDatabaseFavorites.slice(0, 20).filter((food) =>
+            food.food_name.toLowerCase().includes(search.toLowerCase())
+          )
+        : foodDatabaseFavorites.slice(0, 20);
 
     function handleChange(event){
         setSearch(event.target.value);
@@ -63,7 +69,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
         }
     };
 
-    const chipFoods = activeChip === 'Foods' ? foodsByID20 : defaultFiltered;
+    const chipFoods = activeChip === 'Foods' ? foodsByID20 : activeChip == 'Favorites' ? favorites : defaultFiltered;
     const displayFoods = hasSearched ? searchResults : chipFoods;
 
     console.log(displayFoods);
@@ -89,6 +95,10 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
         calcium: 0,
         meal: meal,
     });
+
+    function handleFavorite(food) {
+        // TODO: API call to toggle favorite
+    }
 
     function dataOpen(data){
         setDataSent({
@@ -203,10 +213,16 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                                             <span><span className="macro-f">F</span> {element.fat}</span>
                                             <span className="macro-cal">{element.calories} cal</span>
                                         </div>
-                                        <button
-                                            className="food-add-btn"
-                                            onClick={(e) => { e.stopPropagation(); dataOpen(element); }}
-                                        >+</button>
+                                        <div className="food-actions">
+                                            <button
+                                                className="food-favorite-btn"
+                                                onClick={(e) => { e.stopPropagation(); handleFavorite(element); }}
+                                            ><Star size={14} /></button>
+                                            <button
+                                                className="food-add-btn"
+                                                onClick={(e) => { e.stopPropagation(); dataOpen(element); }}
+                                            >+</button>
+                                        </div>
                                     </motion.div>
                                 ))
                             )}

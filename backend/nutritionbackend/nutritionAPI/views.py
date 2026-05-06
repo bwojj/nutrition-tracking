@@ -253,11 +253,13 @@ def health_check(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def save_to_favorites(request):
-    food = request.food_name
-    brand = request.brand
+    id = request.data.get('id')
 
-    food_obj, _ = Foods.update_or_create(
-        food_name=food,
-        brand=brand, 
-        favorite=True 
-    )
+    try: 
+        food_obj, _ = Foods.update_or_create(
+            id=id, 
+            favorite=True 
+        )
+        return Response({'success': 'true'})
+    except: 
+        return Response({'success': 'false'})

@@ -21,6 +21,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     const [progressData, setProgressData] = useState([]);
     const [foodDatabase, setFoodDatabase] = useState([]);
     const [foodDatabasebyID, setFoodDatabasebyID] = useState([]); 
+    const [foodDatabaseFavorites, setFoodDatabaseFavorites] = useState([]); 
 
     const { selectedDate } = useDaysContext();
 
@@ -39,12 +40,13 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
 
   const loadAll = async () => {
     try {
-      const [progressResponse, foodResponse, itemsResponse, itemsIdResponse] =
+      const [progressResponse, foodResponse, itemsResponse, itemsIdResponse, itemsFavoriteResponse] =
         await Promise.all([
           getProgress(),
           getFoodData(selectedDate),
           getFoods('date'),
           getFoods('id'), 
+          getFoods('favorite'), 
         ]);
 
       if (cancelled) return;
@@ -53,6 +55,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
       setFoodData(foodResponse || []);
       setFoodDatabase(itemsResponse || []);
       setFoodDatabasebyID(itemsIdResponse || []);
+      setFoodDatabaseFavorites(itemsFavoriteResponse || []); 
     } catch (err) {
       console.error("MainBox load error:", err);
     }
@@ -82,6 +85,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
                 getRefresh={getRefresh} 
                 foodDatabase={foodDatabase}
                 foodDatabasebyID={foodDatabasebyID}
+                foodDatabaseFavorites={foodDatabaseFavorites}
             />
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)} progressData={progressData}/>

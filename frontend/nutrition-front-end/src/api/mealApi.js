@@ -158,3 +158,19 @@ export const searchFoodsDB = async (query) => {
         console.log("Failed to search foods", error);
     }
 };
+
+export const saveFavorite = async (id) => {
+    try {
+        const response = await fetch(`${BASE_URL}api/add-favorite`, {
+            method: 'POST', 
+            headers: getAuthHeaders({'Content-Type': 'application/json'}),
+            credentials: 'include', 
+            body: {'id': id}, 
+        })
+        if(response.ok){
+            return true; 
+        }
+    } catch (_) {
+        return false; 
+    }
+}
