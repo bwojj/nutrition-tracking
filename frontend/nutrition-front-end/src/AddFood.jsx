@@ -78,6 +78,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
     const displayFoods = hasSearched ? searchResults : chipFoods;
 
     console.log(displayFoods);
+    console.log(foodDatabaseFavorites);
 
     const [dataSent, setDataSent] = useState({
         food_name: "",

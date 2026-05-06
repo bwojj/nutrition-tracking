@@ -144,7 +144,7 @@ class FoodsView(viewsets.ModelViewSet):
         if sort == 'id':
             queryset = Foods.objects.order_by('-id')
         elif sort == 'favorite':
-            queryset = Foods.objects.order_by('favorite').filter(favorite=True)
+            queryset = Foods.objects.order_by('-favorite').filter(favorite=True)
         else:
             queryset = Foods.objects.order_by('-date_last_used')
         search = request.query_params.get('search')
@@ -256,9 +256,9 @@ def save_to_favorites(request):
     id = request.data.get('id')
 
     try: 
-        food_obj = Foods.objects.get(pk=id)
+        food_obj = Foods.objects.get(id=request.data.get('id'))
         food_obj.favorite = True; 
-        
+
         return Response({'success': 'true'})
     except Exception as e: 
         return Response({'Error': f"{e}"})
