@@ -256,10 +256,9 @@ def save_to_favorites(request):
     id = request.data.get('id')
 
     try: 
-        food_obj, _ = Foods.objects.update_or_create(
-            id=id, 
-            favorite=True 
-        )
+        food_obj = Foods.objects.get(pk=id)
+        food_obj.favorite = True; 
+        
         return Response({'success': 'true'})
     except Exception as e: 
         return Response({'Error': f"{e}"})
