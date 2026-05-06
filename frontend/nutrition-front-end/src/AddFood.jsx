@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X, Clock, Star, Utensils, Apple } from 'lucide-react';
+import { saveFavorite } from './api/mealApi.js';
 
 const MEAL_TABS = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
@@ -22,6 +23,10 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
     const [hasSearched, setHasSearched] = useState(false);
     const [activeMeal, setActiveMeal] = useState(meal);
     const [activeChip, setActiveChip] = useState('Recent');
+    const [localFavoriteIds, setLocalFavoriteIds] = useState(new Set());
+
+    const favoriteIdSet = new Set(foodDatabaseFavorites.map(f => f.id));
+    const isFavorited = (food) => favoriteIdSet.has(food.id) || localFavoriteIds.has(food.id);
 
     const defaultFiltered = search.length > 0
         ? foodDatabase.filter((food) =>
@@ -96,8 +101,9 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
         meal: meal,
     });
 
-    function handleFavorite(food) {
-        // TODO: API call to toggle favorite
+    async function handleFavorite(food) {
+        setLocalFavoriteIds(prev => new Set([...prev, food.id]));
+        await saveFavorite(food.id);
     }
 
     function dataOpen(data){
@@ -217,7 +223,7 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                                             <button
                                                 className="food-favorite-btn"
                                                 onClick={(e) => { e.stopPropagation(); handleFavorite(element); }}
-                                            ><Star size={14} /></button>
+                                            ><Star size={14} fill={isFavorited(element) ? 'currentColor' : 'none'} /></button>
                                             <button
                                                 className="food-add-btn"
                                                 onClick={(e) => { e.stopPropagation(); dataOpen(element); }}

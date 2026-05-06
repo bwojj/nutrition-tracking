@@ -165,7 +165,7 @@ export const saveFavorite = async (id) => {
             method: 'POST', 
             headers: getAuthHeaders({'Content-Type': 'application/json'}),
             credentials: 'include', 
-            body: {'id': id}, 
+            body: JSON.stringify({'id': id}), 
         })
         if(response.ok){
             return true; 

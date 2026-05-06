@@ -261,5 +261,5 @@ def save_to_favorites(request):
             favorite=True 
         )
         return Response({'success': 'true'})
-    except: 
-        return Response({'success': 'false'})
+    except Exception as e: 
+        return Response({'Error': e})
