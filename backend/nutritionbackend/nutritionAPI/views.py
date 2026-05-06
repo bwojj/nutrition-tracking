@@ -139,7 +139,14 @@ class FoodsView(viewsets.ModelViewSet):
     serializer_class = FoodsSerializer
 
     def list(self, request, *args, **kwargs):
-        queryset = Foods.objects.order_by('-date_last_used')
+        sort = request.query_params.get('sort', 'recent')
+
+        if sort == 'id':
+            queryset = Foods.objects.order_by('-id')
+        elif sort == 'favorite':
+            queryset = Foods.objects.order_by('favorite').filter(favorite=True)
+        else:
+            queryset = Foods.objects.order_by('-date_last_used')
         search = request.query_params.get('search')
         if search:
             queryset = queryset.filter(food_name__icontains=search)

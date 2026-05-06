@@ -8,28 +8,32 @@ import { Search, X, Clock, Star, Utensils, Apple } from 'lucide-react';
 const MEAL_TABS = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
 
 const CATEGORY_CHIPS = [
-    { icon: <Clock size={14} />, label: 'Recent', active: true },
+    { icon: <Clock size={14} />, label: 'Recent' },
     { icon: <Star size={14} />, label: 'Favorites' },
     { icon: <Utensils size={14} />, label: 'My Meals' },
     { icon: <Apple size={14} />, label: 'Foods' },
 ];
 
-function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoodsDB, getRefresh, foodDatabase}){
+function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen, isDataModalOpen, onDataClose, selectedDate, searchFoodsDB, getRefresh, foodDatabase, foodDatabasebyID}){
 
     const [search, setSearch] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
     const [activeMeal, setActiveMeal] = useState(meal);
+    const [activeChip, setActiveChip] = useState('Recent');
 
-    
-
-    const initial20 = foodDatabase.slice(0, 20);
-    const localFiltered = search.length > 0
-        ? initial20.filter((food) =>
+    const defaultFiltered = search.length > 0
+        ? foodDatabase.filter((food) =>
             food.food_name.toLowerCase().includes(search.toLowerCase())
           )
-        : initial20;
+        : foodDatabase;
+
+    const foodsByID20 = search.length > 0
+        ? foodDatabasebyID.slice(0, 20).filter((food) =>
+            food.food_name.toLowerCase().includes(search.toLowerCase())
+          )
+        : foodDatabasebyID.slice(0, 20);
 
     function handleChange(event){
         setSearch(event.target.value);
@@ -59,7 +63,10 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
         }
     };
 
-    const displayFoods = hasSearched ? searchResults : localFiltered;
+    const chipFoods = activeChip === 'Foods' ? foodsByID20 : defaultFiltered;
+    const displayFoods = hasSearched ? searchResults : chipFoods;
+
+    console.log(displayFoods);
 
     const [dataSent, setDataSent] = useState({
         food_name: "",
@@ -145,8 +152,8 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
                         <button className="search-cmdk-chip" onClick={handleSearch}>⌘K</button>
                     </div>
                     <div className="category-chips">
-                        {CATEGORY_CHIPS.map(({ icon, label, active }) => (
-                            <button key={label} className={`category-chip${active ? ' category-chip--active' : ''}`}>
+                        {CATEGORY_CHIPS.map(({ icon, label }) => (
+                            <button key={label} className={`category-chip${label === activeChip ? ' category-chip--active' : ''}`} onClick={() => setActiveChip(label)}>
                                 {icon}
                                 {label}
                             </button>

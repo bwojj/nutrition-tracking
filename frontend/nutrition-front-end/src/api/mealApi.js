@@ -101,9 +101,9 @@ export const saveFood = async (foodData, date) => {
     }
 };
 
-export const getFoods = async () => {
+export const getFoods = async (sort) => {
     try {
-        const response = await fetch(`${BASE_URL}api/foods/`, {
+        const response = await fetch(`${BASE_URL}api/foods/?sort=${sort}`, {
             headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
             credentials: 'include',
         });

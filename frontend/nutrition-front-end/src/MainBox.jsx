@@ -20,6 +20,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
     const [foodDatabase, setFoodDatabase] = useState([]);
+    const [foodDatabasebyID, setFoodDatabasebyID] = useState([]); 
 
     const { selectedDate } = useDaysContext();
 
@@ -38,18 +39,20 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
 
   const loadAll = async () => {
     try {
-      const [progressResponse, foodResponse, itemsResponse] =
+      const [progressResponse, foodResponse, itemsResponse, itemsIdResponse] =
         await Promise.all([
           getProgress(),
           getFoodData(selectedDate),
-          getFoods(),
+          getFoods('date'),
+          getFoods('id'), 
         ]);
 
       if (cancelled) return;
 
       setProgressData(progressResponse || []);
       setFoodData(foodResponse || []);
-      setFoodDatabase(itemsResponse || [])
+      setFoodDatabase(itemsResponse || []);
+      setFoodDatabasebyID(itemsIdResponse || []);
     } catch (err) {
       console.error("MainBox load error:", err);
     }
@@ -78,6 +81,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
                 date={selectedDate}
                 getRefresh={getRefresh} 
                 foodDatabase={foodDatabase}
+                foodDatabasebyID={foodDatabasebyID}
             />
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)} progressData={progressData}/>
