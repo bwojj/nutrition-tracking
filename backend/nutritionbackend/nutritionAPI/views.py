@@ -256,7 +256,7 @@ def save_to_favorites(request):
     id = request.data.get('id')
 
     try: 
-        food_obj, _ = Foods.update_or_create(
+        food_obj, _ = Foods.objects.update_or_create(
             id=id, 
             favorite=True 
         )
