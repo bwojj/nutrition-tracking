@@ -262,4 +262,4 @@ def save_to_favorites(request):
         )
         return Response({'success': 'true'})
     except Exception as e: 
-        return Response({'Error': e})
+        return Response({'Error': f"{e}"})
