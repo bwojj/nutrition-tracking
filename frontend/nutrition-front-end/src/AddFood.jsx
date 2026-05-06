@@ -77,8 +77,6 @@ function AddFood({ meal, date, setIsLoading, isOpen, setIsModalOpen, onDataOpen,
     const chipFoods = activeChip === 'Foods' ? foodsByID20 : activeChip == 'Favorites' ? favorites : defaultFiltered;
     const displayFoods = hasSearched ? searchResults : chipFoods;
 
-    console.log(displayFoods);
-    console.log(foodDatabaseFavorites);
 
     const [dataSent, setDataSent] = useState({
         food_name: "",

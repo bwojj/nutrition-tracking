@@ -67,6 +67,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     cancelled = true; 
   };
 }, [isLoggedIn, selectedDate]);
+
     
     if (!progressData.length) {
         return <LoadingScreen/>

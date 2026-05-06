@@ -161,7 +161,7 @@ export const searchFoodsDB = async (query) => {
 
 export const saveFavorite = async (id) => {
     try {
-        const response = await fetch(`${BASE_URL}api/add-favorite`, {
+        const response = await fetch(`${BASE_URL}api/add-favorite/`, {
             method: 'POST', 
             headers: getAuthHeaders({'Content-Type': 'application/json'}),
             credentials: 'include', 
