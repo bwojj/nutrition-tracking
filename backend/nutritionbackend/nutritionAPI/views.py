@@ -142,11 +142,11 @@ class FoodsView(viewsets.ModelViewSet):
         sort = request.query_params.get('sort', 'recent')
 
         if sort == 'id':
-            queryset = Foods.objects.all.order_by('-id')
+            queryset = Foods.objects.order_by('-id')
         elif sort == 'favorite':
-            queryset = Foods.objects.all.order_by('-favorite').filter(favorite=True)
+            queryset = Foods.objects.order_by('-favorite').filter(favorite=True)
         else:
-            queryset = Foods.objects.all.order_by('-date_last_used')
+            queryset = Foods.objects.order_by('-date_last_used')
         search = request.query_params.get('search')
         if search:
             queryset = queryset.filter(food_name__icontains=search)
