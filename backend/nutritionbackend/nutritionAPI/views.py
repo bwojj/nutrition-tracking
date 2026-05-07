@@ -3,10 +3,11 @@ from django.utils import timezone
 from rest_framework import viewsets 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Day, Meal, FoodData, Progress, Foods
+from .models import Day, Meal, FoodData, Progress, Foods, SavedMeal
 from django.contrib.auth.models import User
 from .serializers import (DaySerializer, MealSerializer, FoodDataSerializer, 
-        ProgressSerializer, UserRegistrationSerializer, UserSerializer, FoodsSerializer)
+        ProgressSerializer, UserRegistrationSerializer, UserSerializer, FoodsSerializer, 
+        )
 
 from rest_framework.decorators import api_view, permission_classes 
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -278,3 +279,35 @@ def remove_from_favorites(request):
         return Response({'success': 'true'})
     except Exception as e: 
         return Response({'Error': f"{e}"})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_to_saved_meals(request):
+    try:
+        saved_meal_obj, _ = SavedMeal.objects.get_or_create(
+            user=User.objects.first(), 
+            meal_name=request.data.get("custom_meal_name")
+        )
+
+        food_objects = list()
+
+        for i in request.data.get("ids"):
+            food_obj = Foods.objects.get(
+                id=i
+            )
+        food_objects.append(food_obj)
+
+        for food in food_objects: 
+            saved_meal_obj.foods.add(food)
+        saved_meal_obj.save()
+
+        return Response({'Success': True})
+        
+    except Exception as e:
+        return Response({'Error': f"{e}"})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_saved_meal_foods(request):
+    pass 

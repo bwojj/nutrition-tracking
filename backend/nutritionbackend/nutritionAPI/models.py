@@ -79,3 +79,11 @@ class Foods(models.Model):
     calcium = models.FloatField()
     favorite = models.BooleanField(default=False)
     date_last_used = models.DateTimeField(auto_now=True) 
+
+class SavedMeal(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='savedMeals', default=1)
+    meal_name = models.CharField(max_length=64)
+    foods = models.ManyToManyField(Foods)
+
+    class Meta:
+        unique_together = ('user', 'meal_name')
