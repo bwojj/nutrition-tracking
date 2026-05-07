@@ -265,3 +265,16 @@ def save_to_favorites(request):
         return Response({'success': 'true'})
     except Exception as e: 
         return Response({'Error': f"{e}"})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def remove_from_favorites(request):
+    try: 
+        food_obj = Foods.objects.get(id=request.data.get('id'))
+        food_obj.favorite = False;
+
+        food_obj.save(update_fields=['favorite']) 
+
+        return Response({'success': 'true'})
+    except Exception as e: 
+        return Response({'Error': f"{e}"})

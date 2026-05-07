@@ -3,7 +3,7 @@ from rest_framework import routers
 from .views import (
     DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, add_food,
     update_progress, CustomRefreshTokenView, CustomTokenObtainPairView,
-    logout, register, is_authenticated, health_check, save_to_favorites
+    logout, register, is_authenticated, health_check, save_to_favorites, remove_from_favorites
     )
 
 router = routers.DefaultRouter()
@@ -21,6 +21,7 @@ urlpatterns = [
     path('api/add-food/', add_food, name='food-add'),
     path('api/update-progress/', update_progress, name="progress-update"),
     path('api/add-favorite/', save_to_favorites, name="add_to_favorites"), 
+    path('api/remove-favorite/', remove_from_favorites, name="remove_from_favorites"), 
     path('logout/', logout, name="logout"),
     path('authenticated/', is_authenticated, name="authenticated"),
     path('register/', register, name="register"),
