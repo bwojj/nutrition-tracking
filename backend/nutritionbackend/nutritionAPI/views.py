@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from django.utils import timezone
 from rest_framework import viewsets 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -196,6 +197,8 @@ def add_food(request):
         vitamin_C = request.data.get('vitamin_c') or 0,
         calcium = request.data.get('calcium') or 0,
     )
+
+    Foods.objects.filter(food_name=request.data.get('food_name')).update(date_last_used=timezone.now())
 
     return Response({"status": "success", "message": f"Added {food.food_name} to {meal_obj.meal_name}"})
 
