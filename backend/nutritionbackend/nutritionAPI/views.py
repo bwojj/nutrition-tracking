@@ -289,19 +289,21 @@ def add_to_saved_meals(request):
             meal_name=request.data.get("custom_meal_name")
         )
 
+        res = Response()
         food_objects = list()
 
         for i in request.data.get("ids"):
             food_obj = Foods.objects.get(
                 id=i
             )
+            res.data[i] = 'Success'
             food_objects.append(food_obj)
 
         for food in food_objects: 
             saved_meal_obj.foods.add(food)
         saved_meal_obj.save()
 
-        return Response({'Success': True})
+        return res
         
     except Exception as e:
         return Response({'Error': f"{e}"})
