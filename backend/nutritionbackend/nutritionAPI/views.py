@@ -296,7 +296,7 @@ def add_to_saved_meals(request):
             food_obj = Foods.objects.get(
                 id=i
             )
-            res.data[i] = 'Success'
+            res.data[f"{i}"] = 'Success'
             food_objects.append(food_obj)
 
         for food in food_objects: 
