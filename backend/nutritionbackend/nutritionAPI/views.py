@@ -289,7 +289,7 @@ def add_to_saved_meals(request):
             meal_name=request.data.get("custom_meal_name")
         )
 
-        res = Response()
+        res = Response({})
         food_objects = list()
 
         for i in request.data.get("ids"):
