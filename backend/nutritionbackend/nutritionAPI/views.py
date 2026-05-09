@@ -353,7 +353,7 @@ def add_saved_meal_foods(request):
                 vitamin_C = f.vitamin_C or 0,
                 calcium = f.calcium or 0,
             )
-            res[f"{f.food_name}"] = f"Added {f.food_name} to {meal_obj.meal_name}"
+            res.data[f"{f.food_name}"] = f"Added {f.food_name} to {meal_obj.meal_name}"
 
         return res
    except Exception as e:
