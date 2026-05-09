@@ -331,7 +331,7 @@ def add_saved_meal_foods(request):
 
         res = Response({})
 
-        for f in saved_meal_object.foods:
+        for f in saved_meal_object.foods.all():
             food, _ = FoodData.objects.get_or_create(
                 meal = meal_obj,
                 food_name = f.food_name,
