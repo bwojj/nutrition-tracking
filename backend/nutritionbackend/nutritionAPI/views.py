@@ -311,7 +311,7 @@ def add_to_saved_meals(request):
 @permission_classes([IsAuthenticated])
 def add_saved_meal_foods(request):
    try: 
-        saved_meal_object = SavedMeal.objects.get(id=request.get("id"))
+        saved_meal_object = SavedMeal.objects.get(id=request.data.get("id"))
 
         date_str = request.data.get('date')
 
