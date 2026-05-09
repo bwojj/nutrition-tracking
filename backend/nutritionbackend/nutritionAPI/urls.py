@@ -4,7 +4,7 @@ from .views import (
     DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, add_food,
     update_progress, CustomRefreshTokenView, CustomTokenObtainPairView,
     logout, register, is_authenticated, health_check, save_to_favorites, remove_from_favorites,
-    add_to_saved_meals
+    add_to_saved_meals, add_saved_meal_foods
     )
 
 router = routers.DefaultRouter()
@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/add-favorite/', save_to_favorites, name="add_to_favorites"), 
     path('api/remove-favorite/', remove_from_favorites, name="remove_from_favorites"), 
     path('api/add-saved-meal/', add_to_saved_meals, name="add_saved_meals"), 
+    path('api/add-saved-meal-to-meal/', add_saved_meal_foods, name="add_saved_meals_to_meal"), 
     path('logout/', logout, name="logout"),
     path('authenticated/', is_authenticated, name="authenticated"),
     path('register/', register, name="register"),
