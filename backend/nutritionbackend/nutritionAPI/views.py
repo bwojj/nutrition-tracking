@@ -358,4 +358,65 @@ def add_saved_meal_foods(request):
         return res
    except Exception as e:
        return Response({"Error": f"{e}"})
+
+@api_view(['POST'])
+@permission_classes(IsAuthenticated)
+def add_multiple_foods(request): 
+    try: 
+        food_ids = request.data.get("foods")
+
+        foods = list()
+
+        for i in food_ids: 
+            food = Foods.objects.get(id=i)
+            foods.append(food)
+
+        date_str = request.data.get('date')
+
+        target_date = date_str if date_str else date.today()
+        user_profile = User.objects.first()
+
+        day_obj, _ = Day.objects.get_or_create(
+            user=user_profile,
+            date=target_date,
+        )
+
+        meal_obj, _ = Meal.objects.get_or_create(
+            user=user_profile, 
+            date=day_obj,
+            meal_name=request.data.get('meal_name')
+        )
+
+        res = Response({})
+
+        for f in foods:
+            food, _ = FoodData.objects.get_or_create(
+                meal = meal_obj,
+                food_name = f.food_name,
+                serving_size = f.serving_size or '1 serving',
+                calories = f.calories or 0,
+                protein = f.protein or 0,
+                carbs = f.carbs or 0,
+                fat = f.fat or 0,
+                fiber = f.fiber or 0,
+                sugar = f.sugar or 0,
+                saturated_fat = f.saturated_fat or 0,
+                polyunsaturated_fat = f.polyunsaturated_fat or 0,
+                monounsaturated_fat = f.monounsaturated_fat or 0,
+                trans_fat = f.trans_fat or 0,
+                cholesterol = f.cholesterol or 0,
+                sodium = f.sodium or 0,
+                potassium = f.potassium or 0,
+                vitamin_A = f.vitamin_A or 0,
+                vitamin_C = f.vitamin_C or 0,
+                calcium = f.calcium or 0,
+            )
+            res.data[f"{f.food_name}"] = f"Added {f.food_name} to {meal_obj.meal_name}"
+        
+        return res 
+    
+    except Exception as e:
+        return Response({"Error": f"{e}"}) 
+
+
        
