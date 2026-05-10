@@ -360,7 +360,7 @@ def add_saved_meal_foods(request):
        return Response({"Error": f"{e}"})
 
 @api_view(['POST'])
-@permission_classes(IsAuthenticated)
+@permission_classes([IsAuthenticated])
 def add_multiple_foods(request): 
     try: 
         food_ids = request.data.get("foods")
