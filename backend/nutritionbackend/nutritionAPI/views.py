@@ -367,16 +367,9 @@ def add_saved_meal_foods(request):
 @permission_classes([IsAuthenticated])
 def add_multiple_foods(request): 
     try: 
-        food_ids = request.data.get("foods")
-
-        foods = list()
-
-        for i in food_ids: 
-            food = Foods.objects.get(id=i)
-            foods.append(food)
+        foods_data = request.data.get("foods")
 
         date_str = request.data.get('date')
-
         target_date = date_str if date_str else date.today()
         user_profile = User.objects.first()
 
@@ -386,38 +379,35 @@ def add_multiple_foods(request):
         )
 
         meal_obj, _ = Meal.objects.get_or_create(
-            user=user_profile, 
+            user=user_profile,
             date=day_obj,
             meal_name=request.data.get('meal_name')
         )
 
-        res = Response({})
-
-        for f in foods:
-            food, _ = FoodData.objects.get_or_create(
+        for f in foods_data:
+            FoodData.objects.create(
                 meal = meal_obj,
-                food_name = f.food_name,
-                serving_size = f.serving_size or '1 serving',
-                calories = f.calories or 0,
-                protein = f.protein or 0,
-                carbs = f.carbs or 0,
-                fat = f.fat or 0,
-                fiber = f.fiber or 0,
-                sugar = f.sugar or 0,
-                saturated_fat = f.saturated_fat or 0,
-                polyunsaturated_fat = f.polyunsaturated_fat or 0,
-                monounsaturated_fat = f.monounsaturated_fat or 0,
-                trans_fat = f.trans_fat or 0,
-                cholesterol = f.cholesterol or 0,
-                sodium = f.sodium or 0,
-                potassium = f.potassium or 0,
-                vitamin_A = f.vitamin_A or 0,
-                vitamin_C = f.vitamin_C or 0,
-                calcium = f.calcium or 0,
+                food_name = f.get('food_name'),
+                serving_size = f.get('serving_size') or '1 serving',
+                calories = f.get('calories') or 0,
+                protein = f.get('protein') or 0,
+                carbs = f.get('carbs') or 0,
+                fat = f.get('fat') or 0,
+                fiber = f.get('fiber') or 0,
+                sugar = f.get('sugar') or 0,
+                saturated_fat = f.get('saturated_fat') or 0,
+                polyunsaturated_fat = f.get('polyunsaturated_fat') or 0,
+                monounsaturated_fat = f.get('monounsaturated_fat') or 0,
+                trans_fat = f.get('trans_fat') or 0,
+                cholesterol = f.get('cholesterol') or 0,
+                sodium = f.get('sodium') or 0,
+                potassium = f.get('potassium') or 0,
+                vitamin_A = f.get('vitamin_a') or 0,
+                vitamin_C = f.get('vitamin_c') or 0,
+                calcium = f.get('calcium') or 0,
             )
-            res.data[f"{f.food_name}"] = f"Added {f.food_name} to {meal_obj.meal_name}"
-        
-        return res 
+
+        return Response({'status': 'success'})
     
     except Exception as e:
         return Response({"Error": f"{e}"}) 
