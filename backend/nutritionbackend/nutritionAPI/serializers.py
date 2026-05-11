@@ -1,6 +1,6 @@
 from rest_framework import serializers 
 from django.contrib.auth.models import User 
-from .models import Day, Meal, FoodData, Progress, Foods
+from .models import Day, Meal, FoodData, Progress, Foods, SavedMeal
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -48,4 +48,10 @@ class ProgressSerializer(serializers.ModelSerializer):
 class FoodsSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Foods
+        fields = '__all__'
+
+
+class SavedMealSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = SavedMeal
         fields = '__all__'

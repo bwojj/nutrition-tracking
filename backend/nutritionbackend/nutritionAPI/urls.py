@@ -1,7 +1,7 @@
 from django.urls import path, include 
 from rest_framework import routers 
 from .views import (
-    DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, add_food,
+    DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, SavedMealView, add_food,
     update_progress, CustomRefreshTokenView, CustomTokenObtainPairView,
     logout, register, is_authenticated, health_check, save_to_favorites, remove_from_favorites,
     add_to_saved_meals, add_saved_meal_foods, add_multiple_foods
@@ -14,6 +14,7 @@ router.register(r"food-data", FoodDataView, "food-info")
 router.register(r"progress", ProgressView, "progress-info")
 router.register(r"user", UserView, "user-info")
 router.register(r"foods", FoodsView, "foods")
+router.register(r"saved-meals", SavedMealView, "saved-meals")
 
 urlpatterns = [
     path("token/", CustomTokenObtainPairView.as_view(), name="token_obtain_pair"),

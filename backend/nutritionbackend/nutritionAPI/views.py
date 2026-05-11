@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .models import Day, Meal, FoodData, Progress, Foods, SavedMeal
 from django.contrib.auth.models import User
 from .serializers import (DaySerializer, MealSerializer, FoodDataSerializer, 
-        ProgressSerializer, UserRegistrationSerializer, UserSerializer, FoodsSerializer, 
+        ProgressSerializer, UserRegistrationSerializer, UserSerializer, FoodsSerializer, SavedMealSerializer
         )
 
 from rest_framework.decorators import api_view, permission_classes 
@@ -128,6 +128,10 @@ class FoodDataView(viewsets.ModelViewSet):
             queryset = queryset.filter(meal__date__date=date_param)
             
         return queryset
+
+class SavedMealView(viewsets.ModelViewSet): 
+    serializer_class = SavedMealSerializer
+    queryset = SavedMeal.objects.all()
 
 class ProgressView(viewsets.ModelViewSet):
     serializer_class = ProgressSerializer
