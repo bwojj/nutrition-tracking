@@ -52,6 +52,7 @@ class FoodsSerializer(serializers.ModelSerializer):
 
 
 class SavedMealSerializer(serializers.ModelSerializer):
-    class Meta: 
+    foods = FoodsSerializer(many=True, read_only=True)
+    class Meta:
         model = SavedMeal
         fields = '__all__'
