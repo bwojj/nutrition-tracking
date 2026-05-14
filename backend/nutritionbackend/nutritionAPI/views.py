@@ -181,8 +181,14 @@ def add_food(request):
         date=day_obj,
         meal_name=request.data.get('meal_name')
     )
+
+    food_obj, _ = Foods.objects.get(
+        id=request.data.get("food_id")
+    )
+
     food, _ = FoodData.objects.get_or_create(
         meal = meal_obj,
+        food_from = food_obj, 
         food_name = request.data.get('food_name'),
         serving_size = request.data.get('serving_size') or '1 serving',
         calories = request.data.get('calories') or 0,
@@ -421,6 +427,7 @@ def update_food_data(request):
         food_data_obj = FoodData.objects.get(id=request.data.get("food_id"))
 
         food_data_obj.serving_size = request.data.get("serving_size")
+        
         food_data_obj.save(update_fields=["serving_size"])
 
         return Response({"Success": f"{food_data_obj.food_name} serving size updated to {food_data_obj.serving_size}"})

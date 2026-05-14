@@ -20,27 +20,6 @@ class Meal(models.Model):
     class Meta:
         unique_together = ('user', 'date', 'meal_name')
 
-
-class FoodData(models.Model):
-    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="item", default=1)
-    food_name = models.CharField(max_length=64)
-    serving_size = models.CharField(max_length=64, default="1 serving")
-    calories = models.FloatField()
-    protein = models.FloatField()
-    carbs = models.FloatField()
-    fat = models.FloatField()
-    fiber = models.FloatField()
-    sugar = models.FloatField()
-    saturated_fat = models.FloatField()
-    polyunsaturated_fat = models.FloatField()
-    monounsaturated_fat = models.FloatField()
-    trans_fat = models.FloatField()
-    cholesterol = models.FloatField()
-    sodium = models.FloatField()
-    potassium = models.FloatField()
-    vitamin_A = models.FloatField()
-    vitamin_C = models.FloatField()
-    calcium = models.FloatField()
     
 class Progress(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='goals', default=1)
@@ -79,6 +58,28 @@ class Foods(models.Model):
     calcium = models.FloatField()
     favorite = models.BooleanField(default=False)
     date_last_used = models.DateTimeField(auto_now=True) 
+
+class FoodData(models.Model):
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name="item", default=1)
+    food_from = models.ForeignKey(Foods, on_delete=models.CASCADE, related_name="food_derived_from", default=1252)
+    food_name = models.CharField(max_length=64)
+    serving_size = models.CharField(max_length=64, default="1 serving")
+    calories = models.FloatField()
+    protein = models.FloatField()
+    carbs = models.FloatField()
+    fat = models.FloatField()
+    fiber = models.FloatField()
+    sugar = models.FloatField()
+    saturated_fat = models.FloatField()
+    polyunsaturated_fat = models.FloatField()
+    monounsaturated_fat = models.FloatField()
+    trans_fat = models.FloatField()
+    cholesterol = models.FloatField()
+    sodium = models.FloatField()
+    potassium = models.FloatField()
+    vitamin_A = models.FloatField()
+    vitamin_C = models.FloatField()
+    calcium = models.FloatField()
 
 class SavedMeal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='savedMeals', default=1)
