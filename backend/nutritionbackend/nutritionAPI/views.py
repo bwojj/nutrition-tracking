@@ -413,4 +413,19 @@ def add_multiple_foods(request):
         return Response({"Error": f"{e}"}) 
 
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+# receives food data object
+def update_food_data(request):
+    try: 
+        food_data_obj = FoodData.objects.get(id=request.data.get("food_id"))
+
+        food_data_obj.serving_size = request.data.get("serving_size")
+        food_data_obj.save(update_fields=["serving_size"])
+
+        return Response({"Success": f"{food_data_obj.food_name} serving size updated to {food_data_obj.serving_size}"})
+    except Exception as e:
+        return Response({"Error": f"{e}"})
+
+
        
