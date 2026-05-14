@@ -426,9 +426,29 @@ def update_food_data(request):
     try: 
         food_data_obj = FoodData.objects.get(id=request.data.get("food_id"))
 
-        food_data_obj.serving_size = request.data.get("serving_size")
+        food_derived_from = Foods.objects.get(id=food_data_obj.food_derived_from.id)
+
+        food_data_obj.serving_size = food_derived_from.serving_size * request.data.get("new_serving_size")
+        food_data_obj.calories = food_derived_from.calories * request.data.get("new_serving_size")
+        food_data_obj.protein = food_derived_from.protein * request.data.get("new_serving_size")
+        food_data_obj.carbs = food_derived_from.carbs * request.data.get("new_serving_size")
+        food_data_obj.fat = food_derived_from.fat * request.data.get("new_serving_size")
+        food_data_obj.fiber = food_derived_from.fiber * request.data.get("new_serving_size")
+        food_data_obj.sugar = food_derived_from.sugar * request.data.get("new_serving_size")
+        food_data_obj.saturated_fat = food_derived_from.saturated_fat * request.data.get("new_serving_size")
+        food_data_obj.polyunsaturated_fat = food_derived_from.polyunsaturated_fat * request.data.get("new_serving_size")
+        food_data_obj.monounsaturated_fat = food_derived_from.monounsaturated_fat * request.data.get("new_serving_size")
+        food_data_obj.trans_fat = food_derived_from.trans_fat * request.data.get("new_serving_size")
+        food_data_obj.cholesterol = food_derived_from.cholesterol * request.data.get("new_serving_size")
+        food_data_obj.sodium = food_derived_from.sodium * request.data.get("new_serving_size")
+        food_data_obj.potassium = food_derived_from.potassium * request.data.get("new_serving_size")
+        food_data_obj.vitamin_A = food_derived_from.vitamin_A * request.data.get("new_serving_size")
+        food_data_obj.vitamin_C = food_derived_from.vitamin_C * request.data.get("new_serving_size") 
+        food_data_obj.calcium = food_derived_from.calcium * request.data.get("new_serving_size")
         
-        food_data_obj.save(update_fields=["serving_size"])
+        food_data_obj.save(update_fields=["serving_size", "calories", "protein", "carbs", "fat", "fiber", "sugar", "saturated_fat", 
+                                          "polyunsaturated_fat", "monounsaturated_fat", "trans_fat", "cholesterol", "sodium", "potassium",
+                                          "vitamin_A", "vitamin_C", "calcium"])
 
         return Response({"Success": f"{food_data_obj.food_name} serving size updated to {food_data_obj.serving_size}"})
     except Exception as e:
