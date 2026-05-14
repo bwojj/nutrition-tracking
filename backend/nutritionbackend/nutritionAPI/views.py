@@ -182,7 +182,7 @@ def add_food(request):
         meal_name=request.data.get('meal_name')
     )
 
-    food_obj, _ = Foods.objects.get(
+    food_obj = Foods.objects.get(
         id=request.data.get("food_id")
     )
 
