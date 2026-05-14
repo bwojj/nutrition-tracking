@@ -426,7 +426,7 @@ def update_food_data(request):
     try: 
         food_data_obj = FoodData.objects.get(id=request.data.get("food_id"))
 
-        food_derived_from = Foods.objects.get(id=food_data_obj.food_derived_from.id)
+        food_derived_from = Foods.objects.get(id=food_data_obj.food_from.id)
 
         food_data_obj.serving_size = request.data.get("new_serving_size")
         food_data_obj.calories = food_derived_from.calories * request.data.get("new_serving_size")
