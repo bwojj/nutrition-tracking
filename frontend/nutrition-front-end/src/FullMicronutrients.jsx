@@ -1,4 +1,5 @@
-import { createPortal } from "react-dom";
+import { createPortal, } from "react-dom";
+import { useEffect } from "react";
 import './assets/RefinedModal.css'
 import './assets/FullMicronutrients.css'
 
@@ -23,6 +24,12 @@ function FullMicronutrients({ isOpen, onClose, foodData }){
             microTotals[key] += food[key];
        })
     })
+
+    useEffect(() => {
+        if (!isOpen) return;
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = ''; };
+    }, [isOpen]);
 
     if (!isOpen) return null;
     console.log(microTotals)

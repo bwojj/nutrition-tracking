@@ -7,6 +7,7 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date, 
     const { meals } = useContext(MealsContext);
 
     const [formData, setFormData] = useState({
+        food_id: info.food_id,
         meal_name: info.meal,
         food_name: info.food_name,
         serving_size: info.serving_size,
@@ -32,6 +33,7 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date, 
         const value = Number(e.target.value);
         const servingSize = value > 1 ? `${value} x ${info.serving_size}` : info.serving_size;
         setFormData({
+            food_id: info.food_id,
             meal_name: formData.meal_name,
             food_name: info.food_name,
             serving_size: servingSize,
@@ -62,6 +64,7 @@ function AddFoodData({ isOpen, onClose, onModalClose, info, setIsLoading, date, 
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
+        console.log(formData);
         await saveFood(formData, date);
         if (onFoodAdded) await onFoodAdded();
         onClose();

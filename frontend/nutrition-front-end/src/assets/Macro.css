@@ -33,11 +33,17 @@
     position: relative; 
 }
 
-@media(max-width: 1441px){
+@media(max-width: 1364px){
     .macro-percentage{
         font-size: 1rem;
         font-family: var(--font-mono);
         transform: translate(-50%, -150%);
+    }
+}
+@media(max-width: 580px)
+{
+    .macro-name-amount{
+        margin-top: -20px;
     }
 }
 

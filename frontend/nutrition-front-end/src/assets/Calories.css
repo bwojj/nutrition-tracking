@@ -52,11 +52,11 @@
     }
     .calorie-progress{
         width: 80%;
-        margin-top: -55px;
+        margin-top: -130px;
         stroke-linecap: round;
     }
     .calorie-number-ratio{
-        top: 39%;
+        top: 35%;
     }
     .calorie-number{
         font-size: 2rem;
@@ -67,7 +67,7 @@
         font-family: var(--font-mono);
     }
     .macros{
-        margin-top: -70px;
+        margin-top: -10px;
         gap: 10px;
     }
     .macro-name-amount{
@@ -76,17 +76,45 @@
         margin-top: -10px;
     }
 }
-@media(max-width: 1470px){
-    .calorie-number{
-        font-size: 2rem;
-        font-family: var(--font-mono);
-        margin-top: -35px;
-    }
+@media(max-width: 630px){
     .calorie-progress{
-        margin-top: -85px;
+        width: 80%;
+        margin-top: -110px;
+        stroke-linecap: round;
+    } 
+}
+@media(max-width: 540px){
+    .calorie-progress{
+        width: 80%;
+        margin-top: -90px;
+        stroke-linecap: round;
+    } 
+    .calorie-number .calorie-ratio{
+        font-size: 5px;
     }
-    .macros{
-        margin-top: 2px;
+}
+@media(max-width: 428px){
+    .calorie-progress{
+        width: 80%;
+        margin-top: -65px;
+        stroke-linecap: round;
+    } 
+    .calorie-number .calorie-ratio{
+        font-size: 5px;
+    }
+}
+@media(max-width: 360px)
+{
+    .calorie-number-ratio{
+        top: 33%;
+    }
+    .calorie-number{
+        font-size: 1.7rem;
+        font-family: var(--font-mono);
+    }
+    .calorie-ratio{
+        font-size: 0.8rem;
+        font-family: var(--font-mono);
     }
 }
 @media(max-width: 530px){

@@ -3,12 +3,14 @@ import './assets/Meal.css';
 import NutritionFacts from './NutritionFacts.jsx';
 import { HiOutlineInformationCircle } from 'react-icons/hi';
 import { LuTrash2 } from 'react-icons/lu';
-import { deleteFood } from './api/mealApi.js';
+import { deleteFood, deleteWholeMeal, getMealId } from './api/mealApi.js';
+import { useDaysContext } from './Context/DayContext.jsx';
 
 function Meal(props) {
     const [selectedFood, setSelectedFood] = useState(null);
     const [open, setOpen] = useState(true);
     const [activeFood, setActiveFood] = useState(null);
+    const { selectedDate } = useDaysContext();
 
     const totalCalculate = (name) => {
         let total = 0;
@@ -20,6 +22,15 @@ function Meal(props) {
         const r = await deleteFood(id);
         if (r === 'Success') {
             props.setFoodData((prev) => prev.filter((f) => f.id !== id));
+        }
+    };
+
+    const onDeleteMeal = async () => {
+        const mealId = foods[0]?.meal_id ?? await getMealId(props.mealName, selectedDate);
+        if (!mealId) return;
+        const r = await deleteWholeMeal(mealId);
+        if (r === 'Success') {
+            props.setFoodData((prev) => prev.filter((f) => f.meal !== props.mealName));
         }
     };
 
@@ -39,53 +50,65 @@ function Meal(props) {
 
     return (
         <div className="meal-row">
-            <button
-                type="button"
-                className="meal-bar"
-                onClick={() => setOpen((o) => !o)}
-            >
-                <div className="meal-bar-left">
-                    <span className="meal-bar-name">{props.mealName}</span>
-                    <span
-                        role="button"
-                        tabIndex={0}
-                        className="meal-add-chip"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            openAddFoodModal(props.mealName);
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
+            <div className="meal-bar-wrap">
+                <button
+                    type="button"
+                    className="meal-bar"
+                    onClick={() => setOpen((o) => !o)}
+                >
+                    <div className="meal-bar-left">
+                        <span className="meal-bar-name">{props.mealName}</span>
+                        <span
+                            role="button"
+                            tabIndex={0}
+                            className="meal-add-chip"
+                            onClick={(e) => {
                                 e.stopPropagation();
                                 openAddFoodModal(props.mealName);
-                            }
-                        }}
-                        aria-label={`Add food to ${props.mealName}`}
-                    >
-                        +
-                    </span>
-                </div>
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    openAddFoodModal(props.mealName);
+                                }
+                            }}
+                            aria-label={`Add food to ${props.mealName}`}
+                        >
+                            +
+                        </span>
+                    </div>
 
-                <div className="meal-bar-right">
-                    <span className="meal-bar-stat">
-                        <span className="num">{cals}</span>
-                        <span className="unit">Cals</span>
-                    </span>
-                    <span className="meal-bar-stat">
-                        <span className="num">{p}</span>
-                        <span className="unit">P</span>
-                    </span>
-                    <span className="meal-bar-stat">
-                        <span className="num">{c}</span>
-                        <span className="unit">C</span>
-                    </span>
-                    <span className="meal-bar-stat">
-                        <span className="num">{f}</span>
-                        <span className="unit">F</span>
-                    </span>
-                </div>
-            </button>
+                    <div className="meal-bar-right">
+                        <span className="meal-bar-stat">
+                            <span className="num">{cals}</span>
+                            <span className="unit">Cals</span>
+                        </span>
+                        <span className="meal-bar-stat">
+                            <span className="num">{p}</span>
+                            <span className="unit">P</span>
+                        </span>
+                        <span className="meal-bar-stat">
+                            <span className="num">{c}</span>
+                            <span className="unit">C</span>
+                        </span>
+                        <span className="meal-bar-stat">
+                            <span className="num">{f}</span>
+                            <span className="unit">F</span>
+                        </span>
+                    </div>
+                </button>
+                {foods.length > 0 && (
+                    <button
+                        type="button"
+                        className="icon-btn icon-btn-danger meal-bar-delete"
+                        aria-label={`Delete ${props.mealName}`}
+                        onClick={onDeleteMeal}
+                    >
+                        <LuTrash2 size={15} />
+                    </button>
+                )}
+            </div>
 
             {open && (
                 <div className="meal-drawer">
@@ -157,6 +180,7 @@ function Meal(props) {
                 isOpen={selectedFood !== null}
                 onClose={() => setSelectedFood(null)}
                 foodData={selectedFood}
+                onUpdate={props.getRefresh}
             />
         </div>
     );

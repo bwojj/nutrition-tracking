@@ -7,3 +7,10 @@ body {
   background-color: var(--bg);
   color: var(--fg);
 }
+
+@media (min-width: 1151px) {
+  html, body {
+    overflow: hidden;
+    height: 100%;
+  }
+}

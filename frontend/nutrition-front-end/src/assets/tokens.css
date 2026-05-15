@@ -1,0 +1,342 @@
+/* =========================================================================
+   MSUtrition Design System — Colors + Type
+   Brand: Michigan State University green, modern fitness aesthetic
+   Use: import as the foundation token layer for any MSUtrition surface.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ---------------------------------------------------------------------
+     BRAND — MSU Green
+     The codebase uses 22c55e (Tailwind green-500) as a brighter accent
+     and 18453B as MSU's official green. We expose the full ramp.
+     --------------------------------------------------------------------- */
+  --msu-green-50:  #ecfdf5;
+  --msu-green-100: #d1fae5;
+  --msu-green-200: #a7f3d0;
+  --msu-green-300: #6ee7b7;
+  --msu-green-400: #4ade80;  /* hover for primary buttons */
+  --msu-green-500: #22c55e;  /* primary — the action color */
+  --msu-green-600: #16a34a;  /* pressed */
+  --msu-green-700: #15803d;
+  --msu-green-800: #18453B;  /* MSU official green */
+  --msu-green-900: #0d2b22;
+  --msu-green-950: #062014;
+
+  /* ---------------------------------------------------------------------
+     NEUTRALS — Dark theme base (warm, green-tinted)
+     The product's identity is dark-first; these neutrals are intentionally
+     warm with a green undertone instead of pure gray.
+     --------------------------------------------------------------------- */
+  --ink-950: #0a1410;  /* deepest bg — page outside content */
+  --ink-900: #0f1a14;  /* bg — primary canvas (matches existing app) */
+  --ink-800: #162219;  /* surface — card backgrounds */
+  --ink-700: #1a2b20;  /* surface-2 — input fills, nested cards */
+  --ink-600: #1e3028;  /* surface-3 — chips, list rows */
+  --ink-500: #2a3d33;  /* divider */
+  --ink-400: #3d5547;  /* border-strong */
+  --ink-300: #5b7a68;  /* fg-muted */
+  --ink-200: #7aab8a;  /* fg-secondary (sage) */
+  --ink-100: #d4edd9;  /* fg-soft */
+  --ink-50:  #e8f5ec;  /* fg — primary text */
+  --ink-0:   #ffffff;
+
+  /* ---------------------------------------------------------------------
+     SEMANTIC — Macros (used in macro rings, charts, badges)
+     Tuned to read clearly on dark surfaces.
+     --------------------------------------------------------------------- */
+  --macro-protein: #3b82f6;  /* blue */
+  --macro-carbs:   #ef4444;  /* red */
+  --macro-fat:     #eab308;  /* yellow */
+  --macro-fiber:   #a855f7;  /* purple */
+
+  /* Micronutrient category accents (tinted backgrounds) */
+  --micro-blue-bg:    #1a3a4a;
+  --micro-blue-fg:    #7dd3fc;
+  --micro-orange-bg:  #3a2a1a;
+  --micro-orange-fg:  #fdba74;
+  --micro-purple-bg:  #2d1f4e;
+  --micro-purple-fg:  #c084fc;
+
+  /* Status */
+  --status-success: var(--msu-green-500);
+  --status-warning: #f59e0b;
+  --status-danger:  #ef4444;
+  --status-info:    #3b82f6;
+
+  /* ---------------------------------------------------------------------
+     SEMANTIC TOKENS — Dark (default)
+     Reference these in components rather than raw color tokens.
+     --------------------------------------------------------------------- */
+  --bg:          var(--ink-900);
+  --bg-elevated: var(--ink-800);
+  --bg-input:    var(--ink-700);
+  --bg-chip:     var(--ink-600);
+
+  --fg:          var(--ink-50);
+  --fg-soft:     var(--ink-100);
+  --fg-secondary:var(--ink-200);
+  --fg-muted:    var(--ink-300);
+
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(34, 197, 94, 0.25);
+  --border-focus:  var(--msu-green-500);
+
+  --accent:        var(--msu-green-500);
+  --accent-hover:  var(--msu-green-400);
+  --accent-press:  var(--msu-green-600);
+  --accent-on:     var(--ink-900);  /* text color when ON the accent */
+
+  /* Header / nav uses the slightly lighter green surface */
+  --bg-header-section: #1f4830;
+
+  /* Glow — used sparingly on the calorie ring and primary CTA */
+  --glow-accent: 0 0 24px rgba(34, 197, 94, 0.35);
+  --glow-soft:   0 0 12px rgba(34, 197, 94, 0.18);
+
+  /* ---------------------------------------------------------------------
+     RADII
+     --------------------------------------------------------------------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;   /* most cards in current app */
+  --radius-lg: 14px;
+  --radius-xl: 18px;   /* login card */
+  --radius-2xl: 24px;
+  --radius-full: 999px;
+
+  /* ---------------------------------------------------------------------
+     SHADOWS — Subtle, with cool/black tint (not green tint)
+     --------------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 0 20px -4px rgba(0, 0, 0, 0.8);  /* current app card shadow */
+
+  /* ---------------------------------------------------------------------
+     SPACING — 4px base
+     --------------------------------------------------------------------- */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ---------------------------------------------------------------------
+     MOTION — Athletic, confident easing
+     --------------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:    150ms;
+  --dur-normal:  250ms;
+  --dur-slow:    500ms;
+
+  /* ---------------------------------------------------------------------
+     TYPOGRAPHY — Inter for UI, JetBrains Mono for numerics
+     The existing app uses Montserrat; we standardize on Inter (cleaner,
+     more "data-forward" — Whoop / Strava / Oura territory) and use mono
+     for numeric values and tabular data per the user's typography choice.
+     --------------------------------------------------------------------- */
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: 'Inter', sans-serif;  /* same family, used at heavy weights for impact */
+
+  /* Modular type scale — 1.25 ratio anchored at 16px */
+  --fs-xs:   12px;  /* labels, captions */
+  --fs-sm:   14px;  /* secondary text */
+  --fs-base: 16px;  /* body */
+  --fs-md:   18px;  /* lead body */
+  --fs-lg:   22px;  /* small heading */
+  --fs-xl:   28px;  /* h3 */
+  --fs-2xl:  36px;  /* h2 */
+  --fs-3xl:  48px;  /* h1 */
+  --fs-4xl:  64px;  /* display */
+  --fs-5xl:  84px;  /* hero metric */
+
+  --lh-tight:   1.1;
+  --lh-snug:    1.25;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.625;
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.05em;
+  --tracking-eyebrow: 0.12em;  /* uppercase eyebrows */
+}
+
+/* =========================================================================
+   LIGHT THEME — paired alternative
+   Apply via [data-theme="light"] on root or a section.
+   ========================================================================= */
+:root[data-theme="light"],
+[data-theme="light"] {
+  --bg:          #f7faf7;
+  --bg-elevated: #ffffff;
+  --bg-input:    #f0f5f1;
+  --bg-chip:     #e6efe8;
+
+  --fg:          #0d1f15;
+  --fg-soft:     #1a3025;
+  --fg-secondary:#3d5547;
+  --fg-muted:    #6b8a78;
+
+  --border:        rgba(13, 31, 21, 0.08);
+  --border-strong: rgba(34, 197, 94, 0.35);
+
+  --accent:        var(--msu-green-700);
+  --accent-hover:  var(--msu-green-800);
+  --accent-press:  var(--msu-green-800);
+  --accent-on:     #ffffff;
+
+  --bg-header-section: var(--msu-green-800);
+
+  --shadow-card: 0 1px 3px rgba(13, 31, 21, 0.08), 0 4px 16px rgba(13, 31, 21, 0.06);
+  --shadow-md:   0 4px 14px rgba(13, 31, 21, 0.12);
+  --shadow-lg:   0 8px 24px rgba(13, 31, 21, 0.15);
+
+  --glow-accent: 0 0 0 transparent;  /* no glow in light mode */
+
+  /* Micronutrient tints — softer in light */
+  --micro-blue-bg:    #e0f2fe;
+  --micro-blue-fg:    #0369a1;
+  --micro-orange-bg:  #fff7ed;
+  --micro-orange-fg:  #c2410c;
+  --micro-purple-bg:  #f3e8ff;
+  --micro-purple-fg:  #7c3aed;
+}
+
+/* =========================================================================
+   BASE TYPE STYLES — semantic classes
+   Use these on any HTML element to opt into the system.
+   ========================================================================= */
+
+body, .ds-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  color: var(--fg);
+  background: var(--bg);
+  font-feature-settings: 'cv11', 'ss01';  /* Inter stylistic alts */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings */
+.ds-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-5xl);
+  font-weight: 800;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+.ds-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+.ds-h2 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+}
+.ds-h3 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+.ds-h4 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  color: var(--fg);
+}
+
+/* Body */
+.ds-p {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: 400;
+  line-height: var(--lh-normal);
+  color: var(--fg-soft);
+}
+.ds-small {
+  font-size: var(--fs-sm);
+  color: var(--fg-secondary);
+}
+.ds-caption {
+  font-size: var(--fs-xs);
+  color: var(--fg-muted);
+  line-height: var(--lh-normal);
+}
+.ds-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-secondary);
+}
+
+/* Numerics — mono, tabular, used for calorie counts, weights, macros */
+.ds-metric {
+  font-family: var(--font-mono);
+  font-size: var(--fs-4xl);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.ds-metric-lg {
+  font-family: var(--font-mono);
+  font-size: var(--fs-5xl);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.ds-metric-sm {
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.ds-num {
+  /* Inline numeric — keeps things tabular-aligned next to body text */
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* Code / technical */
+.ds-code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  background: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  color: var(--fg-soft);
+}

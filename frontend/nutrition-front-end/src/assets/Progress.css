@@ -76,3 +76,39 @@
         width: 95%;
     }
 }
+@media(max-width: 1400px)
+{
+    .tracking-title{
+        font-size: 20px;
+    }
+}
+@media(max-width: 665px)
+{
+    .tracking-title{
+        font-size: 14px;
+    }
+}
+@media(max-width: 445px)
+{
+    .tracking-title{
+        font-size: 12px;
+    }
+}
+@media(max-width: 360px)
+{
+    .tracking-title{
+        font-size: 10px;
+    }
+    .progress-data{
+        font-size: 10px;
+    }
+}
+@media(max-width: 335px)
+{
+    .tracking-title{
+        font-size: 8px;
+    }
+    .progress-data{
+        font-size: 8px;
+    }
+}

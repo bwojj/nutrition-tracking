@@ -13,51 +13,47 @@ export const getAuthHeaders = (additionalHeaders = {}) => {
 };
 
 export const login = async (username, password) => {
-    try {
-        const response = await fetch(`${BASE_URL}token/`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-            credentials: 'include',
-        });
+    const response = await fetch(`${BASE_URL}token/`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include',
+    });
 
-        if (response.ok) {
-            const data = await response.json();
-            // Store tokens for Safari (cookies may be blocked by ITP)
-            if (data.access) {
-                localStorage.setItem('accessToken', data.access);
-            }
-            if (data.refresh) {
-                localStorage.setItem('refreshToken', data.refresh);
-            }
-            return "Success";
-        }
-    } catch (error) {
-        console.log('Failed to Post', error);
+    if (response.ok) {
+        const data = await response.json();
+        // Store tokens for Safari (cookies may be blocked by ITP)
+        if (data.access) localStorage.setItem('accessToken', data.access);
+        if (data.refresh) localStorage.setItem('refreshToken', data.refresh);
+        return "Success";
     }
+
+    if (response.status === 401) throw new Error('Incorrect username or password.');
+    throw new Error('Login failed. Please try again.');
 };
 
 export const signup = async (username, email, password) => {
-    try {
-        const response = await fetch(`${BASE_URL}register/`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({ username, email, password })
-        });
-        if (response.ok) {
-            const loginResponse = await login(username, password);
-            if (loginResponse === 'Success') {
-                return "Success";
-            }
-        }
-    } catch (error) {
-        console.log('Failed to sign-up', error);
+    const response = await fetch(`${BASE_URL}register/`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, email, password }),
+    });
+
+    if (response.ok) return login(username, password);
+
+    if (response.status === 409) {
+        const data = await response.json().catch(() => ({}));
+        const field = data.username ? 'username' : data.email ? 'email' : null;
+        const msg = field === 'username' ? 'Username already taken.'
+                  : field === 'email'    ? 'Email already registered.'
+                  : 'Account already exists.';
+        const err = new Error(msg);
+        if (field) err.field = field;
+        throw err;
     }
+
+    throw new Error('Sign up failed. Please try again.');
 };
 
 export const refresh = async () => {

@@ -6,6 +6,13 @@
   overflow: clip; /* clip for border-radius without blocking child scroll */
 }
 
+.meal-bar-wrap {
+  display: flex;
+  align-items: center;
+}
+.meal-bar-wrap .meal-bar { flex: 1; }
+.meal-bar-delete { margin-right: 10px; flex-shrink: 0; }
+
 .meal-bar {
   width: 100%;
   display: flex;

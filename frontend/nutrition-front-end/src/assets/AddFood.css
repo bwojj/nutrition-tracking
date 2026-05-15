@@ -243,6 +243,80 @@
     border-color: var(--accent-hover);
 }
 
+.select-foods-chip {
+    background: var(--micro-blue-bg);
+    color: var(--micro-blue-fg);
+    border-color: var(--status-info);
+}
+
+.select-foods-chip:hover {
+    background: var(--micro-blue-bg);
+    border-color: var(--micro-blue-fg);
+}
+
+.select-foods-chip--active {
+    background: var(--status-info);
+    color: #fff;
+    border-color: var(--status-info);
+}
+
+.select-foods-chip--active:hover {
+    background: var(--status-info);
+    border-color: var(--micro-blue-fg);
+}
+
+.select-foods-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    align-items: center;
+}
+
+.select-save-btn {
+    display: flex;
+    align-items: center;
+    padding: 7px 16px;
+    border-radius: var(--radius-full);
+    background: var(--msu-green-800);
+    color: var(--msu-green-200);
+    border: 1px solid var(--msu-green-500);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard),
+                border-color var(--dur-fast) var(--ease-standard);
+}
+
+.select-save-btn:hover {
+    background: var(--msu-green-700);
+    border-color: var(--msu-green-400);
+}
+
+.add-saved-meal-btn {
+    display: block;
+    width: 85%;
+    margin: 14px auto 0;
+    padding: 14px 0;
+    border-radius: var(--radius-md);
+    background: var(--bg-input);
+    color: var(--fg-soft);
+    border: 1px dashed var(--border-strong);
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard),
+                border-color var(--dur-fast) var(--ease-standard),
+                color var(--dur-fast) var(--ease-standard);
+}
+
+.add-saved-meal-btn:hover {
+    background: var(--bg-chip);
+    border-color: var(--accent);
+    color: var(--fg);
+}
+
 /* ── Foods list — takes all remaining height, scrolls internally ── */
 .foods {
     flex: 1;
@@ -275,6 +349,101 @@
 .food-items-inner:hover {
     background: var(--bg-chip);
     border-color: var(--border-strong);
+}
+
+/* Select mode: 2-column grid (no food-actions), relative for absolute serving */
+.food-items-inner--select-mode {
+    grid-template-columns: 1fr auto;
+    position: relative;
+}
+
+.food-items-inner--selected {
+    background: rgba(34, 197, 94, 0.12);
+    border-color: var(--accent);
+}
+
+.food-items-inner--selected:hover {
+    background: rgba(34, 197, 94, 0.16);
+    border-color: var(--accent);
+}
+
+/* Macros slide left when row selected in select mode */
+.food-macros {
+    transition: transform 220ms var(--ease-standard);
+}
+.food-items-inner--selected .food-macros {
+    transform: translateX(-124px);
+}
+
+/* Serving size — absolute, reveals on selection */
+.food-row-serving {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 108px;
+    transform: translateY(-50%) translateX(16px);
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+    transition: transform 220ms var(--ease-standard),
+                opacity 160ms var(--ease-standard);
+}
+.food-items-inner--selected .food-row-serving {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.food-serving-label {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-200);
+    text-align: right;
+}
+.food-serving-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 4px 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 160ms var(--ease-standard);
+}
+.food-items-inner--selected .food-serving-input-wrap {
+    border-color: var(--accent);
+}
+.food-serving-input {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--fg);
+    text-align: right;
+}
+.food-serving-input::-webkit-outer-spin-button,
+.food-serving-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.food-serving-input[type=number] { -moz-appearance: textfield; }
+.food-serving-unit {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-200);
+    flex-shrink: 0;
+    max-width: 36px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .name {
@@ -454,4 +623,135 @@
         padding: 6px 10px;
         font-size: 11px;
     }
+}
+
+/* ── Inline macros (mobile select mode) ── */
+.food-inline-macros {
+    display: none;
+}
+
+@media (max-width: 540px) {
+    .food-items-inner--selected .food-meta { display: none; }
+    .food-items-inner--selected .food-macros { display: none; }
+    .food-items-inner--selected .food-inline-macros {
+        display: flex;
+        gap: 10px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--ink-200);
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* ── Saved meal cards (My Meals tab) ── */
+.saved-meal-card {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-bottom: 6px;
+}
+
+.saved-meal-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-chip);
+}
+
+.saved-meal-card-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.saved-meal-add-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--accent);
+    color: var(--accent-on);
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.12s var(--ease-standard);
+    flex-shrink: 0;
+}
+.saved-meal-add-btn:hover { background: var(--accent-hover); }
+
+.saved-meal-card-name {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+}
+
+.saved-meal-card-count {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-200);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+.saved-meal-card-foods {
+    display: flex;
+    flex-direction: column;
+}
+
+.saved-meal-food-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.saved-meal-food-row:last-child {
+    border-bottom: none;
+}
+
+.saved-meal-food-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.saved-meal-food-name {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.saved-meal-food-serving {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: var(--ink-200);
+}
+
+.saved-meal-food-macros {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-200);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
 }

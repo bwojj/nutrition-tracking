@@ -56,4 +56,23 @@
         width: 100%;
     }
 }
+@media(max-width: 600px){
+    .micronutrient-icons{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+    }
+}
+@media(max-width: 360px){
+    .micronutrient-icons{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+    }
+    .micronutrient-icons span{
+        font-size: 12px; 
+    }
+}
 

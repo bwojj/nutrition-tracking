@@ -30,8 +30,12 @@ useEffect(() => {
       
       if (authData?.authenticated) {
         setIsLoggedIn(true);
-        const user = await getUserData();
-        if (user) setUsername(user);
+        try {
+          const user = await getUserData();
+          if (user) setUsername(user);
+        } catch (err) {
+          console.error("Username fetch error", err);
+        }
       }
     } catch (error) {
       console.error("Initialization error", error);
@@ -53,7 +57,7 @@ if(isLoading){
         <Routes>
           <Route
             path="/login"
-            element= {<Auth setIsLoggedIn={setIsLoggedIn} setIsLoading={setIsLoading}/>}
+            element={<Auth setIsLoggedIn={setIsLoggedIn} setAppUsername={setUsername} />}
           />
           <Route
             path="/"

@@ -99,22 +99,24 @@ function Header({ setIsLoggedIn, username }){
                 </select>
             </div>
 
-            <div className="profile-wrapper" ref={profileRef}>
-                <div className="profile" onClick={() => setIsOpen(o => !o)}>
-                    <div className="pfp">{username.substr(0, 2).toUpperCase()}</div>
-                    <p className="username">{username}</p>
-                </div>
-                {isOpen && (
-                    <div className="profile-dropdown">
-                        <p className="dropdown-username">{username}</p>
-                        <div className="dropdown-divider" />
-                        <button className="dropdown-logout" onClick={logout}>
-                            <LogOut size={14} />
-                            Log Out
-                        </button>
+            {username && (
+                <div className="profile-wrapper" ref={profileRef}>
+                    <div className="profile" onClick={() => setIsOpen(o => !o)}>
+                        <div className="pfp">{username.substr(0, 2).toUpperCase()}</div>
+                        <p className="username">{username}</p>
                     </div>
-                )}
-            </div>
+                    {isOpen && (
+                        <div className="profile-dropdown">
+                            <p className="dropdown-username">{username}</p>
+                            <div className="dropdown-divider" />
+                            <button className="dropdown-logout" onClick={logout}>
+                                <LogOut size={14} />
+                                Log Out
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
 
         </div>,
         document.getElementById('header')

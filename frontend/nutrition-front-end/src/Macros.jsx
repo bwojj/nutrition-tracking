@@ -21,8 +21,8 @@ function Macro(props) {
         };
     }, []);
 
-    const radius   = windowWidth >= 1471 ? 48 : (windowWidth <= 400 ? 28 : 32);
-    const strokeW  = windowWidth >= 1471 ? 16 : (windowWidth <= 400 ? 11 : 13);
+    const radius   = windowWidth >= 1385 ? 48 : (windowWidth <= 600 ? 34 : 42);
+    const strokeW  = windowWidth >= 1385 ? 16 : (windowWidth <= 600 ? 11 : 13);
     const circumfrence = 2 * Math.PI * radius;
 
     const visualPercentage = Math.min(percentage, 100);

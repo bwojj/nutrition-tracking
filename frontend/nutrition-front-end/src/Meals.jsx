@@ -3,7 +3,7 @@ import { MealsContext } from './Context/Context.js';
 import Meal from './Meal.jsx';
 import { useContext } from 'react';
 
-function Meals({ meal, setMeal, setFoodData, foodData, onOpen, onDelete }){
+function Meals({ meal, setMeal, setFoodData, foodData, onOpen, onDelete, getRefresh }){
     const { meals } = useContext(MealsContext);
 
 
@@ -12,10 +12,10 @@ function Meals({ meal, setMeal, setFoodData, foodData, onOpen, onDelete }){
             {meals.map((element, index) => (
                 index === 0 ? (<Meal key={index} first={true} onOpen={onOpen} mealName={element}
                                 foodData={foodData.filter(f => f.meal === element)} onDelete={onDelete}
-                                setMeal={setMeal} setFoodData={setFoodData} />)
-                : <Meal key={index} onOpen={onOpen} mealName={element} 
+                                setMeal={setMeal} setFoodData={setFoodData} getRefresh={getRefresh} />)
+                : <Meal key={index} onOpen={onOpen} mealName={element}
                 foodData={foodData.filter(f => f.meal === element)} onDelete={onDelete}
-                 setMeal={setMeal} meal={meal} setFoodData={setFoodData}/> 
+                 setMeal={setMeal} meal={meal} setFoodData={setFoodData} getRefresh={getRefresh}/>
             ))}
         </div>
     );

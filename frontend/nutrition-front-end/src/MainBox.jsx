@@ -8,7 +8,7 @@ import FullMicronutrients from './FullMicronutrients.jsx';
 import FullProgress from './FullProgress.jsx';
 import LoadingScreen from './LoadingScreen.jsx';
 import { useState, useEffect } from 'react';
-import { getFoodData, getFoods, searchFoodsDB } from './api/mealApi.js';
+import { getFoodData, getFoods, searchFoodsDB } from './api/mealApi.js'; // getFoods still used for foodDatabase/foodDatabasebyID
 import { getProgress } from './api/userApi.js';
 import { useDaysContext } from './Context/DayContext.jsx';
 
@@ -20,18 +20,19 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
     const [foodData, setFoodData] = useState([]);
     const [progressData, setProgressData] = useState([]);
     const [foodDatabase, setFoodDatabase] = useState([]);
-    const [foodDatabasebyID, setFoodDatabasebyID] = useState([]); 
-    const [foodDatabaseFavorites, setFoodDatabaseFavorites] = useState([]); 
+    const [foodDatabasebyID, setFoodDatabasebyID] = useState([]);
+    const [isDataLoading, setIsDataLoading] = useState(true);
 
     const { selectedDate } = useDaysContext();
 
 
     const getRefresh = async () => {
-        const dataResponse = await getFoodData(selectedDate)
-
-        if(dataResponse){
-            setFoodData(dataResponse);
-        }
+        const [dataResponse, itemsResponse] = await Promise.all([
+            getFoodData(selectedDate),
+            getFoods('date'),
+        ]);
+        if (dataResponse) setFoodData(dataResponse);
+        if (itemsResponse) setFoodDatabase(itemsResponse);
     }
     useEffect(() => {
   if (!isLoggedIn) return;
@@ -39,37 +40,38 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
   let cancelled = false;
 
   const loadAll = async () => {
+    setIsDataLoading(true);
     try {
-      const [progressResponse, foodResponse, itemsResponse, itemsIdResponse, itemsFavoriteResponse] =
+      const [progressResponse, foodResponse, itemsResponse, itemsIdResponse] =
         await Promise.all([
           getProgress(),
           getFoodData(selectedDate),
           getFoods('date'),
-          getFoods('id'), 
-          getFoods('favorite'), 
+          getFoods('id'),
         ]);
-
+        
       if (cancelled) return;
 
       setProgressData(progressResponse || []);
       setFoodData(foodResponse || []);
       setFoodDatabase(itemsResponse || []);
       setFoodDatabasebyID(itemsIdResponse || []);
-      setFoodDatabaseFavorites(itemsFavoriteResponse || []); 
     } catch (err) {
       console.error("MainBox load error:", err);
+    } finally {
+      if (!cancelled) setIsDataLoading(false);
     }
   };
 
   loadAll();
 
   return () => {
-    cancelled = true; 
+    cancelled = true;
   };
 }, [isLoggedIn, selectedDate]);
+console.log(foodDatabase);
 
-    
-    if (!progressData.length) {
+    if (isDataLoading) {
         return <LoadingScreen/>
     }
     return(
@@ -86,7 +88,6 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
                 getRefresh={getRefresh} 
                 foodDatabase={foodDatabase}
                 foodDatabasebyID={foodDatabasebyID}
-                foodDatabaseFavorites={foodDatabaseFavorites}
             />
             <FullMicronutrients foodData={foodData} isOpen={isMicroModalOpen} onClose={() => setIsMicroModalOpen(false)}/>
             <FullProgress isOpen={isProgressModalOpen} onClose={() => setIsProgressModalOpen(false)} progressData={progressData}/>
@@ -94,7 +95,7 @@ function MainBox({ isLoggedIn, isLoading, setIsLoading, isMicroModalOpen, setIsM
             
             <div className="top-main">
                 {progressData.length > 0 ? <Calories foodData={foodData} progressData={progressData} isLoading={isLoading}/> : null }
-                <Meals setFoodData={setFoodData} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)}/>
+                <Meals setFoodData={setFoodData} setMeal={setMeal} foodData={foodData} onOpen={() => setIsModalOpen(true)} getRefresh={getRefresh}/>
             </div>
             <div className="bottom-main">
                 <Micronutrients foodData={foodData} onOpen={() => setIsMicroModalOpen(true)}/>

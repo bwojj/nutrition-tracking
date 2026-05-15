@@ -23,7 +23,7 @@ function Calories({ foodData, progressData, isLoading }) {
         };
     }, []);
 
-    const r = windowWidth >= 1471 ? 138 : 94;
+    const r = windowWidth >= 1172 ? 138 :  (windowWidth <= 448 ? 138 : 94);
     const cx = 200;
     const cy = 210;
     const x1 = cx - r;

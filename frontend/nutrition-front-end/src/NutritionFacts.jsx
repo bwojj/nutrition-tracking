@@ -1,162 +1,117 @@
 import './assets/NutritionFacts.css'
 import { createPortal } from 'react-dom'
+import { useState, useEffect, useRef } from 'react'
+import { updateFoodData, getFoodByID } from './api/mealApi.js'
 
-function NutritionFacts({ isOpen, onClose, foodData }) {
+function NutritionFacts({ isOpen, onClose, foodData, onUpdate }) {
+    const [servings, setServings] = useState('1');
+    const [baseFood, setBaseFood] = useState(null);
+    const prevFoodId = useRef(null);
+
+    const currentId = foodData?.id ?? null;
+    if (currentId !== prevFoodId.current) {
+        prevFoodId.current = currentId;
+        setServings('1');
+        setBaseFood(null);
+    }
+
+    useEffect(() => {
+        if (!isOpen || !foodData) return;
+        getFoodByID(foodData.food_from).then(data => {
+            if (data && data.length > 0) setBaseFood(data[0]);
+        });
+    }, [isOpen, foodData]);
+
     if (!isOpen || !foodData) return null;
 
+    const base = baseFood || foodData;
+    const s = parseFloat(servings) || 1;
+
+    const handleSave = async () => {
+        await updateFoodData(s, foodData.id);
+        if (onUpdate) await onUpdate();
+        onClose();
+    };
+
+    const micros = [
+        { label: 'Fiber',       value: Math.round(base.fiber * s),                unit: 'g'  },
+        { label: 'Sugar',       value: Math.round(base.sugar * s),                unit: 'g'  },
+        { label: 'Sat. Fat',    value: Math.round(base.saturated_fat * s),        unit: 'g'  },
+        { label: 'Trans Fat',   value: Math.round(base.trans_fat * s),            unit: 'g'  },
+        { label: 'Poly Fat',    value: Math.round(base.polyunsaturated_fat * s),  unit: 'g'  },
+        { label: 'Mono Fat',    value: Math.round(base.monounsaturated_fat * s),  unit: 'g'  },
+        { label: 'Cholesterol', value: Math.round(base.cholesterol * s),          unit: 'mg' },
+        { label: 'Sodium',      value: Math.round(base.sodium * s),               unit: 'mg' },
+        { label: 'Potassium',   value: Math.round(base.potassium * s),            unit: 'mg' },
+        { label: 'Calcium',     value: Math.round(base.calcium * s),              unit: '%'  },
+        { label: 'Vitamin A',   value: Math.round(base.vitamin_A * s),            unit: '%'  },
+        { label: 'Vitamin C',   value: Math.round(base.vitamin_C * s),            unit: '%'  },
+    ];
+
     return createPortal(
-        <div className="nutrition-label-modal__overlay" onClick={onClose}>
-            <div className="nutrition-label-modal__container" onClick={(e) => e.stopPropagation()}>
-                <div className="nutrition-label-modal__label">
-                    <button className="nutrition-label-modal__close-btn" onClick={onClose}>
-                        {"\u00D7"}
-                    </button>
-                    <div className="nutrition-label-modal__header">
-                        <h1 className="nutrition-label-modal__title">Nutrition Facts</h1>
+        <div className="nf-overlay" onClick={onClose}>
+            <div className="nf-modal" onClick={(e) => e.stopPropagation()}>
+                <button className="nf-close" onClick={onClose}>✕</button>
+
+                <div className="nf-header">
+                    <div className="nf-eyebrow">Nutrition Facts</div>
+                    <div className="nf-food-name">{foodData.food_name}</div>
+                    {base.brand && <div className="nf-brand">{base.brand}</div>}
+                    <div className="nf-serving-row">
+                        <span className="nf-serving-size">{base.serving_size} per serving</span>
+                        <div className="nf-servings-control">
+                            <label className="nf-servings-label" htmlFor="nf-servings">Servings</label>
+                            <input
+                                id="nf-servings"
+                                className="nf-servings-input"
+                                type="number"
+                                min="0.25"
+                                step="0.25"
+                                value={servings}
+                                onChange={(e) => setServings(e.target.value)}
+                            />
+                        </div>
                     </div>
+                </div>
 
-                    <div className="nutrition-label-modal__divider-thick"></div>
-
-                    <div className="nutrition-label-modal__serving-section">
-                        <div className="nutrition-label-modal__food-name">{foodData.food_name}</div>
-                        {foodData.brand && (
-                            <div className="nutrition-label-modal__brand">{foodData.brand}</div>
-                        )}
-                        <div className="nutrition-label-modal__serving-size">
-                            <span className="nutrition-label-modal__serving-label">Serving Size</span>
-                            <span className="nutrition-label-modal__serving-value">{foodData.serving_size}</span>
+                <div className="nf-body">
+                    <div className="nf-main-macros">
+                        <div className="nf-tile nf-tile--calories">
+                            <span className="nf-tile-label">Calories</span>
+                            <span className="nf-tile-value">{Math.round(base.calories * s)}</span>
+                            <span className="nf-tile-unit">kcal</span>
+                        </div>
+                        <div className="nf-tile nf-tile--protein">
+                            <span className="nf-tile-label">Protein</span>
+                            <span className="nf-tile-value">{Math.round(base.protein * s)}</span>
+                            <span className="nf-tile-unit">g</span>
+                        </div>
+                        <div className="nf-tile nf-tile--carbs">
+                            <span className="nf-tile-label">Carbs</span>
+                            <span className="nf-tile-value">{Math.round(base.carbs * s)}</span>
+                            <span className="nf-tile-unit">g</span>
+                        </div>
+                        <div className="nf-tile nf-tile--fat">
+                            <span className="nf-tile-label">Fat</span>
+                            <span className="nf-tile-value">{Math.round(base.fat * s)}</span>
+                            <span className="nf-tile-unit">g</span>
                         </div>
                     </div>
 
-                    <div className="nutrition-label-modal__divider-extra-thick"></div>
-
-                    <div className="nutrition-label-modal__amount-header">
-                        <span className="nutrition-label-modal__amount-label">Amount Per Serving</span>
+                    <div className="nf-grid">
+                        {micros.map(({ label, value, unit }) => (
+                            <div className="nf-micro-tile" key={label}>
+                                <span className="nf-micro-label">{label}</span>
+                                <span className="nf-micro-value">
+                                    {value}<span className="nf-micro-unit">{unit}</span>
+                                </span>
+                            </div>
+                        ))}
                     </div>
+                </div>
 
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__calories-section">
-                        <div className="nutrition-label-modal__calories-main">
-                            <span className="nutrition-label-modal__calories-label">Calories</span>
-                            <span className="nutrition-label-modal__calories-value">{Math.round(foodData.calories)}</span>
-                        </div>
-                        <div className="nutrition-label-modal__calories-fat">
-                            Calories from Fat {Math.round(foodData.fat * 9)}
-                        </div>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-medium"></div>
-
-                    <div className="nutrition-label-modal__daily-value-header">
-                        <span>% Daily Value*</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row">
-                        <span><strong>Total Fat</strong> {foodData.fat}g</span>
-                        <span>{Math.round((foodData.fat / 78) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row nutrition-label-modal__nutrient-row--indented">
-                        <span>Saturated Fat {foodData.saturated_fat}g</span>
-                        <span>{Math.round((foodData.saturated_fat / 20) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row nutrition-label-modal__nutrient-row--indented">
-                        <span>Trans Fat {foodData.trans_fat}g</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row nutrition-label-modal__nutrient-row--indented">
-                        <span>Polyunsaturated Fat {foodData.polyunsaturated_fat}g</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row nutrition-label-modal__nutrient-row--indented">
-                        <span>Monounsaturated Fat {foodData.monounsaturated_fat}g</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row">
-                        <span><strong>Cholesterol</strong> {foodData.cholesterol}mg</span>
-                        <span>{Math.round((foodData.cholesterol / 300) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row">
-                        <span><strong>Sodium</strong> {foodData.sodium}mg</span>
-                        <span>{Math.round((foodData.sodium / 2300) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row">
-                        <span><strong>Total Carbohydrate</strong> {foodData.carbs}g</span>
-                        <span>{Math.round((foodData.carbs / 275) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row nutrition-label-modal__nutrient-row--indented">
-                        <span>Dietary Fiber {foodData.fiber}g</span>
-                        <span>{Math.round((foodData.fiber / 28) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row nutrition-label-modal__nutrient-row--indented">
-                        <span>Total Sugars {foodData.sugar}g</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__nutrient-row">
-                        <span><strong>Protein</strong> {foodData.protein}g</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-extra-thick"></div>
-
-                    <div className="nutrition-label-modal__vitamin-row">
-                        <span>Vitamin A</span>
-                        <span>{Math.round(foodData.vitamin_A)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__vitamin-row">
-                        <span>Vitamin C</span>
-                        <span>{Math.round(foodData.vitamin_C)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__vitamin-row">
-                        <span>Calcium</span>
-                        <span>{Math.round(foodData.calcium)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-thin"></div>
-
-                    <div className="nutrition-label-modal__vitamin-row">
-                        <span>Potassium</span>
-                        <span>{Math.round((foodData.potassium / 4700) * 100)}%</span>
-                    </div>
-
-                    <div className="nutrition-label-modal__divider-medium"></div>
-
-                    <div className="nutrition-label-modal__footnote">
-                        * The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.
-                    </div>
+                <div className="nf-footer">
+                    <button className="nf-save-btn" onClick={handleSave}>Update Serving</button>
                 </div>
             </div>
         </div>,

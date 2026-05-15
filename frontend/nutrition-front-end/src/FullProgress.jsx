@@ -10,18 +10,28 @@ function FullProgress({ isOpen, onClose, progressData, isLoading }){
 
     const [advanced, setAdvanced] = useState(false);
 
-    const [formData, setFormData] = useState({
-        currentWeight: progressData[0].current_weight || 0,
-        goalWeight: progressData[0].goal_weight || 0,
-        goal: progressData[0].goal || "",
-        goalCalories: progressData[0].goal_calories || 0,
-        goalProtein: progressData[0].goal_protein || 0,
-        goalCarbs: progressData[0].goal_carbs || 0,
-        goalFat: progressData[0].goal_fat || 0,
+    const [formData, setFormData] = useState(() => {
+        const data = progressData[0] ?? {};
+        return {
+            currentWeight: data.current_weight || 0,
+            goalWeight: data.goal_weight || 0,
+            goal: data.goal || "",
+            goalCalories: data.goal_calories || 0,
+            goalProtein: data.goal_protein || 0,
+            goalCarbs: data.goal_carbs || 0,
+            goalFat: data.goal_fat || 0,
+        };
     });
 
     useEffect(() => {
+        if (!isOpen) return;
+        document.body.style.overflow = 'hidden';
+        return () => { document.body.style.overflow = ''; };
+    }, [isOpen]);
+
+    useEffect(() => {
         const data = progressData[0];
+        if (!data) return;
         setFormData({
             currentWeight: data.current_weight,
             goalWeight: data.goal_weight,
