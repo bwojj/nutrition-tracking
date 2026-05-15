@@ -156,6 +156,9 @@ class FoodsView(viewsets.ModelViewSet):
         search = request.query_params.get('search')
         if search:
             queryset = queryset.filter(food_name__icontains=search)
+        id = request.query_params.get('id')
+        if id:
+            queryset = queryset.filter(id=id)
         queryset = queryset[:20]
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
@@ -453,10 +456,6 @@ def update_food_data(request):
     except Exception as e:
         return Response({"Error": f"{e}"})
 
-@permission_classes([IsAuthenticated])
-def get_parent_food(request): 
-    parent_obj = FoodData.objects.get(food_from=request.data.get("id"))
 
-    return parent_obj
 
        
