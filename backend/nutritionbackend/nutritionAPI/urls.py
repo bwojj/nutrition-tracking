@@ -4,7 +4,7 @@ from .views import (
     DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, SavedMealView, add_food,
     update_progress, CustomRefreshTokenView, CustomTokenObtainPairView,
     logout, register, is_authenticated, health_check, save_to_favorites, remove_from_favorites,
-    add_to_saved_meals, add_saved_meal_foods, add_multiple_foods, update_food_data
+    add_to_saved_meals, add_saved_meal_foods, add_multiple_foods, update_food_data, get_parent_food
     )
 
 router = routers.DefaultRouter()
@@ -27,7 +27,8 @@ urlpatterns = [
     path('api/add-saved-meal/', add_to_saved_meals, name="add_saved_meals"), 
     path('api/add-saved-meal-to-meal/', add_saved_meal_foods, name="add_saved_meals_to_meal"),
     path('api/add-multiple-foods/', add_multiple_foods, name="add_multiple_foods"), 
-    path('api/update-food/', update_food_data, name="update_food_data"), 
+    path('api/update-food/', update_food_data, name="update_food_data"),
+    path('api/get-parent-food/', get_parent_food, name="get_parent_food"), 
     path('logout/', logout, name="logout"),
     path('authenticated/', is_authenticated, name="authenticated"),
     path('register/', register, name="register"),

@@ -453,5 +453,10 @@ def update_food_data(request):
     except Exception as e:
         return Response({"Error": f"{e}"})
 
+@permission_classes([IsAuthenticated])
+def get_parent_food(request): 
+    parent_obj = FoodData.objects.get(food_from=request.data.get("id"))
+
+    return parent_obj
 
        
