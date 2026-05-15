@@ -156,9 +156,9 @@ class FoodsView(viewsets.ModelViewSet):
         search = request.query_params.get('search')
         if search:
             queryset = queryset.filter(food_name__icontains=search)
-        id = request.query_params.get('id')
-        if id:
-            queryset = queryset.filter(id=id)
+        food_id = request.query_params.get('id')
+        if food_id:
+            queryset = queryset.filter(id=food_id)
         queryset = queryset[:20]
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
