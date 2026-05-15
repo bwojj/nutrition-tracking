@@ -168,8 +168,7 @@ class FoodsView(viewsets.ModelViewSet):
         food_id = request.query_params.get('id')
         if food_id:
             queryset = queryset.filter(id=food_id)
-        else: 
-            queryset = queryset[:20]
+        queryset = queryset[:20]
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
     
