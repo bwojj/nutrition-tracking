@@ -4,7 +4,7 @@ from .views import (
     DayView, MealView, FoodDataView, ProgressView, UserView, FoodsView, SavedMealView, add_food,
     update_progress, CustomRefreshTokenView, CustomTokenObtainPairView,
     logout, register, is_authenticated, health_check, save_to_favorites, remove_from_favorites,
-    add_to_saved_meals, add_saved_meal_foods, add_multiple_foods, update_food_data, get_parent_food
+    add_to_saved_meals, add_saved_meal_foods, add_multiple_foods, update_food_data
     )
 
 router = routers.DefaultRouter()
