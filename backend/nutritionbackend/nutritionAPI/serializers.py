@@ -36,6 +36,7 @@ class FoodDataSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='meal_name'
      )
+    meal_id = serializers.IntegerField(source='meal.id', read_only=True)
     class Meta:
         model = FoodData
         fields = '__all__'

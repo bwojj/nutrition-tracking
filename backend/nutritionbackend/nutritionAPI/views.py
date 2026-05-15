@@ -114,8 +114,17 @@ class DayView(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
 
 class MealView(viewsets.ModelViewSet):
-    queryset = Meal.objects.all()
     serializer_class = MealSerializer
+
+    def get_queryset(self):
+        queryset = Meal.objects.all()
+        date_param = self.request.query_params.get('date')
+        meal_name = self.request.query_params.get('meal_name')
+        if date_param:
+            queryset = queryset.filter(date__date=date_param)
+        if meal_name:
+            queryset = queryset.filter(meal_name=meal_name)
+        return queryset
 
 class FoodDataView(viewsets.ModelViewSet):
     serializer_class = FoodDataSerializer
