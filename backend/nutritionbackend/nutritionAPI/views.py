@@ -307,24 +307,21 @@ def remove_from_favorites(request):
 def add_to_saved_meals(request):
     try:
         saved_meal_obj, _ = SavedMeal.objects.get_or_create(
-            user=User.objects.first(), 
+            user=User.objects.first(),
             meal_name=request.data.get("custom_meal_name")
         )
 
-        food_objects = list()
+        multipliers = {}
+        for item in request.data.get("foods", []):
+            food_obj = Foods.objects.get(id=item["id"])
+            saved_meal_obj.foods.add(food_obj)
+            multipliers[str(item["id"])] = float(item.get("scale", 1.0))
 
-        for i in request.data.get("ids"):
-            food_obj = Foods.objects.get(
-                id=i
-            )
-            food_objects.append(food_obj)
-
-        for food in food_objects: 
-            saved_meal_obj.foods.add(food)
+        saved_meal_obj.serving_multipliers = multipliers
         saved_meal_obj.save()
 
         return Response({'Success': True})
-        
+
     except Exception as e:
         return Response({'Error': f"{e}"})
 
@@ -351,29 +348,31 @@ def add_saved_meal_foods(request):
             meal_name=request.data.get('meal_name')
         )
 
+        multipliers = saved_meal_object.serving_multipliers or {}
         res = Response({})
 
         for f in saved_meal_object.foods.all():
+            scale = multipliers.get(str(f.id), 1.0)
             food, _ = FoodData.objects.get_or_create(
                 meal = meal_obj,
                 food_name = f.food_name,
                 serving_size = f.serving_size or '1 serving',
-                calories = f.calories or 0,
-                protein = f.protein or 0,
-                carbs = f.carbs or 0,
-                fat = f.fat or 0,
-                fiber = f.fiber or 0,
-                sugar = f.sugar or 0,
-                saturated_fat = f.saturated_fat or 0,
-                polyunsaturated_fat = f.polyunsaturated_fat or 0,
-                monounsaturated_fat = f.monounsaturated_fat or 0,
-                trans_fat = f.trans_fat or 0,
-                cholesterol = f.cholesterol or 0,
-                sodium = f.sodium or 0,
-                potassium = f.potassium or 0,
-                vitamin_A = f.vitamin_A or 0,
-                vitamin_C = f.vitamin_C or 0,
-                calcium = f.calcium or 0,
+                calories = round(f.calories * scale) or 0,
+                protein = round(f.protein * scale) or 0,
+                carbs = round(f.carbs * scale) or 0,
+                fat = round(f.fat * scale) or 0,
+                fiber = round(f.fiber * scale) or 0,
+                sugar = round(f.sugar * scale) or 0,
+                saturated_fat = round(f.saturated_fat * scale) or 0,
+                polyunsaturated_fat = round(f.polyunsaturated_fat * scale) or 0,
+                monounsaturated_fat = round(f.monounsaturated_fat * scale) or 0,
+                trans_fat = round(f.trans_fat * scale) or 0,
+                cholesterol = round(f.cholesterol * scale) or 0,
+                sodium = round(f.sodium * scale) or 0,
+                potassium = round(f.potassium * scale) or 0,
+                vitamin_A = round(f.vitamin_A * scale) or 0,
+                vitamin_C = round(f.vitamin_C * scale) or 0,
+                calcium = round(f.calcium * scale) or 0,
             )
             res.data[f"{f.food_name}"] = f"Added {f.food_name} to {meal_obj.meal_name}"
 

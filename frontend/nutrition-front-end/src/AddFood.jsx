@@ -119,10 +119,25 @@ function AddFood({ meal, setMeal, date, setIsLoading, isOpen, setIsModalOpen, on
           )
         : favorites.slice(0, 20);
 
+    useEffect(() => {
+        if (!search.trim()) {
+            setSearchResults([]);
+            setHasSearched(false);
+            setIsSearching(false);
+            return;
+        }
+        setIsSearching(true);
+        const timer = setTimeout(async () => {
+            const results = await searchFoodsDB(search);
+            setSearchResults(results || []);
+            setHasSearched(true);
+            setIsSearching(false);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [search, searchFoodsDB]);
+
     function handleChange(event){
         setSearch(event.target.value);
-        setSearchResults([]);
-        setHasSearched(false);
     }
 
     function resetSelectMode() {
@@ -161,25 +176,8 @@ function AddFood({ meal, setMeal, date, setIsLoading, isOpen, setIsModalOpen, on
     function onClose(){
         setIsModalOpen(false);
         setSearch("");
-        setSearchResults([]);
-        setHasSearched(false);
         resetSelectMode();
     }
-
-    const handleSearch = async () => {
-        if (!search.length) return;
-        setIsSearching(true);
-        setHasSearched(true);
-        const results = await searchFoodsDB(search);
-        setSearchResults(results || []);
-        setIsSearching(false);
-    };
-
-    const handleKeyDown = async (event) => {
-        if (event.key === 'Enter') {
-            await handleSearch();
-        }
-    };
 
     const chipFoods = activeChip === 'My Meals' ? [] : activeChip === 'Foods' ? foodsByID20 : activeChip === 'Favorites' ? favoritesChip : defaultFiltered;
     const displayFoods = hasSearched ? searchResults : chipFoods;
@@ -278,7 +276,6 @@ function AddFood({ meal, setMeal, date, setIsLoading, isOpen, setIsModalOpen, on
                         <input
                             className="search"
                             value={search}
-                            onKeyDown={handleKeyDown}
                             onChange={handleChange}
                             placeholder="Search foods, brands, meals…"
                         />

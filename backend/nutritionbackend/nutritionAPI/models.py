@@ -85,6 +85,7 @@ class SavedMeal(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='savedMeals', default=1)
     meal_name = models.CharField(max_length=64)
     foods = models.ManyToManyField(Foods)
+    serving_multipliers = models.JSONField(default=dict)
 
     class Meta:
         unique_together = ('user', 'meal_name')

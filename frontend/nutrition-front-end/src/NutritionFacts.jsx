@@ -7,7 +7,6 @@ function NutritionFacts({ isOpen, onClose, foodData, onUpdate }) {
     const [servings, setServings] = useState('1');
     const [baseFood, setBaseFood] = useState(null);
     const prevFoodId = useRef(null);
-
     const currentId = foodData?.id ?? null;
     if (currentId !== prevFoodId.current) {
         prevFoodId.current = currentId;
@@ -18,7 +17,14 @@ function NutritionFacts({ isOpen, onClose, foodData, onUpdate }) {
     useEffect(() => {
         if (!isOpen || !foodData) return;
         getFoodByID(foodData.food_from).then(data => {
-            if (data && data.length > 0) setBaseFood(data[0]);
+            if (data && data.length > 0) {
+                const bf = data[0];
+                setBaseFood(bf);
+                if (bf.calories > 0) {
+                    const ratio = foodData.calories / bf.calories;
+                    setServings(String(Math.round(ratio * 100) / 100));
+                }
+            }
         });
     }, [isOpen, foodData]);
 

@@ -305,26 +305,25 @@ export const removeFavorite = async (id) => {
     }
 };
 
-export const addSavedMeal = async (custom_meal_name, ids) => {
+export const addSavedMeal = async (custom_meal_name, foods) => {
     try {
         const response = await fetch(`${BASE_URL}api/add-saved-meal/`, {
-            method: 'POST', 
-            headers: getAuthHeaders({ 'Content-Type': 'application/json' }), 
-            credentials: 'include', 
-            body: JSON.stringify({ custom_meal_name, ids }), 
-        }); 
-        if(response.status === 401) {
-            const retryResponse = await refresh(); 
-            if(retryResponse.ok) {
-                return true
+            method: 'POST',
+            headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
+            credentials: 'include',
+            body: JSON.stringify({ custom_meal_name, foods }),
+        });
+        if (response.status === 401) {
+            const retryResponse = await refresh();
+            if (retryResponse.ok) {
+                return true;
             }
-        } 
-        if(response.ok){
-            return true; 
         }
-
+        if (response.ok) {
+            return true;
+        }
     } catch (_) {
-        return false; 
+        return false;
     }
 }
 export const updateFoodData = async (new_serving_size, food_id) => {

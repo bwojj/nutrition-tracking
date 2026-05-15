@@ -88,7 +88,11 @@ function SavedMealForm({ isOpen, onClose, recentFoods = [], setIsLoading, search
         e.preventDefault();
         if (!canSubmit) return;
         setIsLoading(true);
-        await addSavedMeal(formData.custom_meal_name, formData.ids);
+        const foods = [...selectedFoodsMap.entries()].map(([id, food]) => ({
+            id,
+            scale: getScale(food),
+        }));
+        await addSavedMeal(name, foods);
         setIsLoading(false);
         onClose();
     };

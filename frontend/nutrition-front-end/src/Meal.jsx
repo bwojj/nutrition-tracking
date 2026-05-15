@@ -47,7 +47,6 @@ function Meal(props) {
     const foods = props.foodData
         ? props.foodData.filter((el) => el.meal === props.mealName)
         : [];
-
     return (
         <div className="meal-row">
             <div className="meal-bar-wrap">
