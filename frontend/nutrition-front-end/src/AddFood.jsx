@@ -347,17 +347,22 @@ function AddFood({ meal, setMeal, date, setIsLoading, isOpen, setIsModalOpen, on
                                         {meal.foods.map((food) => {
                                             const f = typeof food === 'object' ? food : foodDatabase.find(d => d.id === food);
                                             if (!f) return null;
+                                            const scale = meal.serving_multipliers?.[String(f.id)] ?? 1;
+                                            const servMatch = f.serving_size?.match(/^([\d.]+)\s*(.*)/);
+                                            const scaledServing = servMatch
+                                                ? `${parseFloat((parseFloat(servMatch[1]) * scale).toFixed(1))} ${servMatch[2]}`.trim()
+                                                : f.serving_size;
                                             return (
                                                 <div key={f.id} className="saved-meal-food-row">
                                                     <div className="saved-meal-food-info">
                                                         <span className="saved-meal-food-name">{f.food_name}</span>
-                                                        <span className="saved-meal-food-serving">{f.serving_size}</span>
+                                                        <span className="saved-meal-food-serving">{scaledServing}</span>
                                                     </div>
                                                     <div className="saved-meal-food-macros">
-                                                        <span><span className="macro-p">P</span> {f.protein}</span>
-                                                        <span><span className="macro-c">C</span> {f.carbs}</span>
-                                                        <span><span className="macro-f">F</span> {f.fat}</span>
-                                                        <span className="macro-cal">{f.calories} cal</span>
+                                                        <span><span className="macro-p">P</span> {Math.round(f.protein * scale)}</span>
+                                                        <span><span className="macro-c">C</span> {Math.round(f.carbs * scale)}</span>
+                                                        <span><span className="macro-f">F</span> {Math.round(f.fat * scale)}</span>
+                                                        <span className="macro-cal">{Math.round(f.calories * scale)} cal</span>
                                                     </div>
                                                 </div>
                                             );

@@ -288,3 +288,24 @@
     .nf-footer   { padding: 10px 16px 14px; }
     .nf-food-name { font-size: var(--fs-base); }
 }
+
+.nf-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px;
+}
+
+.nf-loading .spinner {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 3px solid rgba(34, 197, 94, 0.15);
+    border-top-color: var(--accent);
+    animation: nf-spin 0.8s linear infinite;
+}
+
+@keyframes nf-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}

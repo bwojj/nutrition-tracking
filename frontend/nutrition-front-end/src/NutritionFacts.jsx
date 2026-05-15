@@ -4,13 +4,13 @@ import { useState, useEffect, useRef } from 'react'
 import { updateFoodData, getFoodByID } from './api/mealApi.js'
 
 function NutritionFacts({ isOpen, onClose, foodData, onUpdate }) {
-    const [servings, setServings] = useState('1');
+    const [servings, setServings] = useState(null);
     const [baseFood, setBaseFood] = useState(null);
     const prevFoodId = useRef(null);
     const currentId = foodData?.id ?? null;
     if (currentId !== prevFoodId.current) {
         prevFoodId.current = currentId;
-        setServings('1');
+        setServings(null);
         setBaseFood(null);
     }
 
@@ -30,6 +30,7 @@ function NutritionFacts({ isOpen, onClose, foodData, onUpdate }) {
 
     if (!isOpen || !foodData) return null;
 
+    const isLoading = !baseFood || servings === null;
     const base = baseFood || foodData;
     const s = parseFloat(servings) || 1;
 
@@ -59,66 +60,72 @@ function NutritionFacts({ isOpen, onClose, foodData, onUpdate }) {
             <div className="nf-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="nf-close" onClick={onClose}>✕</button>
 
-                <div className="nf-header">
-                    <div className="nf-eyebrow">Nutrition Facts</div>
-                    <div className="nf-food-name">{foodData.food_name}</div>
-                    {base.brand && <div className="nf-brand">{base.brand}</div>}
-                    <div className="nf-serving-row">
-                        <span className="nf-serving-size">{base.serving_size} per serving</span>
-                        <div className="nf-servings-control">
-                            <label className="nf-servings-label" htmlFor="nf-servings">Servings</label>
-                            <input
-                                id="nf-servings"
-                                className="nf-servings-input"
-                                type="number"
-                                min="0.25"
-                                step="0.25"
-                                value={servings}
-                                onChange={(e) => setServings(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="nf-body">
-                    <div className="nf-main-macros">
-                        <div className="nf-tile nf-tile--calories">
-                            <span className="nf-tile-label">Calories</span>
-                            <span className="nf-tile-value">{Math.round(base.calories * s)}</span>
-                            <span className="nf-tile-unit">kcal</span>
-                        </div>
-                        <div className="nf-tile nf-tile--protein">
-                            <span className="nf-tile-label">Protein</span>
-                            <span className="nf-tile-value">{Math.round(base.protein * s)}</span>
-                            <span className="nf-tile-unit">g</span>
-                        </div>
-                        <div className="nf-tile nf-tile--carbs">
-                            <span className="nf-tile-label">Carbs</span>
-                            <span className="nf-tile-value">{Math.round(base.carbs * s)}</span>
-                            <span className="nf-tile-unit">g</span>
-                        </div>
-                        <div className="nf-tile nf-tile--fat">
-                            <span className="nf-tile-label">Fat</span>
-                            <span className="nf-tile-value">{Math.round(base.fat * s)}</span>
-                            <span className="nf-tile-unit">g</span>
-                        </div>
-                    </div>
-
-                    <div className="nf-grid">
-                        {micros.map(({ label, value, unit }) => (
-                            <div className="nf-micro-tile" key={label}>
-                                <span className="nf-micro-label">{label}</span>
-                                <span className="nf-micro-value">
-                                    {value}<span className="nf-micro-unit">{unit}</span>
-                                </span>
+                {isLoading ? (
+                    <div className="nf-loading"><div className="spinner" /></div>
+                ) : (<>
+                    <div className="nf-header">
+                        <div className="nf-eyebrow">Nutrition Facts</div>
+                        <div className="nf-food-name">{foodData.food_name}</div>
+                        {base.brand && <div className="nf-brand">{base.brand}</div>}
+                        <div className="nf-serving-row">
+                            <span className="nf-serving-size">{base.serving_size} per serving</span>
+                            <div className="nf-servings-control">
+                                <label className="nf-servings-label" htmlFor="nf-servings">Servings</label>
+                                <input
+                                    id="nf-servings"
+                                    className="nf-servings-input"
+                                    type="number"
+                                    min="0.25"
+                                    step="0.25"
+                                    value={servings}
+                                    onChange={(e) => setServings(e.target.value)}
+                                />
                             </div>
-                        ))}
+                        </div>
                     </div>
-                </div>
 
-                <div className="nf-footer">
-                    <button className="nf-save-btn" onClick={handleSave}>Update Serving</button>
-                </div>
+                    <div className="nf-body">
+                        <div className="nf-main-macros">
+                            <div className="nf-tile nf-tile--calories">
+                                <span className="nf-tile-label">Calories</span>
+                                <span className="nf-tile-value">{Math.round(base.calories * s)}</span>
+                                <span className="nf-tile-unit">kcal</span>
+                            </div>
+                            <div className="nf-tile nf-tile--protein">
+                                <span className="nf-tile-label">Protein</span>
+                                <span className="nf-tile-value">{Math.round(base.protein * s)}</span>
+                                <span className="nf-tile-unit">g</span>
+                            </div>
+                            <div className="nf-tile nf-tile--carbs">
+                                <span className="nf-tile-label">Carbs</span>
+                                <span className="nf-tile-value">{Math.round(base.carbs * s)}</span>
+                                <span className="nf-tile-unit">g</span>
+                            </div>
+                            <div className="nf-tile nf-tile--fat">
+                                <span className="nf-tile-label">Fat</span>
+                                <span className="nf-tile-value">{Math.round(base.fat * s)}</span>
+                                <span className="nf-tile-unit">g</span>
+                            </div>
+                        </div>
+
+                        <div className="nf-grid">
+                            {micros.map(({ label, value, unit }) => (
+                                <div className="nf-micro-tile" key={label}>
+                                    <span className="nf-micro-label">{label}</span>
+                                    <span className="nf-micro-value">
+                                        {value}<span className="nf-micro-unit">{unit}</span>
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </>)}
+
+                {!isLoading && (
+                    <div className="nf-footer">
+                        <button className="nf-save-btn" onClick={handleSave}>Update Serving</button>
+                    </div>
+                )}
             </div>
         </div>,
         document.body
