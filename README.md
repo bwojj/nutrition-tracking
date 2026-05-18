@@ -15,7 +15,7 @@ The backend is a Django REST API connected to a PostgreSQL database. The fronten
 
 ## Demo
 
-> https://youtu.be/d6WFwL0KVgs
+> [https://youtu.be/d6WFwL0KVgs](https://youtu.be/rPGX2NBiTEs)
 
 ---
 
