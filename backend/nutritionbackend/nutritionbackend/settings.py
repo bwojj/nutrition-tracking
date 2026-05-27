@@ -19,10 +19,14 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENV_PATH = Path(__file__).resolve().parent / '.env'
+load_dotenv(ENV_PATH, override=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -139,15 +143,6 @@ WSGI_APPLICATION = 'nutritionbackend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-ENV_PATH = Path(__file__).resolve().parent / '.env'
-load_dotenv(ENV_PATH, override=True)
-
-# Safety check: This will print in your terminal when you run the server
-print(f"--- DATABASE DEBUG ---")
-print(f"Looking for .env at: {ENV_PATH}")
-print(f"Found URL: {os.getenv('DATABASE_URL')[:20] if os.getenv('DATABASE_URL') else 'NOT FOUND'}")
-print(f"-----------------------")
 
 DATABASES = {
     'default': dj_database_url.config(
