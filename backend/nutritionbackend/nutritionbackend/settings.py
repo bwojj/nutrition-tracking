@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e6j2^gedfp&@$nd7#y918vk4ps9j!k=suttje$vnam#aoys)wl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'nutrition-tracking-production-36a9.up.railway.app', 'localhost:5176']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'nutrition-tracking-production-36a9.up.railway.app', 'localhost:5176', "https://msnutritiontracker.com"]
 
 
 # Application definition
@@ -80,6 +80,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5176",
     "https://nutrition-tracking-eight.vercel.app",
+    "https://msnutritiontracker.com",
 ]
 # Regex patterns for Vercel preview deployments
 CORS_ALLOWED_ORIGIN_REGEXES = [
