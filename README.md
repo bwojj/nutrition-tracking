@@ -1,3 +1,5 @@
+
+
 # MSU Nutrition Tracking App
 ### A nutrition tracker built specifically for Michigan State University dining halls.
 
@@ -13,7 +15,7 @@ The backend is a Django REST API connected to a PostgreSQL database. The fronten
 
 ## Demo
 
-> *Video coming soon*
+> [https://youtu.be/d6WFwL0KVgs](https://youtu.be/rPGX2NBiTEs)
 
 ---
 
