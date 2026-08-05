@@ -15,7 +15,7 @@ The backend is a Django REST API connected to a PostgreSQL database. The fronten
 
 ## Demo
 > **Live app:** [https://msnutritiontracker.com/login](https://msnutritiontracker.com/login)
-> [https://youtu.be/d6WFwL0KVgs](https://youtu.be/rPGX2NBiTEs)
+> **Video walkthrough:** [https://youtu.be/rPGX2NBiTEs](https://youtu.be/rPGX2NBiTEs)
 
 ---
 
